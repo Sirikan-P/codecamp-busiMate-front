@@ -1,8 +1,36 @@
-# React + Vite
+# Client 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Step 1 Install vite
 
-Currently, two official plugins are available:
+## Step 2 Install tailwind  / daisy ui
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Step 3 react router 
+```bash
+npm i react-router
+```
+
+## Step x sweet alert
+```bash
+npm install sweetalert2
+```
+
+## Step x React hook from
+```bash
+npm install react-hook-form
+```
+
+## Step x Lucide icon
+```bash
+npm install lucide-react
+```
+
+## Step x validate from with Zod
+```bash
+npm install @hookform/resolvers
+npm i zod
+```
+
+## Step x Global state with zustand
+```bash
+npm install zustand
+```
