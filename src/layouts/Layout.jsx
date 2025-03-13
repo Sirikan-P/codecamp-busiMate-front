@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import MainNav from "../components/MainNav";
+import { Outlet } from "react-router";
 
 function Layout() {
   return (
-    <div>Layout</div>
-  )
+    <div>
+      <MainNav />
+      <Outlet />
+    </div>
+  );
 }
 
-export default Layout
+export default Layout;
