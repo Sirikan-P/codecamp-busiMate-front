@@ -1,31 +1,46 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import ElderIllus from  "../assets/elder05.png";  
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+
+
+
+
+  // function for user register
+  const actionLinktoRegister = () => {
+    navigate("/register");
+  };
+  
+  // function for driver register
+  const actionLinktoDriverRegister = () => {
+    navigate("/registerdriver");
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white shadow-lg overflow-hidden">
-        <div className="pt-12">
-          <h1 className="text-3xl font-semibold text-center text-cyan-500 mb-6">
-            Sign In
-          </h1>
+    <div className=" bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center w-full">
+      <div className="w-full bg-white shadow-lg overflow-hidden">
+      
 
           {/* Illustration Container */}
-          <div className="relative h-48 mb-8 rounded-xl overflow-hidden">
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+          <div className="flex flex-col justify-center ">
+            <div className="text-[30px] text-center text-cyan-600 pt-10">Sign In</div>
+            <div className="flex justify-center pt-10">
               <img
-                src="#"
+                src={ElderIllus}
                 alt="Healthcare Illustration"
-                className="w-40 h-40 object-cover"
+                className="w-[400px] "
               />
             </div>
           </div>
 
           {/* Sign In Form */}
-          <form className="bg-cyan-50 space-y-6 px-8 pb-24 pt-12 rounded-t-4xl">
-            <div>
+          <form className="bg-cyan-50 space-y-6 h-[600px] pt-20 p-15 rounded-t-[60px]">
+{/* Email Input */}
+            <div >
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
@@ -42,7 +57,7 @@ function Login() {
                 required
               />
             </div>
-
+{/* password Input */}
             <div>
               <label
                 htmlFor="password"
@@ -60,7 +75,7 @@ function Login() {
                 required
               />
             </div>
-
+{/* Forget  password*/}
             <div className="text-right">
               <a href="#" className="text-sm text-gray-500 hover:text-cyan-600">
                 Forgot Password?
@@ -75,26 +90,26 @@ function Login() {
                 Sign In
               </button>
             </div>
-
+{/* USER Register */}
+          <div className="w-full flex justify-center">
             <div className="text-center text-sm text-gray-500">
-              Don't have an account?{" "}
-              <a
-                href="/register"
-                className="text-cyan-500 hover:text-cyan-600 font-medium"
-              >
+              Don't have an account?
+              <span onClick={actionLinktoRegister} className="text-cyan-500 hover:text-cyan-600 font-medium pl-2">
                 Register
-              </a>
+              </span>
             </div>
+            </div>
+{/* Driver Register */}
             <div className="text-center text-sm text-gray-500">
-              <a
-                href="/register-driver"
+              <div
+              onClick={actionLinktoDriverRegister}
                 className="text-cyan-500 hover:text-cyan-600 font-medium"
               >
                 Become our Driver
-              </a>
+              </div>
             </div>
           </form>
-        </div>
+       
       </div>
     </div>
   );

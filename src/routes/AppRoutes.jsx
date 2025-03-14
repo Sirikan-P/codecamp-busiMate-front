@@ -11,6 +11,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegisterDriver from "../pages/RegisterDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
+// import ProtectRoutes from "./ProtectRoutes";
 
 function AppRoutes() {
   return (
@@ -21,36 +22,25 @@ function AppRoutes() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="register-driver" element={<RegisterDriver />} />
-          {/* ขอยาดยืมพื้นที่เพื่อหนีพาท และลองโค้ด */}
-          <Route path="admingetdriver" element={<AdminGetDriver />} />
+          <Route path="registerdriver" element={<RegisterDriver />} />
         </Route>
 
-        {/* private [user] */}
-        {/* < Route path="user" 
-                    element= { < ProtectRoutes  el={ <LayoutUser /> }
-                                                allows={ ["USER"] }/>}
-            > */}
+  {/* USER */}
+  {/* {<ProtectRoutes el={<LayoutUser />} allow={"user"}/>} */}
         <Route path="user" element={<LayoutUser />}>
           <Route index element={<HomeUser />} />
         </Route>
-
-        {/* private [driver] */}
-        {/* < Route path="driver" 
-                    element= { < ProtectRoutes  el={ <LayoutDriver /> }
-                                                allows={ ["DRIVER"] }/>}
-            > */}
+{/* DRIVER */}
+{/* <ProtectRoutes el={<LayoutDriver />} allow={"driver"}/> */}
         <Route path="driver" element={<LayoutDriver />}>
           <Route index element={<HomeDriver />} />
         </Route>
-
-        {/* private [admin] */}
-        {/* <Route  path="admin" 
-                    element= { < ProtectRoutes  el={ <LayoutAdmin/> }  
-                                                allows={ ["ADMIN"] }/> }
-            >                  */}
+  
+{/* ADMIN */}
+{/* <ProtectRoutes el={<LayoutAdmin />} allow={"admin"}/> */}
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<HomeAdmin />} />
+          <Route path="admingetdriver" element={<AdminGetDriver />} />
         </Route>
 
         <Route path="*" element={<h1> 404 not found </h1>} />
