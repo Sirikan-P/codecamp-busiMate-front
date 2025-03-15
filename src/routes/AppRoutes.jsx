@@ -66,7 +66,6 @@ import LayoutUser from "../layouts/LayoutUser";
 import Home from "../pages/Home";
 import LayoutDriver from "../layouts/LayoutDriver";
 import LayoutAdmin from "../layouts/LayoutAdmin";
-import HomeUser from "../pages/user/HomeUser";
 import HomeDriver from "../pages/driver/HomeDriver";
 import HomeAdmin from "../pages/admin/HomeAdmin";
 import Layout from "../layouts/Layout";
@@ -76,6 +75,7 @@ import ProfilePageUser from "../pages/user/ProfilePageUser";
 import SettingPageUser from "../pages/user/SettingPageUser";
 import ProfilePageDriver from "../pages/driver/ProfilePageDriver";
 import SettingPageDriver from "../pages/driver/SettingPageDriver";
+import AdminGetDriver from "../pages/admin/AdminGetDriver";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { ToastContainer } from "react-toastify";
@@ -107,66 +107,34 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
+          {/* <Route index element={<Home />} /> */}
+          <Route path="driver/register" element={<RegisterDriver />} />
+          <Route path="driver/login" element={<LoginDriver />} />
+          <Route path="user/register" element={<RegisterUser />} />
+          <Route path="user/login" element={<LoginUser />} />
         </Route>
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
-          <Route
-            index
-            element={authUser ? <HomeUser /> : <Navigate to="/user/login" />}
-          />
-          <Route path="register" element={<RegisterUser />} />
-          <Route path="login" element={<LoginUser />} />
-          <Route
-            path="profile"
-            element={
-              authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authUser ? <SettingPageUser /> : <Navigate to="/user/login" />
-            }
-          />
+          <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
         </Route>
 
         {/* Driver Routes */}
         <Route path="driver" element={<LayoutDriver />}>
-          <Route
-            index
-            element={
-              authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />
-            }
-          />
-          <Route path="register" element={<RegisterDriver />} />
-          <Route path="login" element={<LoginDriver />} />
-          <Route
-            path="profile"
-            element={
-              authDriver ? (
-                <ProfilePageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authDriver ? (
-                <SettingPageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
+          <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
+          <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="setting" element={authDriver ? (<SettingPageDriver />) : (<Navigate to="/driver/login" /> )}/>
         </Route>
 
         {/* Admin Routes */}
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<HomeAdmin />} />
+          <Route path="admingetdriver" element={<AdminGetDriver />} />
         </Route>
 
         {/* 404 */}
