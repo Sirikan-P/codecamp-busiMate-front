@@ -67,10 +67,10 @@ const RegisterDriver = () => {
   return (
     <div className="w-full rounded-lg flex justify-center flex-col bg-whites p-10">
       {/* register head */}
-      <h1 className="text-2xl font-bold text-cyan-600 ">Register</h1>
-      <div className="flex justify-center">
+      <h1 className="text-2xl font-bold text-cyan-600 mb-30">Register</h1>
+      {/* <div className="flex justify-center">
         <img src={Elder02} alt="" className="w-[250px]" />
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* firstname & lastname input */}

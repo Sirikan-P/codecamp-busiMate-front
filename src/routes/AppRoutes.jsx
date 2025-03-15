@@ -107,61 +107,28 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
+          {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
           <Route path="user/register" element={<RegisterUser />} />
           <Route path="user/login" element={<LoginUser />} />
-          {/* <Route
-            index
-            element={authUser ? <Home /> : <Navigate to="/user/login" />}
-          /> */}
         </Route>
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
-          <Route
-            path="profile"
-            element={
-              authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authUser ? <SettingPageUser /> : <Navigate to="/user/login" />
-            }
-          />
+          <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
         </Route>
 
         {/* Driver Routes */}
         <Route path="driver" element={<LayoutDriver />}>
-          <Route
-            index
-            element={
-              authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              authDriver ? (
-                <ProfilePageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authDriver ? (
-                <SettingPageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
+          <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
+          <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="setting" element={authDriver ? (<SettingPageDriver />) : (<Navigate to="/driver/login" /> )}/>
         </Route>
 
         {/* Admin Routes */}
