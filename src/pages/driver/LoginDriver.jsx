@@ -45,16 +45,19 @@ const LoginDriver = () => {
 
   return (
     <div className="">
-      <div className="flex flex-col justify-center items-center pt-5 ">
+      <div className="flex flex-col justify-center items-center pt-5 mt-10 ">
         <div className="w-full ">
           {/* Logo */}
                 <div className="flex flex-col justify-center ">
-                  <div className="flex justify-center">
+                  <div className="flex flex-col place-items-center gap-5 pb-10">
                     <img
                       src={busimatelogo}
                       alt="Healthcare Illustration"
-                      className="w-[250px]"
+                      className="w-[180px]"
                     />
+                    <div className="text-4xl font-bold text-cyan-600">
+                    Busi <span className="italic text-5xl">Mate</span>
+                    </div>
                   </div>
                 </div>
 
@@ -63,7 +66,7 @@ const LoginDriver = () => {
           >
             {/* Sign in */}
             <div className="w-full flex justify-items-start pl-15 ">
-             <div className="text-[24px]  text-cyan-600 pt-20 pb-5">Sign In</div>
+             <div className="text-[24px]  text-cyan-600 pt-20 pb-5 font-semibold">SIGN IN</div>
             </div>
             <div className="gap-5 flex flex-col justify-center place-items-center">
             {/* email input */}
