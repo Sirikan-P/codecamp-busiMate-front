@@ -8,7 +8,6 @@ function LayoutUser() {
     <div>
 
        <MainNavUser/>
-        
         {/*  // <outlet/> render c   hild node */}
         <Outlet />
 

@@ -83,6 +83,7 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+import ReviewDriver from "../pages/user/ReviewDriver";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -119,6 +120,7 @@ function AppRoutes() {
         <Route path="user" element={<LayoutUser />}>
           <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="review" element={authUser ? <ReviewDriver /> : <Navigate to="/user/review" />}/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}

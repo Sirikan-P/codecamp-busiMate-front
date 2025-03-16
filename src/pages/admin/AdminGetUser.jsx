@@ -86,7 +86,7 @@ function AdminGetUser() {
                 height="50"
               />
               <div className="border-2">
-                <p className="font-semibold">Willium Deno</p>
+                <p className="-semibold">Willium Deno</p>
                 <p className="text-gray-500">+66 666 66666</p>
               </div>
             </div>
