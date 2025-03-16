@@ -120,7 +120,7 @@ function AppRoutes() {
         <Route path="user" element={<LayoutUser />}>
           <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
-          <Route path="review" element={authUser ? <ReviewDriver /> : <Navigate to="/user/review" />}/>
+          <Route path="review" element={<ReviewDriver /> }/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}

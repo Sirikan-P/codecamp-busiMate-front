@@ -1,12 +1,11 @@
 import React from 'react'
 
-function ReviewDriver() {
+const ReviewDriver = () => {
+
   return (
-      <>
-        <h1>review</h1>
+    <>
+    <div className="font-bold w-full flex justify-center">Review</div>
       </>
-       
   )
 }
-
 export default ReviewDriver
