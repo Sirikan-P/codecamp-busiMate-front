@@ -11,6 +11,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegisterDriver from "../pages/RegisterDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
+import AdminGetUser from "../pages/admin/AdminGetUser";
 
 function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ function AppRoutes() {
           <Route path="register-driver" element={<RegisterDriver />} />
           {/* ขอยาดยืมพื้นที่เพื่อหนีพาท และลองโค้ด */}
           <Route path="admingetdriver" element={<AdminGetDriver />} />
+          <Route path="admingetuser" element={<AdminGetUser />} />
         </Route>
 
         {/* private [user] */}

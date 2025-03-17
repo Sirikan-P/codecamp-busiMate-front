@@ -18,6 +18,8 @@ function MainNav() {
       <div className="flex gap-4">
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
+        <Link to="/admingetdriver">AdminGetDriver</Link>
+        <Link to="/admingetuser">AdminGetUser</Link>
       </div>
 
       <div className="flex gap-4">

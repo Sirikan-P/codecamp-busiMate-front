@@ -12,50 +12,58 @@ import {
   XCircle,
   Search,
   ChartNoAxesCombined,
+  ChevronsLeftRightIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  actionGetDriverDataAll,
+  actionUpdateDriverData,
+} from "../../api/adminManageDriver";
+import { get } from "react-hook-form";
+import { Link } from "react-router";
+import ListAllDriver from "../../components/admin/ListAllDriver";
 
 function AdminGetDriver() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const drivers = [
-    {
-      id: 1,
-      name: "William Deno",
-      phone: "+66 666 66666",
-      status: "Active",
-      rating: 4.8,
-      completedTrips: 128,
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
-      available: true,
-      currentLocation: "Bangkok General Hospital",
-    },
-    {
-      id: 2,
-      name: "Sarah Chen",
-      phone: "+66 777 77777",
-      status: "Active",
-      rating: 4.9,
-      completedTrips: 256,
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
-      available: true,
-      currentLocation: "Sukhumvit Medical Center",
-    },
-    {
-      id: 3,
-      name: "Michael Rodriguez",
-      phone: "+66 888 88888",
-      status: "On Trip",
-      rating: 4.7,
-      completedTrips: 184,
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
-      available: false,
-      currentLocation: "En route to Siriraj Hospital",
-    },
-  ];
+  // const drivers = [
+  //   {
+  //     id: 1,
+  //     name: "William Deno",
+  //     phone: "+66 666 66666",
+  //     status: "Active",
+  //     rating: 4.8,
+  //     completedTrips: 128,
+  //     image:
+  //       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
+  //     available: true,
+  //     currentLocation: "Bangkok General Hospital",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Sarah Chen",
+  //     phone: "+66 777 77777",
+  //     status: "Active",
+  //     rating: 4.9,
+  //     completedTrips: 256,
+  //     image:
+  //       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
+  //     available: true,
+  //     currentLocation: "Sukhumvit Medical Center",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Michael Rodriguez",
+  //     phone: "+66 888 88888",
+  //     status: "On Trip",
+  //     rating: 4.7,
+  //     completedTrips: 184,
+  //     image:
+  //       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&h=150&q=80",
+  //     available: false,
+  //     currentLocation: "En route to Siriraj Hospital",
+  //   },
+  // ];
 
   const menuItems = [
     { icon: House, label: "Dashboard", href: "#" },
@@ -70,11 +78,46 @@ function AdminGetDriver() {
     { label: "Completed Today", value: "42" },
   ];
 
-  const filteredDrivers = drivers.filter(
-    (driver) =>
-      driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredDrivers = drivers.filter(
+  //   (driver) =>
+  //     driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  const [driverDataAll, setDriverDataAll] = useState([]);
+
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MTg1NDQwNCwiZXhwIjoxNzQzMTUwNDA0fQ.ZFoevBdOJnZPEKmQFFuu6j-nwqUN0-U6EF_E30y5vc0";
+
+  const hdlGetDriverDataAll = async () => {
+    try {
+      const result = await actionGetDriverDataAll(token);
+      console.log("result.data.data ==== ", result.data.data);
+      setDriverDataAll(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    hdlGetDriverDataAll();
+  }, []);
+
+  console.log("driverDataAll ==== ", driverDataAll);
+
+  const hdlUpdateDriverStatus = async (e, id) => {
+    try {
+      console.log("e.target.value ==== ", e.target.value);
+      console.log("driver.id ==== ", id);
+      const status = e.target.value;
+      const driverId = id;
+      const result2 = await actionUpdateDriverData(token, driverId, { status });
+      console.log("result2 ==== ", result2);
+      hdlGetDriverDataAll();
+    } catch (error) {
+      console.error("Failed to update driver status:",error);
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -133,63 +176,13 @@ function AdminGetDriver() {
           {/* Drivers List */}
           <div className="p-6">
             <div className="space-y-4">
-              {filteredDrivers.map((driver) => (
-                <div
-                  key={driver.id}
-                  className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="relative">
-                        <img
-                          src={driver.image}
-                          alt={`Profile picture of ${driver.name}`}
-                          className="w-16 h-16 rounded-full object-cover"
-                        />
-                        <span
-                          className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
-                            driver.available ? "bg-green-400" : "bg-gray-400"
-                          }`}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">
-                          {driver.name}
-                        </h3>
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <Phone className="w-4 h-4" />
-                          <span>{driver.phone}</span>
-                        </div>
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <MapPin className="w-4 h-4" />
-                          <span>{driver.currentLocation}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-end space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-gray-600">
-                          Rating:
-                        </span>
-                        <span className="text-sm font-semibold text-blue-600">
-                          {driver.rating}
-                        </span>
-                      </div>
-                      <select
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          driver.status === "Active"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-700"
-                        }`}
-                        defaultValue={driver.status}
-                      >
-                        <option value="Active">Active</option>
-                        <option value="On Trip">On Trip</option>
-                        <option value="Offline">Offline</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+              {driverDataAll.map((driverData) => (
+                <ListAllDriver 
+                key={driverData.id}
+                driverData={driverData}
+                token={token}
+                hdlGetDriverDataAll={hdlGetDriverDataAll}
+                />
               ))}
             </div>
           </div>
