@@ -21,13 +21,6 @@ function HomeAdmin() {
     { label: "User", value: "5" },
   ];
 
-  const menuItems = [
-    { icon: House, label: "Dashboard", href: "#" },
-    { icon: User, label: "Profile", href: "#", active: true },
-    { icon: Ambulance, label: "Drivers", href: "#" },
-    { icon: ChartNoAxesCombined, label: "History", href: "#" },
-  ];
-
   const quickActions = [
     { icon: Edit, label: "Edit Profile" },
     { icon: FileText, label: "Create Report" },

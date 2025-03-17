@@ -43,15 +43,16 @@ const Reports = () => {
   });
 
   // Handle creating report
+  
   const handleCreateReport = () => {
     const report = {
-      id: 2025000 + reports.length + 1,
-      type: newReport.type,
-      date: new Date().toLocaleDateString("en-US", {
+      id: 2025000 + reports.length + 1, // Generate unique ID
+      type: newReport.type, // Report type
+      date: new Date().toLocaleDateString("en-US", { // Current date
         month: "short",
         day: "numeric",
         year: "numeric",
-      }),
+      }), 
       status: newReport.status,
       message: newReport.message,
     };

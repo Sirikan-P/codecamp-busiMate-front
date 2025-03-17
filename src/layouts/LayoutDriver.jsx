@@ -1,14 +1,13 @@
-import { Outlet } from "react-router";
-import MainNav from "../components/MainNav";
-import DriverNavbar from "../components/Driver/DriverNavBar";
+import { Outlet } from "react-router"
+import MainNavDriver from "../components/MainNavDriver"
 
 function LayoutDriver() {
   return (
     <div>
-      <DriverNavbar />
-
-      {/*  // <outlet/> render c   hild node */}
-      <Outlet />
+        <MainNavDriver />
+        
+        {/*  // <outlet/> render c   hild node */}
+        <Outlet />
     </div>
   );
 }
