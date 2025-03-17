@@ -11,6 +11,21 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegisterDriver from "../pages/RegisterDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
+import ProfileUser from "../pages/user/ProfileUser";
+import ProfileUser2 from "../pages/user/ProfileUser2";
+import PaymentUser from "../pages/user/PaymentUser";
+import PaymentEditUser from "../pages/user/PaymentEditUser";
+import EditProfileUser from "../pages/user/EditProfileUser";
+import Dashboard from "../pages/admin/Dashboard";
+import Drivers from "../pages/admin/Drivers";
+import Patients from "../pages/admin/Patients";
+import Settings from "../pages/admin/Setting";
+import Reports from "../pages/admin/Report";
+import DriverProfile from "../pages/driver/DriverProfile";
+import DriverEarnings from "../pages/driver/DriverEarning";
+import DriverHistory from "../pages/driver/DriverHistory";
+import DriverChat from "../pages/driver/DriverChat";
+import DriverDashboard from "../pages/driver/DriverDashboard";
 
 function AppRoutes() {
   return (
@@ -24,6 +39,19 @@ function AppRoutes() {
           <Route path="register-driver" element={<RegisterDriver />} />
           {/* ขอยาดยืมพื้นที่เพื่อหนีพาท และลองโค้ด */}
           <Route path="admingetdriver" element={<AdminGetDriver />} />
+          <Route path="profile-user" element={<ProfileUser />} />
+          <Route path="profile-user2" element={<ProfileUser2 />} />
+          <Route path="payment-user" element={<PaymentUser />} />
+          <Route path="payment-edit-user" element={<PaymentEditUser />} />
+          <Route path="profile-edit-user" element={<EditProfileUser />} />
+          {/* new dashboaard for Admin */}
+          <Route path="admin" element={<LayoutAdmin />}>
+            <Route index element={<Dashboard />} />
+            <Route path="drivers" element={<Drivers />} />
+            <Route path="patients" element={<Patients />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Route>
 
         {/* private [user] */}
@@ -41,7 +69,11 @@ function AppRoutes() {
                                                 allows={ ["DRIVER"] }/>}
             > */}
         <Route path="driver" element={<LayoutDriver />}>
-          <Route index element={<HomeDriver />} />
+          <Route index element={<DriverDashboard />} />
+          <Route path="profile" element={<DriverProfile />} />
+          <Route path="earnings" element={<DriverEarnings />} />
+          <Route path="history" element={<DriverHistory />} />
+          <Route path="chat" element={<DriverChat />} />
         </Route>
 
         {/* private [admin] */}

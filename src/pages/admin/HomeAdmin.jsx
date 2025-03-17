@@ -38,26 +38,6 @@ function HomeAdmin() {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 w-full bg-white border-t md:relative md:border-t-0 md:border-b">
-        <div className="max-w-screen-xl mx-auto">
-          <div className="flex justify-around items-center h-16">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`flex flex-col items-center p-2 transition-colors ${
-                  item.active
-                    ? "text-blue-600"
-                    : "text-gray-600 hover:text-blue-600"
-                }`}
-              >
-                <item.icon className="w-6 h-6" />
-                <span className="text-xs mt-1">{item.label}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
 
       {/* Main Content */}
       <main className="max-w-screen-xl mx-auto px-4 py-6">
