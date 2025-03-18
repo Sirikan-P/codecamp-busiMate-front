@@ -2,9 +2,8 @@ import { useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
 import AuthImagePattern from "../../components/AuthImagePattern";
 import { Loader2, Lock, Mail, MessageSquare, Eye, EyeOff } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import ElderIllus from "../../assets/elder05.png";
-
 
 const LoginUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -104,13 +103,13 @@ const LoginUser = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
-               <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </button>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+              </button>
             </div>
           </div>
           <button

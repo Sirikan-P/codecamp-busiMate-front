@@ -29,10 +29,10 @@
 // export default MainNav
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { userAuthStore } from "../store/userAuthStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 function MainNav() {
   const { authUser } = userAuthStore();

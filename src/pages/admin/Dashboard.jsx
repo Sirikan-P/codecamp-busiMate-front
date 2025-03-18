@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Users,
-  Car,
-  AlertTriangle,
-  TrendingUp,
-  Clock,
-  Star,
-} from "lucide-react";
+import { Users, Car, AlertTriangle, Clock, Star } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -17,58 +10,110 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Mon", trips: 12 },
-  { name: "Tue", trips: 19 },
-  { name: "Wed", trips: 15 },
-  { name: "Thu", trips: 22 },
-  { name: "Fri", trips: 25 },
-  { name: "Sat", trips: 18 },
-  { name: "Sun", trips: 15 },
+const mockStats = {
+  totalPatients: 1200,
+  activeDrivers: 85,
+  pendingTrips: 18,
+  averageRating: 4.8,
+};
+
+const mockWeeklyTrips = [
+  { day: "Mon", trips: 12 },
+  { day: "Tue", trips: 19 },
+  { day: "Wed", trips: 15 },
+  { day: "Thu", trips: 22 },
+  { day: "Fri", trips: 25 },
+  { day: "Sat", trips: 18 },
+  { day: "Sun", trips: 15 },
+];
+
+const mockTopDrivers = [
+  {
+    id: 1,
+    firstName: "John",
+    lastName: "Smith",
+    profileImage: "https://i.pravatar.cc/100?img=1",
+    completedTrips: 25,
+    rating: 4.9,
+  },
+  {
+    id: 2,
+    firstName: "Jane",
+    lastName: "Doe",
+    profileImage: "https://i.pravatar.cc/100?img=2",
+    completedTrips: 20,
+    rating: 4.7,
+  },
+  {
+    id: 3,
+    firstName: "Michael",
+    lastName: "Johnson",
+    profileImage: "https://i.pravatar.cc/100?img=3",
+    completedTrips: 22,
+    rating: 4.8,
+  },
+];
+
+const mockRecentActivities = [
+  { id: 1, patientName: "John Doe", timeAgo: "2 minutes ago" },
+  { id: 2, patientName: "Jane Smith", timeAgo: "5 minutes ago" },
+  { id: 3, patientName: "Michael Johnson", timeAgo: "10 minutes ago" },
+];
+
+const mockAlerts = [
+  { id: 1, message: "Driver #1 reported an issue", timeAgo: "10 minutes ago" },
+  {
+    id: 2,
+    message: "Payment issue with Booking #234",
+    timeAgo: "30 minutes ago",
+  },
+  { id: 3, message: "Driver #5 reported late arrival", timeAgo: "1 hour ago" },
 ];
 
 const Dashboard = () => {
   return (
     <div className="space-y-6">
+      {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Patients"
-          value="1,234"
+          value={mockStats.totalPatients}
           icon={Users}
           trend="+12%"
           color="blue"
         />
         <StatCard
           title="Active Drivers"
-          value="85"
+          value={mockStats.activeDrivers}
           icon={Car}
           trend="+5%"
           color="green"
         />
         <StatCard
           title="Pending Trips"
-          value="18"
+          value={mockStats.pendingTrips}
           icon={Clock}
           trend="-2%"
           color="yellow"
         />
         <StatCard
           title="Average Rating"
-          value="4.8"
+          value={mockStats.averageRating.toFixed(1)}
           icon={Star}
           trend="+0.2"
           color="purple"
         />
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
+      {/* Weekly Overview and Recent Activities */}
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"> */}
+      {/* Weekly Trips Overview */}
+      {/* <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Weekly Trips Overview</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data}>
+              <LineChart data={mockWeeklyTrips}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
                 <Line
@@ -80,14 +125,14 @@ const Dashboard = () => {
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow">
+        </div> */}
+      {/* Recent Activities */}
+      {/* <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Recent Activities</h2>
           <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {mockRecentActivities.map((activity) => (
               <div
-                key={i}
+                key={activity.id}
                 className="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-lg"
               >
                 <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
@@ -95,96 +140,83 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-sm font-medium">
-                    New trip request from John Doe
+                    New trip request from {activity.patientName}
                   </p>
-                  <p className="text-xs text-gray-500">2 minutes ago</p>
+                  <p className="text-xs text-gray-500">{activity.timeAgo}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow col-span-2">
+      </div> */}
+      {/* Top Performing Drivers and System Alerts */}
+      {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> */}
+      {/* Top Performing Drivers */}
+      {/* <div className="bg-white p-6 rounded-lg shadow col-span-2">
           <h2 className="text-lg font-semibold mb-4">Top Performing Drivers</h2>
           <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {mockTopDrivers.map((driver) => (
               <div
-                key={i}
+                key={driver.id}
                 className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg"
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={`https://images.unsplash.com/photo-${
-                      1500000000000 + i
-                    }?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80`}
-                    alt="Driver"
+                    src={driver.profileImage}
+                    alt={driver.firstName}
                     className="w-10 h-10 rounded-full"
                   />
                   <div>
-                    <p className="font-medium">Driver Name {i}</p>
+                    <p className="font-medium">
+                      {driver.firstName} {driver.lastName}
+                    </p>
                     <p className="text-sm text-gray-500">
-                      {20 + i} trips this week
+                      {driver.completedTrips} trips this week
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="font-medium">{4.5 + i / 10}</span>
+                  <span className="font-medium">
+                    {driver.rating.toFixed(1)}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        <div className="bg-white p-6 rounded-lg shadow">
+      {/* System Alerts */}
+      {/* <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">System Alerts</h2>
           <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
+            {mockAlerts.map((alert) => (
               <div
-                key={i}
+                key={alert.id}
                 className="flex items-start gap-3 p-3 bg-red-50 rounded-lg"
               >
                 <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-red-800">
-                    Driver #{i} reported an issue
+                    {alert.message}
                   </p>
-                  <p className="text-xs text-red-600">10 minutes ago</p>
+                  <p className="text-xs text-red-600">{alert.timeAgo}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
 
 const StatCard = ({ title, value, icon: Icon, trend, color }) => {
-  const colors = {
-    blue: "bg-blue-100 text-blue-600",
-    green: "bg-green-100 text-green-600",
-    yellow: "bg-yellow-100 text-yellow-600",
-    purple: "bg-purple-100 text-purple-600",
-  };
-
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="flex items-center justify-between">
-        <div
-          className={`w-12 h-12 rounded-lg ${colors[color]} flex items-center justify-center`}
-        >
-          <Icon className="w-6 h-6" />
-        </div>
-        <span
-          className={`text-sm font-medium ${
-            trend.startsWith("+") ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {trend}
-        </span>
+        <Icon className={`w-6 h-6 text-${color}-600`} />
+        <span className={`text-sm font-medium`}>{trend}</span>
       </div>
       <h3 className="text-2xl font-bold mt-4">{value}</h3>
       <p className="text-gray-500 text-sm">{title}</p>

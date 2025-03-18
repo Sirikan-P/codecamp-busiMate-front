@@ -9,7 +9,7 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import AuthImagePattern from "../../components/AuthImagePattern";
 import { toast } from "react-toastify";
 import { driverAuthStore } from "../../store/driverAuthStore";

@@ -9,38 +9,46 @@ import {
   Mail,
   AlertCircle,
   Trash2,
+  Calendar,
+  CheckCircle,
+  XCircle,
+  User,
+  BadgeCheck,
 } from "lucide-react";
 
 const mockPatients = [
   {
-    id: "1",
-    name: "Sarah Johnson",
-    phone: "+1 234 567 890",
-    email: "sarah.j@example.com",
-    address: "123 Main St, City, State",
-    emergencyContact: "+1 234 567 891",
-    medicalCondition: "Regular checkup",
+    id: 1,
+    firstName: "Sarah",
+    lastName: "Johnson",
+    age: 34,
+    gender: "FEMALE",
+    phoneNumber: "+1 234 567 890",
+    healthCondition: "Regular checkup",
     trips: 12,
+    status: "ACTIVE",
   },
   {
-    id: "2",
-    name: "John Doe",
-    phone: "+1 345 678 901",
-    email: "john.doe@example.com",
-    address: "456 Elm St, City, State",
-    emergencyContact: "+1 345 678 902",
-    medicalCondition: "Diabetes",
+    id: 2,
+    firstName: "John",
+    lastName: "Doe",
+    age: 42,
+    gender: "MALE",
+    phoneNumber: "+1 345 678 901",
+    healthCondition: "Diabetes",
     trips: 8,
+    status: "INACTIVE",
   },
   {
-    id: "3",
-    name: "Jane Smith",
-    phone: "+1 456 789 012",
-    email: "jane.smith@example.com",
-    address: "789 Oak St, City, State",
-    emergencyContact: "+1 456 789 013",
-    medicalCondition: "Hypertension",
+    id: 3,
+    firstName: "Jane",
+    lastName: "Smith",
+    age: 29,
+    gender: "FEMALE",
+    phoneNumber: "+1 456 789 012",
+    healthCondition: "Hypertension",
     trips: 15,
+    status: "ACTIVE",
   },
 ];
 
@@ -61,30 +69,28 @@ const Patients = () => {
     if (!result.isConfirmed) return;
 
     try {
-      // const res = await axios(...../drivers/${id}`
+      // Example for DELETE API:
+      // await axios.delete(`/api/patients/${id}`);
       setPatients((prev) => prev.filter((patient) => patient.id !== id));
+      Swal.fire("Deleted!", "Patient has been deleted.", "success");
     } catch (error) {
-      console.error("Failed to delete patient:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Failed to delete patient. Please try again.",
-      });
+      Swal.fire("Error", "Failed to delete patient", "error");
     }
   };
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Patients Management</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
           Add New Patient
-        </button>
+        </button> */}
       </div>
 
-      {/* Search and filter */}
+      {/* Search and Filter */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-4 border-b flex items-center justify-between gap-4">
+        {/* <div className="p-4 border-b flex items-center justify-between gap-4">
           <div className="flex-1 flex items-center gap-4">
             <div className="relative flex-1 max-w-lg">
               <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -99,7 +105,7 @@ const Patients = () => {
               <span>Filter</span>
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* Patient list */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
@@ -108,11 +114,24 @@ const Patients = () => {
               key={patient.id}
               className="border rounded-lg p-4 hover:border-blue-500 cursor-pointer"
             >
+              {/* Top Section */}
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-medium">{patient.name}</h3>
+                  <h3 className="font-medium">
+                    {patient.firstName} {patient.lastName}
+                  </h3>
                   <div className="flex items-center gap-1 text-sm text-gray-500">
-                    <span>{patient.trips} total trips</span>
+                    {patient.status === "ACTIVE" ? (
+                      <>
+                        <BadgeCheck className="w-4 h-4 text-green-500" />
+                        <span className="text-green-500">Online</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="w-4 h-4 text-red-500" />
+                        <span className="text-red-500">Offline</span>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -125,23 +144,22 @@ const Patients = () => {
                 </button>
               </div>
 
+              {/* Details Section */}
               <div className="mt-4 space-y-3">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <User className="w-4 h-4" />
+                  <span>
+                    Age: {patient.age} ({patient.gender})
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Phone className="w-4 h-4" />
-                  <span>{patient.phone}</span>
+                  <span>{patient.phoneNumber}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Mail className="w-4 h-4" />
-                  <span>{patient.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin className="w-4 h-4" />
-                  <span>{patient.address}</span>
-                </div>
-                {patient.medicalCondition && (
+                {patient.healthCondition && (
                   <div className="flex items-center gap-2 text-sm bg-yellow-50 text-yellow-800 p-2 rounded">
                     <AlertCircle className="w-4 h-4" />
-                    <span>{patient.medicalCondition}</span>
+                    <span>{patient.healthCondition}</span>
                   </div>
                 )}
               </div>

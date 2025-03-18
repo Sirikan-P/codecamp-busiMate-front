@@ -43,16 +43,17 @@ const Reports = () => {
   });
 
   // Handle creating report
-  
+
   const handleCreateReport = () => {
     const report = {
       id: 2025000 + reports.length + 1, // Generate unique ID
       type: newReport.type, // Report type
-      date: new Date().toLocaleDateString("en-US", { // Current date
+      date: new Date().toLocaleDateString("en-US", {
+        // Current date
         month: "short",
         day: "numeric",
         year: "numeric",
-      }), 
+      }),
       status: newReport.status,
       message: newReport.message,
     };
@@ -96,9 +97,9 @@ const Reports = () => {
       </div>
 
       {/* Graph Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Trip Statistics */}
-        <div className="bg-white p-6 rounded-lg shadow">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"> */}
+      {/* Trip Statistics */}
+      {/* <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-6">Trip Statistics</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -120,10 +121,10 @@ const Reports = () => {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </div> */}
 
-        {/* Satisfaction Pie Chart */}
-        <div className="bg-white p-6 rounded-lg shadow">
+      {/* Satisfaction Pie Chart */}
+      {/* <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-6">Patient Satisfaction</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -151,7 +152,7 @@ const Reports = () => {
             </ResponsiveContainer>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Recent Reports */}
       <div className="bg-white rounded-lg shadow">

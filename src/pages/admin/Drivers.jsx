@@ -10,55 +10,49 @@ import {
   Car,
   Pencil,
   Trash2,
+  CheckCircle,
+  XCircle,
+  Wallet,
+  User,
 } from "lucide-react";
 
 const mockDrivers = [
   {
-    id: "1",
-    name: "John Smith",
-    photo:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    phone: "+1 234 567 890",
+    id: 1,
+    firstName: "John",
+    lastName: "Smith",
+    age: 34,
+    gender: "MALE",
+    phoneNumber: "+1 234 567 890",
     email: "john.smith@example.com",
     rating: 4.8,
-    status: "active",
+    status: "ACTIVE",
+    online: "ONLINE",
     totalTrips: 156,
+    walletBalance: 1200.5,
     vehicleInfo: {
       model: "Toyota Camry",
       plate: "ABC 123",
-      type: "Sedan",
+      type: "SEETS_4",
     },
   },
   {
-    id: "2",
-    name: "Jane Doe",
-    photo:
-      "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?w=256&h=256&q=80",
-    phone: "+1 345 678 901",
+    id: 2,
+    firstName: "Jane",
+    lastName: "Doe",
+    age: 29,
+    gender: "FEMALE",
+    phoneNumber: "+1 345 678 901",
     email: "jane.doe@example.com",
     rating: 4.7,
-    status: "active",
+    status: "ACTIVE",
+    online: "OFFLINE",
     totalTrips: 132,
+    walletBalance: 800.0,
     vehicleInfo: {
       model: "Honda Accord",
       plate: "XYZ 456",
-      type: "Sedan",
-    },
-  },
-  {
-    id: "3",
-    name: "Michael Johnson",
-    photo:
-      "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=256&h=256&q=80",
-    phone: "+1 456 789 012",
-    email: "michael.j@example.com",
-    rating: 4.9,
-    status: "active",
-    totalTrips: 189,
-    vehicleInfo: {
-      model: "Ford Focus",
-      plate: "LMN 789",
-      type: "Hatchback",
+      type: "SEETS_4",
     },
   },
 ];
@@ -67,7 +61,7 @@ const Drivers = () => {
   const [drivers, setDrivers] = useState(mockDrivers);
   const [menuOpen, setMenuOpen] = useState(null);
 
-  // Handle delete
+  // Handle delete driver
   const handleDeleteDriver = async (id) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -82,22 +76,20 @@ const Drivers = () => {
     if (!result.isConfirmed) return;
 
     try {
-      // const res = await axios(...../drivers/${id}`, {
-
       setDrivers((prev) => prev.filter((driver) => driver.id !== id));
+      Swal.fire("Deleted!", "Driver has been deleted.", "success");
     } catch (error) {
-      console.error("Failed to delete driver:", error);
-      alert("Failed to delete driver. Please try again.");
+      Swal.fire("Error", "Failed to delete driver", "error");
     }
   };
 
-  // Handle edit
+  // Handle edit driver
   const handleEditDriver = (driver) => {
     console.log("Edit driver:", driver);
-    // Future code to open a modal or navigate to edit page
+    // Example: Open modal for editing or navigate to edit page
   };
 
-  // Handle filter (to be implemented later)
+  // Handle filter driver
   const handleFilterDriver = () => {
     console.log("Filter drivers");
   };
@@ -107,12 +99,12 @@ const Drivers = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Drivers Management</h1>
-        <button
+        {/* <button
           onClick={() => console.log("Add new driver")}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
         >
           Add New Driver
-        </button>
+        </button> */}
       </div>
 
       {/* Search & Filter */}
@@ -127,13 +119,6 @@ const Drivers = () => {
                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
               />
             </div>
-            <button
-              onClick={handleFilterDriver}
-              className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-            >
-              <Filter className="w-4 h-4" />
-              <span>Filter</span>
-            </button>
           </div>
         </div>
 
@@ -145,70 +130,104 @@ const Drivers = () => {
               className="border rounded-lg p-4 hover:border-blue-500 cursor-pointer"
             >
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
-                  <img
-                    src={driver.photo}
-                    alt={driver.name}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div>
-                    <h3 className="font-medium">{driver.name}</h3>
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span>{driver.rating}</span>
-                      <span className="mx-2">•</span>
-                      <span>{driver.totalTrips} trips</span>
-                    </div>
-                  </div>
+                <div>
+                  <h3 className="font-medium">
+                    {driver.firstName} {driver.lastName}
+                  </h3>
+                  {/* <div className="flex items-center gap-1 text-sm text-gray-500"> */}
+                  {/* Average Rating */}
+                  {/* {driver.reviews?.length > 0 ? (
+                      <>
+                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                        <span>
+                          {(
+                            driver.reviews.reduce(
+                              (sum, review) => sum + review.rate,
+                              0
+                            ) / driver.reviews.length
+                          ).toFixed(1)}{" "}
+                          stars
+                        </span>
+                        <span className="mx-2">•</span>
+                      </>
+                    ) : (
+                      <span>No rating</span>
+                    )} */}
+
+                  {/* Completed Trips */}
+                  {/* <span>
+                      {driver.bookings?.filter(
+                        (booking) => booking.bookingStatus === "COMPLETE"
+                      ).length || 0}{" "}
+                      completed trips
+                    </span>
+                  </div> */}
                 </div>
 
-                {/* Dropdown Menu */}
-                <div className="relative">
-                  <button
-                    onClick={() =>
-                      setMenuOpen(menuOpen === driver.id ? null : driver.id)
-                    }
-                    className="p-1 hover:bg-gray-100 rounded-full"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
-                  {menuOpen === driver.id && (
-                    <div className="absolute right-0 mt-2 w-36 bg-white shadow-md rounded-lg z-10">
-                      <button
-                        onClick={() => handleEditDriver(driver)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 w-full"
-                      >
-                        <Pencil className="w-4 h-4" />
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteDriver(driver.id)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 w-full text-red-600"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                        Delete
-                      </button>
+                {/* Driver status */}
+                {driver.online === "ONLINE" ? (
+                  <>
+                    <div className="flex items-center gap-2 text-green-500">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      <span> Online</span>
                     </div>
-                  )}
-                </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2 text-red-500">
+                      <XCircle className="w-4 h-4 text-red-500" />
+                      <span>Offline</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Contact Info */}
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Phone className="w-4 h-4" />
-                  <span>{driver.phone}</span>
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center gap-2 text-sm text-gray-500 justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <User className="w-4 h-4" />
+                    <span>
+                      Age: {driver.age} ({driver.gender})
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Phone className="w-4 h-4" />
+                    <span>{driver.phoneNumber}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500 justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Mail className="w-4 h-4" />
+                    <span>{driver.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Car className="w-4 h-4" />
+                    <span>
+                      {driver.vehicleInfo.model} ({driver.vehicleInfo.plate})
+                    </span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Mail className="w-4 h-4" />
-                  <span>{driver.email}</span>
+                  <Wallet className="w-4 h-4" />
+                  <span>${driver.walletBalance}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm col-span-2">
-                  <Car className="w-4 h-4" />
-                  <span>
-                    {driver.vehicleInfo.model} • {driver.vehicleInfo.plate}
-                  </span>
-                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-2">
+                {/* <button
+                  onClick={() => handleEditDriver(driver)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                >
+                  Edit
+                </button> */}
+                <button
+                  onClick={() => handleDeleteDriver(driver.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

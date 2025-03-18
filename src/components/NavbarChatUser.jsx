@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { userAuthStore } from "../store/userAuthStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 function NavbarChatUser() {
   const { authUser } = userAuthStore();
@@ -39,7 +39,10 @@ function NavbarChatUser() {
                   <User className="w-5 h-5" />
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
-                <button className="flex btn btn-sm gap-2 items-center" onClick={logout}>
+                <button
+                  className="flex btn btn-sm gap-2 items-center"
+                  onClick={logout}
+                >
                   <LogOut className="w-5 h-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>
@@ -53,4 +56,3 @@ function NavbarChatUser() {
 }
 
 export default NavbarChatUser;
-
