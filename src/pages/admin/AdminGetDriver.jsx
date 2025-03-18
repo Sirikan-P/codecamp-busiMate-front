@@ -65,43 +65,66 @@ function AdminGetDriver() {
   //   },
   // ];
 
-  const menuItems = [
-    { icon: House, label: "Dashboard", href: "#" },
-    { icon: User, label: "Profile", href: "#" },
-    { icon: Ambulance, label: "Drivers", href: "#", active: true },
-    { icon: ChartNoAxesCombined, label: "History", href: "#" },
-  ];
+  // const menuItems = [
+  //   { icon: House, label: "Dashboard", href: "#" },
+  //   { icon: User, label: "Profile", href: "#" },
+  //   { icon: Ambulance, label: "Drivers", href: "#", active: true },
+  //   { icon: ChartNoAxesCombined, label: "History", href: "#" },
+  // ];
 
-  const stats = [
-    { label: "Active Drivers", value: "18" },
-    { label: "On Trip", value: "5" },
-    { label: "Completed Today", value: "42" },
-  ];
-
+  
   // const filteredDrivers = drivers.filter(
-  //   (driver) =>
-  //     driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  const [driverDataAll, setDriverDataAll] = useState([]);
-
-  const token =
+    //   (driver) =>
+      //     driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    
+    const [driverDataAll, setDriverDataAll] = useState([]);
+    
+    const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MTg1NDQwNCwiZXhwIjoxNzQzMTUwNDA0fQ.ZFoevBdOJnZPEKmQFFuu6j-nwqUN0-U6EF_E30y5vc0";
+    
+    const hdlGetDriverDataAll = async () => {
+      try {
+        const result = await actionGetDriverDataAll(token);
+        console.log("result.data.data ==== ", result.data.data);
+        setDriverDataAll(result.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    useEffect(() => {
+      hdlGetDriverDataAll();
+    }, []);
 
-  const hdlGetDriverDataAll = async () => {
-    try {
-      const result = await actionGetDriverDataAll(token);
-      console.log("result.data.data ==== ", result.data.data);
-      setDriverDataAll(result.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const countDriversByStatus = (status) => {
+      return driverDataAll.filter(driver => driver.status === status).length;
   };
 
-  useEffect(() => {
-    hdlGetDriverDataAll();
-  }, []);
+    const countDriversByOnline = (status) => {
+      return driverDataAll.filter(driver => driver.online === status).length;
+  };
+/**
+ * 
+ * @param {Array} status 
+ * @returns 
+ */
+    const countDriversByBooked = (status) => {
+      // if(driverDataAll.length === 0) {
+      //   return null
+      // }
+      // console.log("driver.bookings ====", driver.bookings)
+      return driverDataAll.filter(driver => status.includes(driver.bookings[0]?.bookingStatus)).length;
+  };
+    
+    const stats = [
+      { label: "All Registered Drivers", value: driverDataAll.length },
+      { label: "Active Drivers", value: countDriversByStatus("ACTIVE") },
+      { label: "Available(Online) Drivers", value: countDriversByOnline("ONLINE") },
+      { label: "Booked Drivers", value: countDriversByBooked(["FIND_DRIVER", "UP_COMING"]) },
+    ];
+  
 
   console.log("driverDataAll ==== ", driverDataAll);
 
@@ -122,7 +145,7 @@ function AdminGetDriver() {
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 w-full bg-white border-t md:relative md:border-t-0 md:border-b z-50">
+      {/* <nav className="fixed bottom-0 left-0 w-full bg-white border-t md:relative md:border-t-0 md:border-b z-50">
         <div className="max-w-screen-xl mx-auto">
           <div className="flex justify-around items-center h-16">
             {menuItems.map((item) => (
@@ -141,7 +164,7 @@ function AdminGetDriver() {
             ))}
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Main Content */}
       <main className="max-w-screen-xl mx-auto px-4 py-6 mb-20 md:mb-0">
@@ -149,7 +172,7 @@ function AdminGetDriver() {
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
             <h1 className="text-2xl font-bold text-white mb-4">GET DRIVER</h1>
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-4 gap-4 mb-6">
               {stats.map((stat) => (
                 <div
                   key={stat.label}
@@ -165,7 +188,7 @@ function AdminGetDriver() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search drivers or locations..."
+                placeholder="Search drivers by name..."
                 className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 backdrop-blur-lg text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

@@ -83,6 +83,7 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+import AdminGetUser from "../pages/admin/AdminGetUser";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -135,6 +136,7 @@ function AppRoutes() {
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<HomeAdmin />} />
           <Route path="admingetdriver" element={<AdminGetDriver />} />
+          <Route path="admingetuser" element={<AdminGetUser />} />
         </Route>
 
         {/* 404 */}
