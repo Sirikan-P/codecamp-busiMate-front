@@ -16,15 +16,18 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import {
+  actionFindDriverByName,
   actionGetDriverDataAll,
   actionUpdateDriverData,
 } from "../../api/adminManageDriver";
-import { get } from "react-hook-form";
+import { get, set } from "react-hook-form";
 import { Link } from "react-router";
 import ListAllDriver from "../../components/admin/ListAllDriver";
+import { createAlert } from "../../utils/createAlert";
 
 function AdminGetDriver() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   // const drivers = [
   //   {
@@ -72,61 +75,90 @@ function AdminGetDriver() {
   //   { icon: ChartNoAxesCombined, label: "History", href: "#" },
   // ];
 
-  
   // const filteredDrivers = drivers.filter(
-    //   (driver) =>
-      //     driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
-    
-    const [driverDataAll, setDriverDataAll] = useState([]);
-    
-    const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MTg1NDQwNCwiZXhwIjoxNzQzMTUwNDA0fQ.ZFoevBdOJnZPEKmQFFuu6j-nwqUN0-U6EF_E30y5vc0";
-    
-    const hdlGetDriverDataAll = async () => {
-      try {
-        const result = await actionGetDriverDataAll(token);
-        console.log("result.data.data ==== ", result.data.data);
-        setDriverDataAll(result.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    
-    useEffect(() => {
-      hdlGetDriverDataAll();
-    }, []);
+  //   (driver) =>
+  //     driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     driver.currentLocation.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-    const countDriversByStatus = (status) => {
-      return driverDataAll.filter(driver => driver.status === status).length;
+  const [driverDataAll, setDriverDataAll] = useState([]);
+
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MjI4MTgyOCwiZXhwIjoxNzQzNTc3ODI4fQ.vIoqbB6vN4q-jRTIUUxlx56YkkyNa-vVDx8vzZwwxzs";
+
+  const hdlGetDriverDataAll = async () => {
+    try {
+      const result = await actionGetDriverDataAll(token);
+      console.log("result.data.data ==== ", result.data.data);
+      setDriverDataAll(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-    const countDriversByOnline = (status) => {
-      return driverDataAll.filter(driver => driver.online === status).length;
-  };
-/**
- * 
- * @param {Array} status 
- * @returns 
- */
-    const countDriversByBooked = (status) => {
-      // if(driverDataAll.length === 0) {
-      //   return null
-      // }
-      // console.log("driver.bookings ====", driver.bookings)
-      return driverDataAll.filter(driver => status.includes(driver.bookings[0]?.bookingStatus)).length;
-  };
-    
-    const stats = [
-      { label: "All Registered Drivers", value: driverDataAll.length },
-      { label: "Active Drivers", value: countDriversByStatus("ACTIVE") },
-      { label: "Available(Online) Drivers", value: countDriversByOnline("ONLINE") },
-      { label: "Booked Drivers", value: countDriversByBooked(["FIND_DRIVER", "UP_COMING"]) },
-    ];
-  
+  useEffect(() => {
+    hdlGetDriverDataAll();
+  }, []);
 
   console.log("driverDataAll ==== ", driverDataAll);
+
+  const countDriversByStatus = (status) => {
+    return driverDataAll.filter((driver) => driver.status === status).length;
+  };
+
+  const countDriversByOnline = (status) => {
+    return driverDataAll.filter((driver) => driver.online === status).length;
+  };
+
+  const countDriversByBooked = (status) => {
+    return driverDataAll.filter((driver) => {
+      console.log("Driver bookings:", driver.bookings);
+      status.includes(driver.bookings[0]?.bookingStatus);
+    }).length;
+  };
+
+  const hdlSearchDriver = () => {
+    console.log("searchTerm ====", searchTerm);
+    const results = driverDataAll.filter((driverData) => {
+      // return driverData.firstName == "" || driverData.lastName == " ตั้งตรง"
+      return (
+        driverData.firstName.includes(searchTerm) ||
+        driverData.lastName.includes(searchTerm)
+      );
+    });
+    setSearchResult(results);
+  };
+
+  const hdlSearchDriver2 = async () => {
+    console.log("searchTerm ====", searchTerm);
+    try {
+      const result3 = await actionFindDriverByName(token, searchTerm);
+      console.log("result3 ==== ", result3.data.data);
+
+      if ((result3.data.data).length==0) {
+        createAlert("info", "Cannot find out driver name")
+      } else {
+        setSearchResult(result3.data.data);
+      }
+      
+    } catch (error) {
+      console.error("Failed to find driverByName:", error);
+    }
+  };
+  console.log("searchResult ==== ", searchResult);
+
+  const stats = [
+    { label: "All Registered Drivers", value: driverDataAll.length },
+    { label: "Active Drivers", value: countDriversByStatus("ACTIVE") },
+    {
+      label: "Available(Online) Drivers",
+      value: countDriversByOnline("ONLINE"),
+    },
+    {
+      label: "Booked Drivers",
+      value: countDriversByBooked(["FIND_DRIVER", "UP_COMING"]),
+    },
+  ];
 
   const hdlUpdateDriverStatus = async (e, id) => {
     try {
@@ -138,7 +170,7 @@ function AdminGetDriver() {
       console.log("result2 ==== ", result2);
       hdlGetDriverDataAll();
     } catch (error) {
-      console.error("Failed to update driver status:",error);
+      console.error("Failed to update driver status:", error);
     }
   };
 
@@ -192,6 +224,11 @@ function AdminGetDriver() {
                 className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 backdrop-blur-lg text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    hdlSearchDriver2(); // เรียกฟังก์ชันค้นหา
+                  }
+                }}
               />
             </div>
           </div>
@@ -199,14 +236,16 @@ function AdminGetDriver() {
           {/* Drivers List */}
           <div className="p-6">
             <div className="space-y-4">
-              {driverDataAll.map((driverData) => (
-                <ListAllDriver 
-                key={driverData.id}
-                driverData={driverData}
-                token={token}
-                hdlGetDriverDataAll={hdlGetDriverDataAll}
-                />
-              ))}
+              {(searchResult.length ? searchResult : driverDataAll).map(
+                (driverData) => (
+                  <ListAllDriver
+                    key={driverData.id}
+                    driverData={driverData}
+                    token={token}
+                    hdlGetDriverDataAll={hdlGetDriverDataAll}
+                  />
+                )
+              )}
             </div>
           </div>
         </div>
