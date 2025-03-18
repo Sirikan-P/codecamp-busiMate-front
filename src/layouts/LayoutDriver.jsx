@@ -1,11 +1,10 @@
 import { Outlet } from "react-router"
-import MainNav from "../components/MainNav"
+import MainNavDriver from "../components/MainNavDriver"
 
 function LayoutDriver() {
   return (
-    <div>LayoutDriver
-
-        <MainNav />
+    <div>
+        <MainNavDriver />
         
         {/*  // <outlet/> render c   hild node */}
         <Outlet />

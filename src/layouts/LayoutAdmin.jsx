@@ -1,11 +1,12 @@
 import { Outlet } from "react-router"
-import MainNav from "../components/MainNav"
+import MainNav from "../components/MainNavUser"
+import MainNavAdmin from "../components/MainNavAdmin"
 
 function LayoutAdmin() {
   return (
-    <div>LayoutAdmin
+    <div>
 
-        <MainNav />
+        <MainNavAdmin />
         
         {/*  // <outlet/> render c   hild node */}
         <Outlet />
