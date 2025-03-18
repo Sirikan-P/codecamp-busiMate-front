@@ -11,6 +11,9 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RegisterDriver from "../pages/RegisterDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
+import DriverEditProfile from "../pages/driver/DriverEditProfile";
+import DriverAddress from "../pages/driver/DriverAddress";
+import DriverAddAddress from "../pages/driver/DriverAddAddress";
 
 function AppRoutes() {
   return (
@@ -40,8 +43,11 @@ function AppRoutes() {
                     element= { < ProtectRoutes  el={ <LayoutDriver /> }
                                                 allows={ ["DRIVER"] }/>}
             > */}
-        <Route path="driver" element={<LayoutDriver />}>
+        <Route path="driver/" element={<LayoutDriver />}>
           <Route index element={<HomeDriver />} />
+          <Route path="edit" element={<DriverEditProfile />} />
+          <Route path="address" element={<DriverAddress />} />
+          <Route path="address/add" element={<DriverAddAddress />} />
         </Route>
 
         {/* private [admin] */}
