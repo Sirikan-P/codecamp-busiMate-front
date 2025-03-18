@@ -13,7 +13,8 @@ function DriverDashboard(props) {
 
   const address =  driver.DriverAddress ? driver.DriverAddress[0] : {}
   return (
-    <div className='border-2'>DriverDashboard
+    <div className='border-2'>
+      
         <div> < DriverAvatar className='w-24 h-24 rounded-full ' 
                                     menu = {false}
                                     imgSrc = {driver?.profileImageUrl}/>

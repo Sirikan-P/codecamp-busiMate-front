@@ -6,14 +6,14 @@ import DriverAvatar from '../../components/driver/DriverAvatar'
 import DriverFileInput from '../../components/driver/driverForm/DriverFileInput'
 import DriverFormInput from '../../components/driver/driverForm/DriverFormInput'
 import DriverButtons from '../../components/driver/driverForm/DriverButtons'
+import DriverHeader from '../../components/driver/DriverHeader'
 
 
 
 function DriverEditProfile() {
-
-  //zustand : global state
-  // const token = useAuthStore(state => state.token)
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMDUwNDQ0LCJleHAiOjE3NDMzNDY0NDR9.LlBUSVelok5Pk8ecWjdhk0fGvovX-uyVvuKUIb3I6Ks"
+  const token = localStorage.getItem("token")
+  
+  //zustand : global state  
   const driver = useDriverStored(state => state.driver)
   const actionUpdateDriverWithZustand = useDriverStored( (state) => state.actionUpdateDriverWithZustand)
 
@@ -54,6 +54,7 @@ function DriverEditProfile() {
 
   return (
     <div className='flex flex-col '>DriverEditProfilesss
+          <DriverHeader driver={driver} />
          <div className='flex flex-col justify-center w-full h-[100px] m-auto bg-amber-200'> 
            < DriverAvatar className='flex w-24 h-24 rounded-full ' 
                                     menu = {false}

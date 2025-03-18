@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 //api 
-import { actionGetDriver , actionUpdateDriver } from "../api/driver"
+import { actionDeleteDriverAddress, actionGetDriver , actionUpdateDriver, actionUpdateDriverAddress } from "../api/driver"
 
 //step 1 : create Store
 const driverStored = (set) => ({
@@ -17,19 +17,16 @@ const driverStored = (set) => ({
         const res = await actionGetDriver(token)         
         const { result } = res.data
 
-        const currentLat = result.DriverAddress
-        .filter(item => item.status === "USE") // เลือกเฉพาะ status = "USE"
-        .map(item => item.lat); // ดึงค่า lat
-        const currentLong = result.DriverAddress
-        .filter(item => item.status === "USE") // เลือกเฉพาะ status = "USE"
-        .map(item => item.long); // ดึงค่า lat
+        const currentLocation = result.DriverAddress.find(item => item.status === "USE");
 
-        set( {driver:result,
-              driverAddress:result.DriverAddress,
-              driverCurrentLatLng : {lat: currentLat,lng: currentLong}
-              })
-        
-        return { success: true , result } //object
+        set({
+          driver: result,
+          driverAddress: result.DriverAddress,
+          driverCurrentLatLng: currentLocation 
+            ? { lat: parseFloat(currentLocation.lat), lng: parseFloat(currentLocation.long) } 
+            : { lat: 13.750,lng: 100.499 } // ค่า default ถ้าไม่เจอค่า
+        });
+          return { success: true , result } //object
     } catch (error) {          
         return { success: false, error: error.response?.data?.message} 
     }
@@ -39,8 +36,7 @@ const driverStored = (set) => ({
     try {
       const res = await actionUpdateDriver(token,value)
       const { result } = res.data
-      set( {driver:result ,
-            driverAddress:result.DriverAddress})
+      set( {driver:result })
       console.log("zustand",result)
       return { success: true , result } //object
     } catch (error) {
@@ -57,11 +53,33 @@ const driverStored = (set) => ({
     try {
       const res = await actionDeleteDriverAddress(token,value)
       const { result } = res.data
+
+      set( {driverAddress:result})
+
       return { success: true , result } //object
     } catch (error) {
       return { success: false, error: error.response?.data?.message} //object
     }
-  }
+  } ,
+
+  actionUpdateDriverAddressWithZustand : async(token,value)=>{
+    try {
+      const res = await actionUpdateDriverAddress(token,value)
+      const { result } = res.data
+
+      const currentLocation = result.find(item => item.status === "USE");
+
+      set( {
+        driverAddress:result,
+        driverCurrentLatLng: currentLocation 
+        ? { lat: parseFloat(currentLocation.lat), lng: parseFloat(currentLocation.long) }
+        : { lat: 13.750,lng: 100.499 } // ค่า default ถ้าไม่เจอค่า
+        })
+        return { success: true , result } //object
+    } catch (error) {
+      return { success: false, error: error.response?.data?.message} //object
+    }
+  } 
 
 })
 //step 2 : export Store
