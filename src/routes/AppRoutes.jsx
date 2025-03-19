@@ -88,6 +88,8 @@ import DriverAddAddress from "../pages/driver/DriverAddAddress";
 import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import DriverBooking from "../pages/driver/DriverBooking";
+import SettingPagePatiens from "../pages/user/SettingPagePatiens";
+import PatientsPageUser from "../pages/user/PatientsPageUser";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -122,8 +124,10 @@ function AppRoutes() {
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
-          <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+        <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
+          <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}

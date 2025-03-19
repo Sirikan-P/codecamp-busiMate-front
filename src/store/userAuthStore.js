@@ -8,13 +8,15 @@ export const userAuthStore = create((set) => ({
   isLogin: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  patients: [],
+  userAddress: [],
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
     } catch (error) {
       console.log(error);
-      set({ authUser: null });
+      set({ authUser: null  });
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -49,4 +51,24 @@ export const userAuthStore = create((set) => ({
       set({ isLogin: false });
     }
   },
+
+  fetchGetPatients: async () => {
+    try {
+      const res = await axiosInstance.get("/user/patient");
+      set({ patients: res.data.patients });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  fetchGetUserAddress: async () => {
+    try {
+      const res = await axiosInstance.get("/user/useraddress");
+      set({ userAddress: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }));
+
+
