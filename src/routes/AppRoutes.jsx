@@ -61,7 +61,7 @@
 
 // export default AppRoutes;
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router";
 import LayoutUser from "../layouts/LayoutUser";
 import Home from "../pages/Home";
 import LayoutDriver from "../layouts/LayoutDriver";
@@ -74,7 +74,6 @@ import LoginUser from "../pages/user/LoginUser";
 import ProfilePageUser from "../pages/user/ProfilePageUser";
 import SettingPageUser from "../pages/user/SettingPageUser";
 import ProfilePageDriver from "../pages/driver/ProfilePageDriver";
-import SettingPageDriver from "../pages/driver/SettingPageDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
@@ -83,6 +82,12 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+import DriverEditProfile from "../pages/driver/DriverEditProfile";
+import DriverAddress from "../pages/driver/DriverAddress";
+import DriverAddAddress from "../pages/driver/DriverAddAddress";
+import CreateBookingNoti from "../pages/user/CreateBookingNoti";
+import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
+import DriverBooking from "../pages/driver/DriverBooking";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -107,7 +112,7 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
+        <Route index element={ <Home /> } />
           {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
@@ -125,10 +130,16 @@ function AppRoutes() {
         </Route>
 
         {/* Driver Routes */}
-        <Route path="driver" element={<LayoutDriver />}>
+        <Route path="driver/" element={<LayoutDriver />}>
           <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
           <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
-          <Route path="setting" element={authDriver ? (<SettingPageDriver />) : (<Navigate to="/driver/login" /> )}/>
+        
+          <Route path="edit" element={<DriverEditProfile />} />
+          <Route path="address" element={<DriverAddress />} />
+          <Route path="address/add" element={<DriverAddAddress />} />
+          <Route path="booking" element={<DriverBooking />} />
+          <Route path="sendNoti" element={<CreateBookingNoti />} />
+          <Route path="receiveNoti" element={<DriverBookingNoti />} />
         </Route>
 
         {/* Admin Routes */}
