@@ -1,66 +1,3 @@
-// import { Route, Routes } from "react-router";
-// import LayoutUser from "../layouts/LayoutUser";
-// import LayoutDriver from "../layouts/LayoutDriver";
-// import LayoutAdmin from "../layouts/LayoutAdmin";
-// import HomeUser from "../pages/user/HomeUser";
-// import HomeDriver from "../pages/driver/HomeDriver";
-// import HomeAdmin from "../pages/admin/HomeAdmin";
-// import Layout from "../layouts/Layout";
-// import Home from "../pages/Home";
-// import Login from "../pages/Login";
-// import Register from "../pages/Register";
-// import RegisterDriver from "../pages/RegisterDriver";
-// import AdminGetDriver from "../pages/admin/AdminGetDriver";
-
-// function AppRoutes() {
-//   return (
-//     <>
-//       <Routes>
-//         {/* public */}
-//         <Route path="/" element={<Layout />}>
-//           <Route index element={<Home />} />
-//           <Route path="login" element={<Login />} />
-//           <Route path="register" element={<Register />} />
-//           <Route path="register-driver" element={<RegisterDriver />} />
-//           {/* ขอยาดยืมพื้นที่เพื่อหนีพาท และลองโค้ด */}
-//           <Route path="admingetdriver" element={<AdminGetDriver />} />
-//         </Route>
-
-//         {/* private [user] */}
-//         {/* < Route path="user"
-//                     element= { < ProtectRoutes  el={ <LayoutUser /> }
-//                                                 allows={ ["USER"] }/>}
-//             > */}
-//         <Route path="user" element={<LayoutUser />}>
-//           <Route index element={<HomeUser />} />
-//         </Route>
-
-//         {/* private [driver] */}
-//         {/* < Route path="driver"
-//                     element= { < ProtectRoutes  el={ <LayoutDriver /> }
-//                                                 allows={ ["DRIVER"] }/>}
-//             > */}
-//         <Route path="driver" element={<LayoutDriver />}>
-//           <Route index element={<HomeDriver />} />
-//         </Route>
-
-//         {/* private [admin] */}
-//         {/* <Route  path="admin"
-//                     element= { < ProtectRoutes  el={ <LayoutAdmin/> }
-//                                                 allows={ ["ADMIN"] }/> }
-//             >                  */}
-//         <Route path="admin" element={<LayoutAdmin />}>
-//           <Route index element={<HomeAdmin />} />
-//         </Route>
-
-//         <Route path="*" element={<h1> 404 not found </h1>} />
-//       </Routes>
-//     </>
-//   );
-// }
-
-// export default AppRoutes;
-
 import { Navigate, Route, Routes } from "react-router";
 import LayoutUser from "../layouts/LayoutUser";
 import Home from "../pages/Home";
@@ -73,8 +10,6 @@ import RegisterUser from "../pages/user/RegisterUser";
 import LoginUser from "../pages/user/LoginUser";
 import ProfilePageUser from "../pages/user/ProfilePageUser";
 import SettingPageUser from "../pages/user/SettingPageUser";
-import ProfilePageDriver from "../pages/driver/ProfilePageDriver";
-import SettingPageDriver from "../pages/driver/SettingPageDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
 import ProfileUser from "../pages/user/ProfileUser";
 import ProfileUser2 from "../pages/user/ProfileUser2";
@@ -86,11 +21,6 @@ import Drivers from "../pages/admin/Drivers";
 import Patients from "../pages/admin/Patients";
 import Settings from "../pages/admin/Setting";
 import Reports from "../pages/admin/Report";
-import DriverProfile from "../pages/driver/DriverProfile";
-import DriverEarnings from "../pages/driver/DriverEarning";
-import DriverHistory from "../pages/driver/DriverHistory";
-import DriverChat from "../pages/driver/DriverChat";
-import DriverDashboard from "../pages/driver/DriverDashboard";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { ToastContainer } from "react-toastify";
@@ -102,6 +32,11 @@ import UserHome from "../pages/user/UserHome";
 import UserBooking from "../pages/user/UserBooking";
 import UserProfile from "../pages/user/UserProfile";
 import MockUserProfile from "../pages/user/MockUserProfile";
+import DriverProfile from "../pages/driver/DriverProfile";
+import DriverDashboard from "../pages/driver/DriverDashboard";
+import SettingPageDriver from "../pages/driver/SettingPageDriver";
+import MockDriverHome from "../pages/driver/MockDriverHome";
+import MockDriverEditProfile from "../pages/driver/MockDriverEditProfile";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -166,14 +101,14 @@ function AppRoutes() {
           <Route
             index
             element={
-              authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />
+              authDriver ? <MockDriverHome /> : <Navigate to="/driver/login" />
             }
           />
           <Route
             path="profile"
             element={
               authDriver ? (
-                <ProfilePageDriver />
+                <MockDriverEditProfile />
               ) : (
                 <Navigate to="/driver/login" />
               )
