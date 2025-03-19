@@ -1,6 +1,6 @@
 import React from 'react'
 
-function SelectInput({register , name , errors , label, ar , ...rest }) {
+function DriverSelectInput({register , name , errors , label, ar , ...rest }) {
     return (
         <div>
             <div className='flex justify-center w-full'>
@@ -25,4 +25,4 @@ function SelectInput({register , name , errors , label, ar , ...rest }) {
     )
 }
 
-export default SelectInput
+export default DriverSelectInput
