@@ -83,6 +83,6 @@ const driverStored = (set) => ({
 
 })
 //step 2 : export Store
-const useDriverStored = create(driverStored)
+const useDriverStored = create(persist(driverStored,{name:'driver-store'})) //persist = localstorage 
 
 export default useDriverStored

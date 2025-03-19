@@ -25,6 +25,7 @@ function DriverEditProfile() {
   const { isSubmitting, errors } = formState
 //----------------------------------------
 const arrayGender = ["MALE", "FEMALE", "OTHER"]
+const arrayCartype = ["SEETS_4", "SEETS_7", "SEETS_9"]
 
 //----------------------------------------
     const hdlSubmit = async(value)=>{
@@ -79,13 +80,10 @@ const arrayGender = ["MALE", "FEMALE", "OTHER"]
                 <DriverFormInput register={register} name={ "lastName"} defaultValue={driver.lastName || ""} errors={errors} label="lastname : " />
                 <DriverFormInput register={register} name={ "phoneNumber"} defaultValue={driver.phoneNumber || ""} errors={errors} label="phone : " />
                 <DriverFormInput register={register} name={ "age"} defaultValue={driver.age || ""} errors={errors} label="age : " />              
-            
                 <DriverSelectInput register={register} name={"gender"} defaultValue={driver.gender || "MALE"} errors={errors} label={"GENDER"} ar={arrayGender} />
                 <DriverFormInput register={register} name={ "idCard"} defaultValue={driver.idCard || "" } errors={errors} label="ID card Number" />
-
                 <DriverFormInput register={register} name={ "carRegNo"} defaultValue={driver.carRegNo || ""}  errors={errors} label="car Reg No" />
-                <DriverFormInput register={register} name={ "carType"} defaultValue={driver.carType || ""}  errors={errors} label="carType" />
-               
+                <DriverSelectInput register={register} name={"carType"} defaultValue={driver.carType || "SEETS_4"} errors={errors} label={"carType"} ar={arrayCartype} />
                 <DriverToggleInput register={register} name={"hasWheelChair"} defaultValue={driver.hasWheelChair || "HAVE"} errors={errors} label="hasWheelChair :" type="checkHave" setValue={setValue} watch={watch} /> 
                 <DriverToggleInput register={register} name={"hasAssist"} defaultValue={driver.hasAssist || "HAVE"} errors={errors} label="hasAssist :" type="checkHave" setValue={setValue} watch={watch} /> 
               </div>
