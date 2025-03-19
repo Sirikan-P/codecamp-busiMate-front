@@ -1,8 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
-import { use } from "react";
+import { axiosInstance } from "../../lib/axios";
 
 function settingPageUser() {
+  const [userForm, setUserForm] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    address: "",
+  });
+
   const authUser = userAuthStore((state) => state.authUser);
   const fetchGetUserAddress = userAuthStore(
     (state) => state.fetchGetUserAddress
@@ -10,10 +18,36 @@ function settingPageUser() {
   const userAddress = userAuthStore((state) => state.userAddress);
   console.log("userAddress", userAddress);
 
+  const fetchData = async () => {
+    try {
+      const res = await axiosInstance.get('user/me');
+      setUserForm(res.data);
+    } catch (error) {}
+  };
+
   useEffect(() => {
+    fetchData();
     fetchGetUserAddress();
   }, []);
 
+  const hdlOnchange = (e) => {
+    const obj = {
+      ...userForm,
+      [e.target.name]: e.target.value,
+    };
+    setUserForm(obj);
+  };
+
+  const hdlSubmit = async (e) => {
+    e.preventDefault();
+    console.log("userForm", userForm);
+    try {
+      const res = await axiosInstance.patch("user/me/edit", userForm);
+      console.log("res", res);
+    } catch (error) {}
+  };
+
+  console.log("authUser", authUser);
   return (
     <div className="font-sans bg-gray-100 min-h-screen">
       <div className="bg-white shadow-md p-4 flex justify-between items-center">
@@ -69,7 +103,8 @@ function settingPageUser() {
                   name="firstName"
                   id="firstName"
                   className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                  value={authUser?.result?.firstName}
+                  value={userForm.firstName}
+                  onChange={hdlOnchange}
                 />
               </div>
             </div>
@@ -87,7 +122,8 @@ function settingPageUser() {
                   name="lastName"
                   id="lastName"
                   className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                  value={authUser?.result?.lastName}
+                  value={userForm.lastName}
+                  onChange={hdlOnchange}
                 />
               </div>
             </div>
@@ -106,7 +142,8 @@ function settingPageUser() {
                 name="phoneNumber"
                 id="phoneNumber"
                 className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                value={authUser?.result?.phoneNumber}
+                value={userForm.phoneNumber}
+                onChange={hdlOnchange}
               />
             </div>
           </div>
@@ -123,7 +160,8 @@ function settingPageUser() {
                 name="phoneNumber"
                 id="phoneNumber"
                 className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                value={authUser?.result?.email}
+                value={userForm.email}
+                onChange={hdlOnchange}
               />
             </div>
           </div>
@@ -139,7 +177,8 @@ function settingPageUser() {
               name="Address"
               id="Address"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md sm:text-sm border-gray-300"
-              value={userAddress[0]?.address}
+              value={userForm.address}
+              onChange={hdlOnchange}
             />
           </div>
 
@@ -148,7 +187,10 @@ function settingPageUser() {
           </button>
         </div>
       </div>
-      <button className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <button 
+      className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      onClick={hdlSubmit}
+      >
         Update
       </button>
     </div>
