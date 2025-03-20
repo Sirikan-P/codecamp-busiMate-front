@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { StarRating } from '../../../icon/icon';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'react-router';
@@ -9,23 +8,27 @@ const ReviewDriver = () => {
   const [rating, setRating] = useState("A");
   const [review, setReview] = useState("")
 
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get("bookingId");
+  const id = 2
+  const token = localStorage.getItem("token")
+  // searchParams.get("bookingId");
 
 
  async function handleAddReview() {
+  
     if (!review.trim()) {
       toast.error('Please Input Review')
     }
     const data = {
       rate: rating,
       message: review,
-      bookingId: Number(id) //แนบ booking ID มาใน URL ด้วย Example : http://localhost:5173/user/review?bookingId=1
+      bookingId: Number(id) 
     }
+    console.log(data);
+  
     try {
       const response = await axios.post('http://localhost:8877/api/user/review', data, {
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
       });
   
