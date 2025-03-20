@@ -1,4 +1,3 @@
-import { Navigate, Route, Routes } from "react-router-dom";
 // import { Route, Routes } from "react-router";
 // import LayoutUser from "../layouts/LayoutUser";
 // import LayoutDriver from "../layouts/LayoutDriver";
