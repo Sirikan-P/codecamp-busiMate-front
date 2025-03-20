@@ -295,7 +295,7 @@ const RegisterDriver = () => {
       <div className="text-center pt-5">
         <p className="text-gray-500">
           Already have an account?{" "}
-          <Link to="/user/login" className=" link text-cyan-600">
+          <Link to="/driver/login" className=" link text-cyan-600">
             Sign in
           </Link>
         </p>
