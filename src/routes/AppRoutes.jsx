@@ -107,6 +107,7 @@ import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import DriverBooking from "../pages/driver/DriverBooking";
 import MockDriverAddress from "../pages/driver/MockDriverAddress";
+import MockAddAddress from "../pages/driver/MockAddAddress";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -176,6 +177,7 @@ function AppRoutes() {
           <Route path="home" element={<MockDriverHome />} />
           <Route path="mockedit" element={<MockDriverEditProfile />} />
           <Route path="mockaddress" element={<MockDriverAddress />} />
+          <Route path="mockaddadress" element={<MockAddAddress />} />
           {/* p'may recent */}
           <Route path="edit" element={<DriverEditProfile />} />
           <Route path="address" element={<DriverAddress />} />
