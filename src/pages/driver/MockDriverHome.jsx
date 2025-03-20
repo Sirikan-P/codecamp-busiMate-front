@@ -38,7 +38,7 @@ function MockDriverHome() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-radial from-base-300 via-base-100 to-base-300">
+    <div className="min-h-screen bg-cyan-700 overflow-auto">
       {/* Profile Section */}
       <div className="p-6">
         <div className="card bg-base-100 shadow-xl">
@@ -46,14 +46,14 @@ function MockDriverHome() {
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="relative">
                 <div className="avatar online">
-                  <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <div className="w-24 rounded-full ring-white ring ring-offset-base-100 ring-offset-2">
                     <img
                       src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400"
                       alt="Profile"
                     />
                   </div>
                 </div>
-                <button className="btn btn-circle btn-sm btn-primary absolute bottom-0 right-0 shadow-lg hover:scale-105 transition-transform">
+                <button className="btn btn-circle btn-sm absolute bottom-0 right-0 shadow-lg hover:scale-105 transition-transform">
                   <Edit size={14} />
                 </button>
               </div>
@@ -77,10 +77,7 @@ function MockDriverHome() {
       {/* Wallet Section */}
       <div className="p-6">
         <div className="card bg-base-100 shadow-xl">
-          <h2 className="card-title flex items-center gap-2">
-            <Wallet className="text-primary" />
-            Driver Wallet
-          </h2>
+          <h2 className="card-title flex items-center">Driver Wallet</h2>
           <div className="card-body">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -103,19 +100,6 @@ function MockDriverHome() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div
-                        className={`p-2 rounded-full ${
-                          entry.type === "INCOME"
-                            ? "bg-success/20 text-success"
-                            : "bg-error/20 text-error"
-                        }`}
-                      >
-                        {entry.type === "INCOME" ? (
-                          <TrendingUp size={20} />
-                        ) : (
-                          <TrendingDown size={20} />
-                        )}
-                      </div>
                       <div>
                         <p className="font-medium">
                           ID: {entry.id} - {entry.description}

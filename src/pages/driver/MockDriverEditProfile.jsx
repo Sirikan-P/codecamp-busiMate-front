@@ -1,227 +1,181 @@
-import React, { useState } from "react";
-import {
-  User,
-  MapPin,
-  Calendar,
-  Phone,
-  Car as IdCard,
-  Car,
-  Armchair as Wheelchair,
-  HandHelping,
-} from "lucide-react";
+import React from "react";
+import useDriverStored from "../../store/driver-store";
+import { createAlert } from "../../utils/createAlert";
+import { useForm } from "react-hook-form";
+import DriverAvatar from "../../components/driver/DriverAvatar";
+import DriverFileInput from "../../components/driver/driverForm/DriverFileInput";
+import DriverFormInput from "../../components/driver/driverForm/DriverFormInput";
+import DriverButtons from "../../components/driver/driverForm/DriverButtons";
+import DriverHeader from "../../components/driver/DriverHeader";
+import DriverToggleInput from "../../components/driver/driverForm/DriverToggleInput";
+import DriverSelectInput from "../../components/driver/driverForm/DriverSelectInput";
 
 function MockDriverEditProfile() {
-  const [formData, setFormData] = useState({
-    firstname: "driver1",
-    lastname: "lastname1",
-    phone: "0810010001",
-    age: "26",
-    gender: "MALE",
-    idCardNumber: "121231212",
-    carRegNo: "4099",
-    carType: "SEETS_4",
-    hasWheelChair: "NOHAVE",
-    hasAssist: "NOHAVE",
-  });
+  const token = localStorage.getItem("token");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
+  //zustand : global state
+  const driver = useDriverStored((state) => state.driver);
+  const actionUpdateDriverWithZustand = useDriverStored(
+    (state) => state.actionUpdateDriverWithZustand
+  );
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+  //react hook form
+  const { register, handleSubmit, formState, reset, setValue, watch } = useForm(
+    {}
+  );
+  const { isSubmitting, errors } = formState;
+  //----------------------------------------
+  const arrayGender = ["MALE", "FEMALE", "OTHER"];
+  const arrayCartype = ["SEETS_4", "SEETS_7", "SEETS_9"];
+
+  //----------------------------------------
+  const hdlSubmit = async (value) => {
+    const { ...newData } = value;
+    //console.log(newData)
+    newData.online = newData.online ? "ONLINE" : "OFFLINE";
+    newData.hasWheelChair = newData.hasWheelChair ? "HAVE" : "NOHAVE";
+    newData.hasAssist = newData.hasAssist ? "HAVE" : "NOHAVE";
+
+    const formDriverData = new FormData();
+    Object.keys(newData).forEach((key) => {
+      //console.log(key, newData[key] , newData[key].length)
+      if (key === "profileImageUrl") {
+        if (newData[key].length !== 0) {
+          formDriverData.append(key, newData[key][0]);
+        }
+      } else {
+        formDriverData.append(key, newData[key]);
+      }
     });
+
+    //console.log("fromdata",Object.entries(FormData))
+
+    const res = await actionUpdateDriverWithZustand(token, formDriverData);
+    //console.log("res",res)
+    if (res.success) {
+      createAlert("success", "save driver profile success");
+    } else {
+      createAlert("info", "something wrong");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        {/* Profile Header */}
-        <div className="flex items-center gap-4 font-sm mb-6">
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=128&h=128&fit=crop"
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover"
+    <div className="flex flex-col p-6 bg-cyan-600">
+      <DriverHeader driver={driver} />
+      <div className="flex flex-col justify-center w-full h-[100px] m-auto bg-cyan-200">
+        <DriverAvatar
+          className="flex w-24 h-24 rounded-full "
+          menu={false}
+          imgSrc={driver?.profileImageUrl}
+        />
+      </div>
+      <div className="bg-white p-6 flex flex-col rounded-b-2xl justify-center w-full h-full m-auto">
+        <form onSubmit={handleSubmit(hdlSubmit)}>
+          <DriverFileInput
+            register={register}
+            name="profileImageUrl"
+            errors={errors}
+            label="Profile Image"
+          />
+
+          <div className="flex flex-col gap-2 py-2">
+            <DriverToggleInput
+              register={register}
+              name={"online"}
+              defaultValue={driver.online || "OFFLINE"}
+              errors={errors}
+              label="online :"
+              type="checkoffline"
+              setValue={setValue}
+              watch={watch}
+            />
+            <DriverFormInput
+              register={register}
+              name={"firstName"}
+              defaultValue={driver.firstName || ""}
+              errors={errors}
+              label="firstname :"
+              placeholder="firstname"
+            />
+            <DriverFormInput
+              register={register}
+              name={"lastName"}
+              defaultValue={driver.lastName || ""}
+              errors={errors}
+              label="lastname : "
+              placeholder="lastname"
+            />
+            <DriverFormInput
+              register={register}
+              name={"phoneNumber"}
+              defaultValue={driver.phoneNumber || ""}
+              errors={errors}
+              label="phone : "
+              placeholder="phone number"
+            />
+            <DriverFormInput
+              register={register}
+              name={"age"}
+              defaultValue={driver.age || ""}
+              errors={errors}
+              label="age : "
+              placeholder="age"
+            />
+            <DriverSelectInput
+              register={register}
+              name={"gender"}
+              defaultValue={driver.gender || "MALE"}
+              errors={errors}
+              label={"GENDER"}
+              ar={arrayGender}
+            />
+            <DriverFormInput
+              register={register}
+              name={"idCard"}
+              defaultValue={driver.idCard || ""}
+              errors={errors}
+              label="ID card Number"
+              placeholder="id card number"
+            />
+            <DriverFormInput
+              register={register}
+              name={"carRegNo"}
+              defaultValue={driver.carRegNo || ""}
+              errors={errors}
+              label="car Reg No"
+              placeholder="car registration number"
+            />
+            <DriverSelectInput
+              register={register}
+              name={"carType"}
+              defaultValue={driver.carType || "SEETS_4"}
+              errors={errors}
+              label={"carType"}
+              ar={arrayCartype}
+            />
+            <DriverToggleInput
+              register={register}
+              name={"hasWheelChair"}
+              defaultValue={driver.hasWheelChair || "HAVE"}
+              errors={errors}
+              label="hasWheelChair :"
+              type="checkHave"
+              setValue={setValue}
+              watch={watch}
+            />
+            <DriverToggleInput
+              register={register}
+              name={"hasAssist"}
+              defaultValue={driver.hasAssist || "HAVE"}
+              errors={errors}
+              label="hasAssist :"
+              type="checkHave"
+              setValue={setValue}
+              watch={watch}
             />
           </div>
-          <div>
-            <h2 className="text-xl font-semibold">Driver1 Lastname1</h2>
-            <p className="text-gray-600">Update your profile information</p>
-          </div>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="divider"></div>
-            <div แclassName="flex justify-center gap-4 font-sm">
-              <h3 className="text-lg text-center font-semibold">
-                Personal Information
-              </h3>
-            </div>
-
-            {/* online */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <User size={18} className="mr-2" /> Online
-              </label>
-              <input
-                type="checkbox"
-                defaultChecked
-                className="toggle toggle-success"
-              />
-            </div>
-
-            {/* First Name */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <User size={18} className="mr-2" /> First Name
-              </label>
-              <input
-                type="text"
-                name="firstname"
-                value={formData.firstname}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Last Name */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <User size={18} className="mr-2" /> Last Name
-              </label>
-              <input
-                type="text"
-                name="lastname"
-                value={formData.lastname}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Phone */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <Phone size={18} className="mr-2" /> Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Age */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <Calendar size={18} className="mr-2" /> Age
-              </label>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Gender */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <User size={18} className="mr-2" /> Gender
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="select select-bordered w-60"
-              >
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-              </select>
-            </div>
-
-            {/* ID Card Number */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <IdCard size={18} className="mr-2" /> ID Card Number
-              </label>
-              <input
-                type="text"
-                name="idCardNumber"
-                value={formData.idCardNumber}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Car Registration */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <Car size={18} className="mr-2" /> Car Reg No
-              </label>
-              <input
-                type="text"
-                name="carRegNo"
-                value={formData.carRegNo}
-                onChange={handleChange}
-                className="input input-bordered w-60"
-              />
-            </div>
-
-            {/* Car Type */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <Car size={18} className="mr-2" /> Car Type
-              </label>
-              <select
-                name="carType"
-                value={formData.carType}
-                onChange={handleChange}
-                className="select select-bordered w-60"
-              >
-                <option value="SEETS_4">4 Seats</option>
-                <option value="SEETS_7">7 Seats</option>
-              </select>
-            </div>
-
-            {/* Wheelchair Support */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <Wheelchair size={18} className="mr-2" /> Wheelchair
-              </label>
-              <input
-                type="checkbox"
-                defaultChecked
-                className="toggle toggle-success"
-              />
-            </div>
-
-            {/* Assistant Support */}
-            <div className="flex items-center gap-4 font-sm">
-              <label className="w-32 text-gray-600 flex items-center">
-                <HandHelping size={18} className="mr-2" /> Assistant
-              </label>
-              <input
-                type="checkbox"
-                defaultChecked
-                className="toggle toggle-success"
-              />
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="mt-6">
-            <button type="submit" className="btn btn-primary w-60">
-              SAVE
-            </button>
+          <div className="flex justify-center">
+            <DriverButtons isSubmitting={isSubmitting} label={"SAVE"} />
           </div>
         </form>
       </div>

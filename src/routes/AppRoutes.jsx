@@ -1,3 +1,66 @@
+// import { Route, Routes } from "react-router";
+// import LayoutUser from "../layouts/LayoutUser";
+// import LayoutDriver from "../layouts/LayoutDriver";
+// import LayoutAdmin from "../layouts/LayoutAdmin";
+// import HomeUser from "../pages/user/HomeUser";
+// import HomeDriver from "../pages/driver/HomeDriver";
+// import HomeAdmin from "../pages/admin/HomeAdmin";
+// import Layout from "../layouts/Layout";
+// import Home from "../pages/Home";
+// import Login from "../pages/Login";
+// import Register from "../pages/Register";
+// import RegisterDriver from "../pages/RegisterDriver";
+// import AdminGetDriver from "../pages/admin/AdminGetDriver";
+
+// function AppRoutes() {
+//   return (
+//     <>
+//       <Routes>
+//         {/* public */}
+//         <Route path="/" element={<Layout />}>
+//           <Route index element={<Home />} />
+//           <Route path="login" element={<Login />} />
+//           <Route path="register" element={<Register />} />
+//           <Route path="register-driver" element={<RegisterDriver />} />
+//           {/* ขอยาดยืมพื้นที่เพื่อหนีพาท และลองโค้ด */}
+//           <Route path="admingetdriver" element={<AdminGetDriver />} />
+//         </Route>
+
+//         {/* private [user] */}
+//         {/* < Route path="user"
+//                     element= { < ProtectRoutes  el={ <LayoutUser /> }
+//                                                 allows={ ["USER"] }/>}
+//             > */}
+//         <Route path="user" element={<LayoutUser />}>
+//           <Route index element={<HomeUser />} />
+//         </Route>
+
+//         {/* private [driver] */}
+//         {/* < Route path="driver"
+//                     element= { < ProtectRoutes  el={ <LayoutDriver /> }
+//                                                 allows={ ["DRIVER"] }/>}
+//             > */}
+//         <Route path="driver" element={<LayoutDriver />}>
+//           <Route index element={<HomeDriver />} />
+//         </Route>
+
+//         {/* private [admin] */}
+//         {/* <Route  path="admin"
+//                     element= { < ProtectRoutes  el={ <LayoutAdmin/> }
+//                                                 allows={ ["ADMIN"] }/> }
+//             >                  */}
+//         <Route path="admin" element={<LayoutAdmin />}>
+//           <Route index element={<HomeAdmin />} />
+//         </Route>
+
+//         <Route path="*" element={<h1> 404 not found </h1>} />
+//       </Routes>
+//     </>
+//   );
+// }
+
+// export default AppRoutes;
+
 import { Navigate, Route, Routes } from "react-router";
 import LayoutUser from "../layouts/LayoutUser";
 import Home from "../pages/Home";
@@ -10,6 +73,7 @@ import RegisterUser from "../pages/user/RegisterUser";
 import LoginUser from "../pages/user/LoginUser";
 import ProfilePageUser from "../pages/user/ProfilePageUser";
 import SettingPageUser from "../pages/user/SettingPageUser";
+import ProfilePageDriver from "../pages/driver/ProfilePageDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
 import ProfileUser from "../pages/user/ProfileUser";
 import ProfileUser2 from "../pages/user/ProfileUser2";
@@ -34,9 +98,15 @@ import UserProfile from "../pages/user/UserProfile";
 import MockUserProfile from "../pages/user/MockUserProfile";
 import DriverProfile from "../pages/driver/DriverProfile";
 import DriverDashboard from "../pages/driver/DriverDashboard";
-import SettingPageDriver from "../pages/driver/SettingPageDriver";
 import MockDriverHome from "../pages/driver/MockDriverHome";
 import MockDriverEditProfile from "../pages/driver/MockDriverEditProfile";
+import DriverEditProfile from "../pages/driver/DriverEditProfile";
+import DriverAddress from "../pages/driver/DriverAddress";
+import DriverAddAddress from "../pages/driver/DriverAddAddress";
+import CreateBookingNoti from "../pages/user/CreateBookingNoti";
+import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
+import DriverBooking from "../pages/driver/DriverBooking";
+import MockDriverAddress from "../pages/driver/MockDriverAddress";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -63,6 +133,7 @@ function AppRoutes() {
         <Route path="/" element={<Layout />}>
           {/* <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/> */}
           <Route index element={<Home />} />
+          {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
           <Route path="user/register" element={<RegisterUser />} />
@@ -97,33 +168,21 @@ function AppRoutes() {
         </Route>
 
         {/* Driver Routes */}
-        <Route path="driver" element={<LayoutDriver />}>
-          <Route
-            index
-            element={
-              authDriver ? <MockDriverHome /> : <Navigate to="/driver/login" />
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              authDriver ? (
-                <MockDriverEditProfile />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authDriver ? (
-                <SettingPageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
+        <Route path="driver/" element={<LayoutDriver />}>
+          <Route index element={<HomeDriver />} />
+          <Route path="profile" element={<ProfilePageDriver />} />
+          {/* Chun mockking */}
+          <Route path="dashboard" element={<DriverDashboard />} />
+          <Route path="home" element={<MockDriverHome />} />
+          <Route path="mockedit" element={<MockDriverEditProfile />} />
+          <Route path="mockaddress" element={<MockDriverAddress />} />
+          {/* p'may recent */}
+          <Route path="edit" element={<DriverEditProfile />} />
+          <Route path="address" element={<DriverAddress />} />
+          <Route path="address/add" element={<DriverAddAddress />} />
+          <Route path="booking" element={<DriverBooking />} />
+          <Route path="sendNoti" element={<CreateBookingNoti />} />
+          <Route path="receiveNoti" element={<DriverBookingNoti />} />
         </Route>
 
         {/* Admin Routes */}

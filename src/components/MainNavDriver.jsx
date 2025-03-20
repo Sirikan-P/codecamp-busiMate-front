@@ -34,7 +34,6 @@ function MainNavDriver() {
       >
         <Menu className="w-[30px] h-[30px]≈" />
       </div>
-
       {isOpen && (
         <div className="grid grid-rows-6  shadow-2xl place-items-start gap-2 absolute z-10 right-1 w-[200px] bg-white pt-5 pb-5">
           <Link
@@ -43,30 +42,38 @@ function MainNavDriver() {
           >
             <Home /> Home
           </Link>
-          <Link className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-            <NotebookText /> Booking
+          <Link
+            to="/driver/booking"
+            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
+          >
+            <NotebookText />
+            My Booking
           </Link>
           <Link className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
             <MessageCircleMore /> Chat
           </Link>
-          <Link className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-            <PencilLine /> Create Booking
+          <Link
+            to="/driver/receiveNoti"
+            className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
+          >
+            <PencilLine />
+            Incoming Booking
           </Link>
           <Link
-            to="/driver/setting"
+            to="/driver/address"
             className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
           >
             <Settings />
-            Settings
+            Address Settings
           </Link>
           {authDriver && (
             <>
               <Link
-                to="/driver/profile"
+                to="/driver/edit"
                 className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
               >
                 <User className="w-5 h-5" />
-                Profile
+                Edit Profile
               </Link>
               <div
                 className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
