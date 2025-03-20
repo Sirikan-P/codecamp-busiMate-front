@@ -8,47 +8,51 @@ const socket = io('http://localhost:8877', {
   // autoConnect: false
 })
 
-console.log("TEST")
-
 function DriverBookingNoti() {
   const driver = useDriverStored(state => state.driver)
 
   const socketData = useNotifyStored(state => state.socketData)
   const actionSetSocketData = useNotifyStored(state => state.actionSetSocketData)
+  const actionClearSocketUsersReq = useNotifyStored(state => state.actionClearSocketUsersReq)
+  const actionClearSocketData = useNotifyStored(state => state.actionClearSocketData)
 
   useEffect(() => {
     socket.on("U"+driver.id, (data) => {
       // if(sender=="USER") {
-      console.log("effectat driver", data)
+      console.log("effect at driver", data)
       actionSetSocketData(data)
       // }
       //global storage
     })
   }, [])
 
-  console.log("socket from user", socketData.length)
+  ///console.log("socket from user", socketData)
 
 
-  const hdlDriversubmit = () => {
+  const hdlDriversubmit = (bookingId) => {
     const data = {
-      id: '1',
+      driverId: '1',
       name: "driver1",
-      userId: '1',
-      bookingId: '1',
-      result:'COMPLETE'
+      userId: '2',
+      bookingId: bookingId,
+      result:'ACCEPT'
     }
-    //.emit("driver_noti", (driver.userId))
+    actionClearSocketData(bookingId)
+    actionClearSocketUsersReq(bookingId)
+    socket.emit("driver_noti", (data))
   }
 
-  const hdlDriverReject = () => {
+  const hdlDriverReject = (bookingId) => {
     const data = {
-      id: '1',
+      driverId: '1',
       name: "driver1",
-      userId: '1',
-      bookingId: '1',
+      userId: '2',
+      bookingId: bookingId,
       result:'REJECT'
     }
-    //socket.emit("driver_noti", (driver.userId))
+    actionClearSocketData(bookingId)
+    actionClearSocketUsersReq(bookingId)
+    socket.emit("driver_noti", (data))
   }
 
   return (
@@ -57,23 +61,23 @@ function DriverBookingNoti() {
         <div>
           {socketData?.map((item, index) => (
             <div key={index}>
-              <p>ID: {item.id}</p>
-              <p>Booking ID: {item.bookingId}</p>
+              <p>Booking ID: {item.id}</p>
+              <p>Booking date: {item.date}</p>
+              <p>Booking userId: {item.userId}</p>
+              <p>Booking patient: {item.patient}</p>
+              <p>Booking lat: {item.lat}</p>
+              <p>Booking long: {item.long}</p>
 
               <button
-            onClick={()=>hdlDriversubmit()}
+            onClick={()=>hdlDriversubmit(item.id)}
             className='btn'>  SEND ACCEPT </button>
                       <button
-            onClick={()=>hdlDriverReject()}
+            onClick={()=>hdlDriverReject(item.id)}
             className='btn'>  SEND REJECT </button>
               
             </div>
           ))}
-
-
-        </div> 
-
-        
+        </div>         
       }
 
     </div>

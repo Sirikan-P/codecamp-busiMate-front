@@ -6,28 +6,49 @@ import { persist } from "zustand/middleware"
 
 //step 1 : create Store
 const notifyStored = (set) => ({
-  socketUsers : [] ,
+  socketUsersReq : [] ,
   socketData : [] ,
-  socketResult : [] ,
+  //socketResult : [] ,
   //
-  actionSetSocketUsers : (data)=>{
-    console.log('zustand',data)
-    set(( state ) => ({ socketUsers: [...state.socketUsers, data ] } )) 
-    //set({socketData:data})
+  actionSetSocketUsersReq : (data)=>{
+    console.log('zustand use log',data)
+    set((state) => {
+      // ตรวจสอบว่ามี object ที่มีค่า id ซ้ำอยู่ใน state.socketData หรือไม่
+      const isDuplicate = state.socketUsersReq.some(item => item.id === data.id);
+  
+      if (!isDuplicate) {
+        return { socketUsersReq: [...state.socketUsersReq, data] };
+      }
+  
+      return state; // ถ้ามีซ้ำ ไม่ต้องอัพเดต state
+    });
   } ,
   actionSetSocketData : (data)=>{
-    console.log('zustand',data)
-    set(( state ) => ({ socketData : [...state.socketData, data ] } )) 
-    //set({socketData:data})
+    console.log('zustand driver log',data)
+    set((state) => {
+      // ตรวจสอบว่ามี object ที่มีค่า id ซ้ำอยู่ใน state.socketData หรือไม่
+      const isDuplicate = state.socketData.some(item => item.id === data.id);
+  
+      if (!isDuplicate) {
+        return { socketData: [...state.socketData, data] };
+      }
+  
+      return state; // ถ้ามีซ้ำ ไม่ต้องอัพเดต state
+    });
   } ,
-  actionSetSocketResult : (data)=>{
-    console.log('zustand',data)
-    set(( state ) => ({ socketResult : [...state.socketResult, data ] } )) 
-    //set({socketData:data})
-  } ,
+  
+  actionClearSocketUsersReq : (bookingId)=>{    
+    console.log("updatedData1",bookingId)
+  },
+
+  actionClearSocketData : (bookingId)=>{
+    //const updatedData = socketData.filter(item => item.id !== bookingId);
+    console.log("updatedData2",bookingId)
+
+  }
 
 })
 //step 2 : export Store
-//const useDriverBookingStored = create(persist(driverBookingStored,{name:'driverBooking-store'})) //persist = localstorage 
-const useNotifyStored = create(notifyStored)
+const useNotifyStored = create(persist(notifyStored,{name:'notify-store'})) //persist = localstorage 
+//const useNotifyStored = create(notifyStored)
 export default useNotifyStored

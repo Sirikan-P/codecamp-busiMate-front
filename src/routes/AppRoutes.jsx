@@ -109,6 +109,7 @@ import DriverBooking from "../pages/driver/DriverBooking";
 import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
+import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -171,9 +172,12 @@ function AppRoutes() {
            <Route path="edit" element={<DriverEditProfile />} />
            <Route path="address" element={<DriverAddress />} />
            <Route path="address/add" element={<DriverAddAddress />} />
-           <Route path="booking" element={<DriverBooking />} />
-           <Route path="sendNoti" element={<CreateBookingNoti />} />
+           <Route path="booking" element={<DriverBooking />} />          
            <Route path="receiveNoti" element={<DriverBookingNoti />} />
+           
+           {/*move these route for usernoti page */}
+           <Route path="sendNoti" element={<CreateBookingNoti />} />
+           <Route path="receiveNotiresult" element={<CreateBookingNotiResult />} />
          </Route>
 
         {/* Admin Routes */}
