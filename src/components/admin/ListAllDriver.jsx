@@ -37,7 +37,7 @@ const ListAllDriver = (props) => {
             <div className="relative">
               <img
                 src={driverData.profileImageUrl}
-                alt={`Profile picture of ${driverData.firstName} ${driverData.lastName}`}
+                alt={`Profile picture of ${driverData.firstName}  ${driverData.lastName}`}
                 className="w-16 h-16 rounded-full object-cover"
               />
               {/* <span
@@ -48,8 +48,7 @@ const ListAllDriver = (props) => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">
-                {driverData.firstName}
-                {driverData.lastName}
+              {`${driverData.firstName} ${driverData.lastName}`}
               </h3>
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <Phone className="w-4 h-4" />

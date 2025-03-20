@@ -9,7 +9,7 @@ function LayoutDriver() {
         {/*  // <outlet/> render c   hild node */}
         <Outlet />
     </div>
-  )
+  );
 }
 
-export default LayoutDriver
+export default LayoutDriver;
