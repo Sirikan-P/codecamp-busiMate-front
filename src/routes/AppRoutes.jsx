@@ -74,7 +74,6 @@ import LoginUser from "../pages/user/LoginUser";
 import ProfilePageUser from "../pages/user/ProfilePageUser";
 import SettingPageUser from "../pages/user/SettingPageUser";
 import ProfilePageDriver from "../pages/driver/ProfilePageDriver";
-import SettingPageDriver from "../pages/driver/SettingPageDriver";
 import AdminGetDriver from "../pages/admin/AdminGetDriver";
 import ProfileUser from "../pages/user/ProfileUser";
 import ProfileUser2 from "../pages/user/ProfileUser2";
@@ -97,13 +96,6 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
-import UserHome from "../pages/user/UserHome";
-import UserBooking from "../pages/user/UserBooking";
-import UserProfile from "../pages/user/UserProfile";
-import MockUserProfile from "../pages/user/MockUserProfile";
-import Patients from "../pages/admin/Patients";
-import Dashboard1 from "../pages/admin/Dashboard1";
-import Dashboard2 from "../pages/admin/Dashboard2";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -128,8 +120,8 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-          {/* <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/> */}
-          <Route index element={<Home />} />
+        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
+          {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
           <Route path="user/register" element={<RegisterUser />} />
@@ -165,32 +157,9 @@ function AppRoutes() {
 
         {/* Driver Routes */}
         <Route path="driver" element={<LayoutDriver />}>
-          <Route
-            index
-            element={
-              authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              authDriver ? (
-                <ProfilePageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
-          <Route
-            path="setting"
-            element={
-              authDriver ? (
-                <SettingPageDriver />
-              ) : (
-                <Navigate to="/driver/login" />
-              )
-            }
-          />
+          <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
+          <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="setting" element={authDriver ? (<SettingPageDriver />) : (<Navigate to="/driver/login" /> )}/>
         </Route>
 
         {/* Admin Routes */}
