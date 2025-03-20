@@ -13,7 +13,7 @@ export const driverAuthStore = create((set) => ({
       const res = await axiosInstance.get("/auth/check");
       set({ authDriver: res.data });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       set({ authDriver: null });
     } finally {
       set({ isCheckingAuthDriver: false });
