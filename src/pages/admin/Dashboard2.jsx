@@ -128,7 +128,9 @@ const Dashboard2 = () => {
         </div>
       </div>
       {/* Booking List */}
-      <div className="p-6">
+      <div className="mt-4">
+        <h1>Booking List Today</h1>
+        {bookingDataByDate.map((bookingData) => <ListBooking key={bookingData.id} bookingData={bookingData} /> )}
         <ListBooking bookingDataByDate={bookingDataByDate} />
       </div>
     </div>

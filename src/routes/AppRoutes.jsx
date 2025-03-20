@@ -96,6 +96,20 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+import DriverEditProfile from "../pages/driver/DriverEditProfile";
+import DriverAddress from "../pages/driver/DriverAddress";
+import DriverAddAddress from "../pages/driver/DriverAddAddress";
+import CreateBookingNoti from "../pages/user/CreateBookingNoti";
+import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
+import DriverBooking from "../pages/driver/DriverBooking";
+import UserHome from "../pages/user/UserHome";
+import UserBooking from "../pages/user/UserBooking";
+import UserProfile from "../pages/user/UserProfile";
+import MockUserProfile from "../pages/user/MockUserProfile";
+import Patients from "../pages/admin/Patients";
+import Dashboard1 from "../pages/admin/Dashboard1";
+import Dashboard2 from "../pages/admin/Dashboard2";
+import SettingPageDriver from "../pages/driver/SettingPageDriver";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -120,7 +134,7 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
+        <Route index element={ <Home /> } />
           {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
