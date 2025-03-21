@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useAuthStore from '../store/auth-store'
-import { actionCurrentUser } from '../api/auth'
+import actionCurrentUser from '../api/auth'
 
 
 function ProtectRoutes ( {el , allows } ) {

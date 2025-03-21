@@ -34,3 +34,7 @@ npm i zod
 ```bash
 npm install zustand
 ```
+## Step React-leaflet
+```bash
+npm install react-leaflet@4
+```

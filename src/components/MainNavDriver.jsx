@@ -41,25 +41,28 @@ const logout = () => {
       <Link to="/driver"  className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
         <Home /> Home
       </Link>
-      <Link className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <NotebookText /> Booking
+      <Link to="/driver/booking"  
+            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <NotebookText />My Booking
       </Link>
       <Link  className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
         <MessageCircleMore /> Chat
+      </Link >
+      <Link  to="/driver/receiveNoti"
+            className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <PencilLine />Incoming Booking
       </Link>
-      <Link  className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <PencilLine /> Create Booking
-      </Link>
-      <Link to="/driver/setting" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-            <Settings />Settings
+      <Link to="/driver/address" 
+            className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+            <Settings />Address Settings
       </Link>
       {authDriver && (
         <>
           <Link
-            to="/driver/profile"
+            to="/driver/edit"
             className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
           >
-            <User className="w-5 h-5" />Profile
+            <User className="w-5 h-5" />Edit Profile
           </Link>
           <div className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
             <LogOut className="w-5 h-5" /> Logout

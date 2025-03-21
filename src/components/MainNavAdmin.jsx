@@ -32,12 +32,12 @@ function MainNavAdmin() {
             <Home /> DASHBOARD
             </div>
           </Link>
-          <Link href="#" className="text-cyan-600  w-full flex justify-center items-center h-20 active:bg-rose-100">
+          <Link to={"/admin/admingetuser"} href="#" className="text-cyan-600  w-full flex justify-center items-center h-20 active:bg-rose-100">
           <div className="flex gap-2">
           <Users /> USER
           </div>
           </Link>
-          <Link href="#" className="text-cyan-600 w-full flex justify-center items-center h-20 active:bg-rose-100">
+          <Link to={"/admin/admingetdriver"} className="text-cyan-600 w-full flex justify-center items-center h-20 active:bg-rose-100">
           <div className="flex gap-2">
           <CarFront /> DRIVER
           </div>

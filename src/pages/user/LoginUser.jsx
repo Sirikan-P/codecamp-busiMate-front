@@ -4,7 +4,8 @@ import AuthImagePattern from "../../components/AuthImagePattern";
 import { Loader2, Lock, Mail, MessageSquare, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import ElderIllus from "../../assets/elder05.png";
-
+import busimatelogo from "../../assets/busimatelogo.png";
+import { toast } from "react-toastify";
 
 const LoginUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +33,7 @@ const LoginUser = () => {
     const success = validateForm();
     if (success === true) {
       await login(formData);
-      navigate("/user");
+      navigate("/user/profile");
     }
   };
 
@@ -46,19 +47,22 @@ const LoginUser = () => {
     navigate("/driver/register");
   };
   return (
-    <div className=" bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center w-full">
+    
+
+    <div className=" bg-gradient-to-b from-cyan-50 to-white flex items-center mt-20  justify-center w-full ">
       <div className="w-full bg-white shadow-lg overflow-hidden">
+        {/* <div className="w-full h-50 rounded-b-full to-cyan-700 mb-5"></div> */}
         {/* Logo */}
         <div className="flex flex-col justify-center ">
-          <div className="text-[30px] text-center text-cyan-600 pt-10">
-            Sign In
-          </div>
-          <div className="flex justify-center pt-10">
+          <div className="flex flex-col place-items-center gap-5 pb-10">
             <img
-              src={ElderIllus}
+              src={busimatelogo}
               alt="Healthcare Illustration"
-              className="w-[400px]"
+              className="w-[180px]"
             />
+            <div className="text-4xl font-bold text-cyan-600">
+              Busi <span className="italic text-5xl">Mate</span>
+            </div>
           </div>
         </div>
 
@@ -66,11 +70,17 @@ const LoginUser = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-cyan-50 space-y-6 h-[600px] rounded-t-[60px] flex flex-col justify-center place-items-center"
+          className="bg-linear-to-b from-cyan-700 space-y-6 h-[600px] rounded-t-[60px] flex flex-col justify-center place-items-center"
         >
+          {/* Sign in */}
+          <div className="w-full flex justify-items-start pl-15 ">
+            <div className="text-[24px]  text-cyan-100 pt-5 pb-5 font-semibold">
+              SIGN IN
+            </div>
+          </div>
           <div className="form-control">
             {/* email input */}
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cyan-800  mb-2">
               Email
             </label>
             <div className="relative">
@@ -88,7 +98,7 @@ const LoginUser = () => {
           </div>
           {/* password Input */}
           <div className="form-control">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cyan-800  mb-2">
               Password
             </label>
             <div className="relative">
@@ -104,13 +114,13 @@ const LoginUser = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
-               <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </button>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+              </button>
             </div>
           </div>
           <button
@@ -129,11 +139,11 @@ const LoginUser = () => {
           </button>
           {/* USER Register */}
           <div className="w-full flex justify-center">
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-sm text-slate-500">
               Don't have an account?
               <span
                 onClick={actionLinktoRegister}
-                className="text-cyan-500 hover:text-cyan-600 font-medium pl-2"
+                className="text-cyan-800 hover:text-cyan-600 font-medium pl-2"
               >
                 Register
               </span>
@@ -144,7 +154,7 @@ const LoginUser = () => {
           <div className="text-center text-sm text-gray-500">
             <div
               onClick={actionLinktoDriverRegister}
-              className="text-cyan-500 hover:text-cyan-600 font-medium"
+              className="text-rose-800 font-medium"
             >
               Become our Driver
             </div>
