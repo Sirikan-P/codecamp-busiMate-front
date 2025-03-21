@@ -3,8 +3,6 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-toastify";
 
-const BASE_URL = "http://localhost:8877";
-
 export const userAuthStore = create(
   persist(
     (set, get) => ({

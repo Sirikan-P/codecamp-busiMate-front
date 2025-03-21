@@ -5,7 +5,6 @@ import ChatHeaderDriver from "./ChatHeaderDriver";
 import MessageInputDriver from "./MessageInputDriver";
 import MessageSkeletonDriver from "../components/skeletons/MessageSkeletonUser";
 import { formatMessageTime } from "../lib/utils";
-import { Socket } from "socket.io-client";
 
 const ChatContainerDriver = () => {
   const {
@@ -14,42 +13,25 @@ const ChatContainerDriver = () => {
     isMessagesLoading,
     selectedUser,
     joinRoom,
-    onReceivingMessage,
+    connectSocket,
   } = driverChatStore();
   const { authDriver } = driverAuthStore();
   const chatContainerRef = useRef(null);
-  const cleanupRef = useRef(null);
 
   useEffect(() => {
     if (!authDriver) return;
 
     const setupChat = async () => {
+      console.log("Setting up chat for driver. Authenticated:", authDriver.id);
+      await connectSocket(); // Ensure socket is connected early
       if (selectedUser?.id) {
+        console.log("Joining room and fetching messages for:", selectedUser.id);
         await joinRoom(selectedUser.id);
+        await getMessages(selectedUser.id);
       }
-      cleanupRef.current = () => {};
     };
     setupChat();
-
-    return () => {
-      if (cleanupRef.current) cleanupRef.current();
-    };
-  }, [authDriver, joinRoom, selectedUser]);
-
-  useEffect(() => {
-    const socket = onReceivingMessage();
-    console.log("Socket on receiving new message:", socket)
-    // return () => {
-    //   if(socket instanceof Socket)
-    //   socket.disconnect();
-    // };
-  }, []);
-
-  useEffect(() => {
-    if (selectedUser?.id) {
-      getMessages(selectedUser.id);
-    }
-  }, [selectedUser?.id, getMessages]);
+  }, [authDriver, selectedUser, joinRoom, getMessages, connectSocket]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -89,13 +71,9 @@ const ChatContainerDriver = () => {
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeaderDriver />
-      <div
-        ref={chatContainerRef}
-        className="flex-1 overflow-y-auto p-4 space-y-4"
-      >
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => {
-          const isSentByDriver =
-            message.senderDriverId === authDriver.id && !message.senderUserId;
+          const isSentByDriver = message.senderDriverId === authDriver.id && !message.senderUserId;
           const senderProfileImage = isSentByDriver
             ? authDriver.profileImageUrl || "/avatar.png"
             : selectedUser.profileImage || "/avatar.png";

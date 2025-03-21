@@ -26,16 +26,13 @@ export const driverChatStore = create(
           const token = localStorage.getItem("driverToken");
           if (!token) throw new Error("No driver token found. Please log in.");
           const res = await axiosInstance.get("/messages-driver/drivers", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Cache-Control": "no-cache",
-            },
+            headers: { Authorization: `Bearer ${token}`, "Cache-Control": "no-cache" },
           });
+          console.log("Fetched users:", res.data);
           set({ users: res.data });
           return res.data;
         } catch (error) {
-          const errorMsg =
-            error.response?.data?.error || "Failed to load passengers";
+          const errorMsg = error.response?.data?.error || "Failed to load passengers";
           toast.error(errorMsg);
           console.error("Error in getUsers:", error);
           return null;
@@ -45,93 +42,58 @@ export const driverChatStore = create(
       },
 
       getMessages: async (userId) => {
-        const { messageCache, messages } = get();
-        if (messageCache.has(userId) && messages.length > 0) {
-          console.log("Using cached messages for user:", userId);
-          return messages;
-        }
-        messageCache.delete(userId);
-        set({ messages: [], isMessagesLoading: true });
+        const { messageCache } = get();
+        set({ isMessagesLoading: true });
         try {
           const token = localStorage.getItem("driverToken");
           if (!token) throw new Error("No driver token found. Please log in.");
-          const res = await axiosInstance.get(
-            `/messages-driver/driver/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Cache-Control": "no-cache",
-              },
-            }
-          );
-          console.log("Fetched messages from backend:", res.data);
-          set({ messages: res.data });
+          const res = await axiosInstance.get(`/messages-driver/driver/${userId}`, {
+            headers: { Authorization: `Bearer ${token}`, "Cache-Control": "no-cache" },
+          });
+          console.log("Fetched messages for user:", userId, "Data:", res.data);
+          set({ messages: res.data, isMessagesLoading: false });
           messageCache.set(userId, res.data);
           return res.data;
         } catch (error) {
-          const errorMsg =
-            error.response?.data?.error || "Failed to load messages";
+          const errorMsg = error.response?.data?.error || "Failed to load messages";
           toast.error(errorMsg);
-          console.error("Error in getMessages:", error);
+          console.error("Error in getMessages for user:", userId, error);
+          set({ messages: [], isMessagesLoading: false });
           return null;
-        } finally {
-          set({ isMessagesLoading: false });
         }
-      },
-
-      onReceivingMessage: async (messageData) => {
-        const { selectedUser, socket, joinRoom, messages, messageCache } =
-          get();
-
-        if (!socket || !socket.connected) {
-          await joinRoom(selectedUser.id);
-          console.log("join room if socket does not connect");
-          console.log(socket ?? `socket ${socket.connected}`);
-        }
-
-        socket.on((newMessage) => {
-          set((state) => {
-            const updatedMessages = [...state.messages, newMessage];
-            if (selectedUser)
-              messageCache.set(selectedUser.id, updatedMessages);
-            return { messages: updatedMessages };
-          });
-        });
-        return socket;
       },
 
       sendMessage: async (messageData) => {
-        const { selectedUser, socket, joinRoom, messages, messageCache } =
-          get();
+        const { selectedUser, socket, joinRoom, messages, messageCache } = get();
         const { authDriver } = driverAuthStore.getState();
 
         try {
           const { text, image } = messageData;
           if (!authDriver) throw new Error("Please log in to send messages");
 
-          if (!socket || !socket.connected) await joinRoom(selectedUser.id);
+          if (!socket || !socket.connected) {
+            console.log("Socket not connected, connecting...");
+            await joinRoom(selectedUser.id);
+          }
 
           const bookingId = await getBookingId(selectedUser.id);
           await joinRoom(selectedUser.id);
 
-          // const res = await axiosInstance.post(
-          //   `/messages-driver/driver/send/${selectedUser.id}`,
-          //   { text, image, recipientType: "user" },
-          //   {
-          //     headers: {
-          //       Authorization: `Bearer ${localStorage.getItem("driverToken")}`,
-          //     },
-          //   }
-          // );
-          // const newMessage = res.data;
-
-          // Optimistically add the message to the store
-          // set((state) => {
-          //   const updatedMessages = [...state.messages, newMessage];
-          //   if (selectedUser)
-          //     messageCache.set(selectedUser.id, updatedMessages);
-          //   return { messages: updatedMessages };
-          // });
+          const tempMessage = {
+            id: `temp-${Date.now()}`,
+            senderDriverId: authDriver.id,
+            receiverUserId: selectedUser.id,
+            text,
+            image,
+            createdAt: new Date().toISOString(),
+            bookingId,
+          };
+          set((state) => {
+            const updatedMessages = [...state.messages, tempMessage];
+            if (selectedUser) messageCache.set(selectedUser.id, updatedMessages);
+            console.log("Optimistically added message:", tempMessage);
+            return { messages: updatedMessages };
+          });
 
           socket.emit("sendMessage", {
             senderId: authDriver.id,
@@ -140,14 +102,14 @@ export const driverChatStore = create(
             image,
             recipientType: "user",
             role: "driver",
+            bookingId,
           });
-
-          // return newMessage;
-          return;
         } catch (error) {
           console.error("Error in sendMessage:", error);
           toast.error(error.response?.data?.error || "Failed to send message");
-          return null;
+          set((state) => ({
+            messages: state.messages.filter((msg) => String(msg.id).startsWith("temp-")),
+          }));
         }
       },
 
@@ -166,9 +128,7 @@ export const driverChatStore = create(
           return socket;
         }
 
-        if (socket) {
-          socket.disconnect();
-        }
+        if (socket) socket.disconnect();
 
         socket = io(BASE_URL, {
           query: { userId: authDriver.id },
@@ -180,6 +140,14 @@ export const driverChatStore = create(
         socket.on("connect", async () => {
           console.log("Driver socket connected:", socket.id);
           set({ socket });
+
+          const users = await get().getUsers();
+          if (users && users.length > 0) {
+            for (const user of users) {
+              await get().joinRoom(user.id);
+            }
+          }
+
           const { selectedUser } = get();
           if (selectedUser?.id) {
             await get().joinRoom(selectedUser.id);
@@ -193,6 +161,7 @@ export const driverChatStore = create(
 
         socket.on("getOnlineUsers", (userIds) => {
           set({ onlineUsers: userIds });
+          console.log("Online users updated:", userIds);
         });
 
         socket.on("disconnect", () => {
@@ -200,36 +169,57 @@ export const driverChatStore = create(
           set({ currentRoom: null });
         });
 
-        socket.on("newMessage", (message) => {
+        socket.on("reconnect", async () => {
+          console.log("Driver socket reconnected:", socket.id);
+          const users = await get().getUsers();
+          if (users && users.length > 0) {
+            for (const user of users) {
+              await get().joinRoom(user.id);
+            }
+          }
+          const { selectedUser } = get();
+          if (selectedUser?.id) {
+            await get().joinRoom(selectedUser.id);
+            await get().getMessages(selectedUser.id);
+          }
+        });
+
+        socket.on("newMessage", async (message) => {
           const { messages, selectedUser, messageCache, currentRoom } = get();
           const authDriver = driverAuthStore.getState().authDriver;
           if (!authDriver || !message.id) return;
 
-          console.log("Received newMessage event:", message);
-          if (message.bookingId === currentRoom) {
-            set((state) => {
-              if (state.messages.some((msg) => msg.id === message.id)) {
-                console.log("Duplicate message detected, skipping:", message);
-                return state;
-              }
-              const updatedMessages = [...state.messages, message];
-              if (selectedUser)
-                messageCache.set(selectedUser.id, updatedMessages);
-              console.log("Adding new message to state:", message);
-              return { messages: updatedMessages };
-            });
-            console.log(
-              `Driver received and added message in room ${currentRoom}:`,
-              message
-            );
-          } else {
-            console.log(
-              "Message ignored - wrong room:",
-              message.bookingId,
-              "vs",
-              currentRoom
-            );
+          console.log("Received newMessage event:", message, "Current room:", currentRoom);
+
+          const isReceiver =
+            message.receiverDriverId === authDriver.id || message.senderDriverId === authDriver.id;
+          if (!isReceiver) {
+            console.log("Message not relevant to this driver:", authDriver.id);
+            return;
           }
+
+          if (message.bookingId !== currentRoom) {
+            console.log("Room mismatch, joining room:", message.bookingId);
+            const otherUserId = message.senderUserId || message.receiverUserId;
+            await get().joinRoom(otherUserId);
+          }
+
+          set((state) => {
+            const updatedMessages = state.messages.some((msg) => String(msg.id).startsWith("temp-") && msg.bookingId === message.bookingId)
+              ? state.messages.map((msg) => (String(msg.id).startsWith("temp-") && msg.bookingId === message.bookingId ? message : msg))
+              : [...state.messages.filter((msg) => msg.id !== message.id), message];
+
+            if (selectedUser && (message.senderUserId === selectedUser.id || message.receiverUserId === selectedUser.id)) {
+              messageCache.set(selectedUser.id, updatedMessages);
+              console.log("Updated messages for selected user:", updatedMessages);
+              return { messages: updatedMessages, currentRoom: message.bookingId };
+            } else {
+              console.log("Message cached but not displayed - no matching selectedUser");
+              const otherUserId = message.senderUserId || message.receiverUserId;
+              messageCache.set(otherUserId, updatedMessages);
+              return { currentRoom: message.bookingId };
+            }
+          });
         });
 
         set({ socket });
@@ -249,16 +239,12 @@ export const driverChatStore = create(
           const bookingId = await getBookingId(receiverId);
           const currentRoom = get().currentRoom;
 
-          if (currentRoom !== bookingId) {
-            if (currentRoom) {
-              socket.emit("leaveChat", currentRoom);
-              console.log(`Driver left room: ${currentRoom}`);
-            }
+          if (bookingId && currentRoom !== bookingId) {
             socket.emit("joinChat", bookingId);
             set({ currentRoom: bookingId });
             console.log(`Driver joined room: ${bookingId}`);
           } else {
-            console.log(`Driver already in room: ${bookingId}`);
+            console.log(`Driver already in room or no bookingId: ${bookingId}`);
           }
         }
         return socket;
@@ -305,8 +291,16 @@ export const driverChatStore = create(
 );
 
 const getBookingId = async (receiverId) => {
-  const res = await axiosInstance.get(`/driver/booking/chat/${receiverId}`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("driverToken")}` },
-  });
-  return res.data.bookingId;
+  try {
+    const res = await axiosInstance.get(`/driver/booking/chat/${receiverId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("driverToken")}` },
+    });
+    console.log(`Booking ID for receiver ${receiverId}:`, res.data.bookingId);
+    if (!res.data.bookingId) throw new Error("No booking ID returned");
+    return res.data.bookingId;
+  } catch (error) {
+    console.error("Error fetching booking ID:", error);
+    toast.error("Failed to fetch chat room ID");
+    return null;
+  }
 };

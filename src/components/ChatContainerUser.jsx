@@ -7,35 +7,32 @@ import MessageSkeletonUser from "./skeletons/MessageSkeletonUser";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainerUser = () => {
-  const { messages, getMessages, isMessagesLoading, selectedUser, joinRoom } =
-    userChatStore();
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedUser,
+    joinRoom,
+    connectSocket,
+  } = userChatStore();
   const { authUser } = userAuthStore();
-  const chatContainerRef = useRef(null); // Ref for the scrollable container
-  const cleanupRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     if (!authUser) return;
 
     const setupChat = async () => {
+      console.log("Setting up chat for user. Authenticated:", authUser.id);
+      await connectSocket(); // Ensure socket is connected early
       if (selectedUser?.id) {
-        await joinRoom(selectedUser.id); // Ensure room is joined on mount
+        console.log("Joining room and fetching messages for:", selectedUser.id);
+        await joinRoom(selectedUser.id);
+        await getMessages(selectedUser.id);
       }
-      cleanupRef.current = () => {};
     };
     setupChat();
+  }, [authUser, selectedUser, joinRoom, getMessages, connectSocket]);
 
-    return () => {
-      if (cleanupRef.current) cleanupRef.current();
-    };
-  }, [authUser, joinRoom, selectedUser]);
-
-  useEffect(() => {
-    if (selectedUser?.id) {
-      getMessages(selectedUser.id);
-    }
-  }, [selectedUser?.id, getMessages]);
-
-  // Auto-scroll to bottom when messages update
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTo({
@@ -44,6 +41,10 @@ const ChatContainerUser = () => {
       });
     }
   }, [messages]);
+
+  if (!authUser) {
+    return <div>Please log in to view chats</div>;
+  }
 
   if (isMessagesLoading) {
     return (
@@ -70,13 +71,9 @@ const ChatContainerUser = () => {
   return (
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeaderUser />
-      <div
-        ref={chatContainerRef} // Attach ref to scrollable container
-        className="flex-1 overflow-y-auto p-4 space-y-4"
-      >
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => {
-          const isSentByUser =
-            message.senderUserId === authUser.id && !message.senderDriverId;
+          const isSentByUser = message.senderUserId === authUser.id && !message.senderDriverId;
           const senderProfileImage = isSentByUser
             ? authUser.profileImage || "/avatar.png"
             : selectedUser.profileImageUrl || "/avatar.png";
