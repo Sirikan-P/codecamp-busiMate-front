@@ -1,17 +1,26 @@
 import { useEffect } from "react";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { userAuthStore } from "../../store/userAuthStore";
+import useHospitalStore from "../../store/hospital-store";
 
 const ProfilePageUser = () => {
   const checkAuth = userAuthStore((state) => state.checkAuth);
   const authUser = userAuthStore((state) => state.authUser);
   const fetchGetPatients = userAuthStore((state) => state.fetchGetPatients);
   const patients = userAuthStore((state) => state.patients);
+
+  const fetchHospitalData = useHospitalStore(
+    (state) => state.fetchHospitalData
+  );
+  const fetchGetUserAddress = userAuthStore(
+    (state) => state.fetchGetUserAddress
+  );
+
  console.log("patients", patients);
   useEffect(() => {
     checkAuth();
     fetchGetPatients();
+    fetchHospitalData();
   }, []);
 
   const navigate = useNavigate();
@@ -209,27 +218,5 @@ const ProfilePageUser = () => {
 };
 export default ProfilePageUser;
 
-=======
-import useHospitalStore from "../../store/hospital-store";
-import { userAuthStore } from "../../store/userAuthStore";
-
-const ProfilePageUser = () => {
-  const fetchHospitalData = useHospitalStore(
-    (state) => state.fetchHospitalData
-  );
-  const fetchGetUserAddress = userAuthStore(
-    (state) => state.fetchGetUserAddress
-  );
-
-  useEffect(() => {
-    
-    fetchHospitalData();
-  }, []);
 
 
-  return <div>
-
-  </div>;
-};
-export default ProfilePageUser;
->>>>>>> dev
