@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
 import { axiosInstance } from "../../lib/axios";
 
 function settingPageUser() {
+  const fileInputRef = useRef(null);
+  const checkAuth = userAuthStore((state) => state.checkAuth);
   const [userForm, setUserForm] = useState({
     firstName: "",
     lastName: "",
@@ -17,15 +19,26 @@ function settingPageUser() {
   );
   const userAddress = userAuthStore((state) => state.userAddress);
   console.log("userAddress", userAddress);
+  const UpdateImageProfileAuthUser = userAuthStore(
+    (state) => state.UpdateImageProfileAuthUser
+  );
 
   const fetchData = async () => {
     try {
-      const res = await axiosInstance.get('user/me');
+      const res = await axiosInstance.get("user/me");
       setUserForm(res.data);
     } catch (error) {}
   };
 
   useEffect(() => {
+    setUserForm({
+      ...userForm,
+      firstName: authUser.result.firstName,
+      lastName: authUser.result.lastName,
+      phoneNumber: authUser.result.phoneNumber,
+      email: authUser.result.email,
+      address: userAddress[0].address,
+    });
     fetchData();
     fetchGetUserAddress();
   }, []);
@@ -38,13 +51,38 @@ function settingPageUser() {
     setUserForm(obj);
   };
 
+  const handleProfileClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // เปิด dialog เลือกไฟล์
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    try {
+      const formData = new FormData();
+      const file = event.target.files[0];
+      if (file) {
+        // ทำอะไรกับไฟล์ เช่น อัปโหลด
+        console.log("Selected file:", file);
+        formData.append("profileImageUrl", file);
+        await UpdateImageProfileAuthUser(formData);
+        console.log("ressssssssssssssssssssssssssss");
+        checkAuth();
+        console.log("hhhhhhhhhhhhhhhhhhhhhhh");
+        //อัพเดทรูปภาพ Profile
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const hdlSubmit = async (e) => {
-    e.preventDefault();
-    console.log("userForm", userForm);
     try {
       const res = await axiosInstance.patch("user/me/edit", userForm);
-      console.log("res", res);
-    } catch (error) {}
+      checkAuth();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   console.log("authUser", authUser);
@@ -63,12 +101,32 @@ function settingPageUser() {
           return (
             <div className="max-w-md mx-auto p-4">
               <div className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center">
-                <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
-                  <img
-                    src="path/to/profile-image.jpg"
-                    alt="Profile"
-                    className="w-full h-full object-cover"
+                <div>
+                  <input
+                    hidden
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept="image/*" // อนุญาตเฉพาะไฟล์รูปภาพ
                   />
+                  <div
+                    className="w-16 h-16 rounded-full overflow-hidden mr-4 cursor-pointer" // เพิ่ม cursor-pointer
+                    onClick={handleProfileClick}
+                  >
+                    {authUser?.result?.profileImage ? (
+                      <img
+                        src={authUser?.result?.profileImage}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src="path/to/profile-image.jpg"
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
                 </div>
                 <div>
                   <div className="font-semibold">
@@ -187,9 +245,9 @@ function settingPageUser() {
           </button>
         </div>
       </div>
-      <button 
-      className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      onClick={hdlSubmit}
+      <button
+        className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        onClick={hdlSubmit}
       >
         Update
       </button>

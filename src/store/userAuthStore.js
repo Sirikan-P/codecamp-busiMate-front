@@ -60,6 +60,13 @@ export const userAuthStore = create((set) => ({
       console.log(error);
     }
   },
+  UpdateImageProfileAuthUser: async (formData) => {
+    try {
+      const res = await axiosInstance.post("/user/me/profile/upload", formData);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
   fetchGetUserAddress: async () => {
     try {

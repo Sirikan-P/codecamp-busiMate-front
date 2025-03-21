@@ -20,7 +20,7 @@ const ProfilePageUser = () => {
   const hdlSelect =() =>{
     navigate("/user/patients");
   }
-
+  console.log("authUser", authUser);  
   return (
     <div
       style={{

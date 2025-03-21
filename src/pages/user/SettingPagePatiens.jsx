@@ -40,15 +40,14 @@ function SettingPagePatiens() {
   }, []);
 
   const hdlOnchange = (e) => {
-    if (e.target.name === "age") {
+    
       
       const obj = {
         ...patientForm,
-        [e.target.name]: e.target.value,ageValue
+        [e.target.name]: e.target.value
       };
-    }
+      setPatientForm(obj);
 
-    setPatientForm(obj);
   };
 
   const hdlSubmit = async (e) => {
