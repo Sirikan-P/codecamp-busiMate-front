@@ -10,7 +10,6 @@ export const userAuthStore = create((set) => ({
   isCheckingAuth: true,
   patients: [],
   userAddress: [],
-
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
@@ -59,6 +58,14 @@ export const userAuthStore = create((set) => ({
   fetchGetPatients: async () => {
     try {
       const res = await axiosInstance.get("/user/patient");
+      set({ patients: res.data.patients });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  UpdateImageProfileAuthUser: async (formData) => {
+    try {
+      const res = await axiosInstance.post("/user/me/profile/upload", formData);
       set({ patients: res.data });
     } catch (error) {
       console.log(error);

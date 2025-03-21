@@ -33,7 +33,7 @@ const LoginUser = () => {
     const success = validateForm();
     if (success === true) {
       await login(formData);
-      navigate("/user");
+      navigate("/user/profile");
     }
   };
 
