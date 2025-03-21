@@ -107,6 +107,8 @@ import DriverAddress from "../pages/driver/DriverAddress";
 import DriverAddAddress from "../pages/driver/DriverAddAddress";
 import DriverBooking from "../pages/driver/DriverBooking";
 import CreateBookingNoti from "../pages/user/CreateBookingNoti";
+import SettingPagePatiens from "../pages/user/SettingPagePatiens";
+import PatientsPageUser from "../pages/user/PatientsPageUser";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
 import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
@@ -146,6 +148,10 @@ function AppRoutes() {
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
+        <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
+          <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
           <Route index element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="booking" element={authUser ? <AllBooking /> : <Navigate to="/user/login" />}/>

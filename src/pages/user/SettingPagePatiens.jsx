@@ -1,91 +1,68 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
+import { useParams } from "react-router-dom";
 import { axiosInstance } from "../../lib/axios";
 
-function settingPageUser() {
-  const fileInputRef = useRef(null);
-  const checkAuth = userAuthStore((state) => state.checkAuth);
-  const [userForm, setUserForm] = useState({
+function SettingPagePatiens() {
+  const [patientData, setPatientData] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    email: "",
-    address: "",
+    age: "",
+    healthCondition: "",
   });
+  const [patientForm, setPatientForm] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    age: "",
+    healthCondition: "",
+  });
+  const { id } = useParams();
+  console.log("id", id);
+  const fetchData = async () => {
+    try {
+      const res = await axiosInstance.get(`/user/patient/${id}`);
+      setPatientData(res.data);
+      setPatientForm(res.data);
+    } catch (error) {}
+  };
 
-  const authUser = userAuthStore((state) => state.authUser);
   const fetchGetUserAddress = userAuthStore(
     (state) => state.fetchGetUserAddress
   );
   const userAddress = userAuthStore((state) => state.userAddress);
   console.log("userAddress", userAddress);
-  const UpdateImageProfileAuthUser = userAuthStore(
-    (state) => state.UpdateImageProfileAuthUser
-  );
-
-  const fetchData = async () => {
-    try {
-      const res = await axiosInstance.get("user/me");
-      setUserForm(res.data);
-    } catch (error) {}
-  };
 
   useEffect(() => {
-    setUserForm({
-      ...userForm,
-      firstName: authUser?.result?.firstName,
-      lastName: authUser?.result?.lastName,
-      phoneNumber: authUser?.result?.phoneNumber,
-      email: authUser?.result?.email,
-      address: userAddress[0]?.address,
-    });
     fetchData();
     fetchGetUserAddress();
   }, []);
 
   const hdlOnchange = (e) => {
-    const obj = {
-      ...userForm,
-      [e.target.name]: e.target.value,
-    };
-    setUserForm(obj);
-  };
+    
+      
+      const obj = {
+        ...patientForm,
+        [e.target.name]: e.target.value
+      };
+      setPatientForm(obj);
 
-  const handleProfileClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // เปิด dialog เลือกไฟล์
-    }
-  };
-
-  const handleFileChange = async (event) => {
-    try {
-      const formData = new FormData();
-      const file = event.target.files[0];
-      if (file) {
-        // ทำอะไรกับไฟล์ เช่น อัปโหลด
-        console.log("Selected file:", file);
-        formData.append("profileImageUrl", file);
-        await UpdateImageProfileAuthUser(formData);
-        console.log("ressssssssssssssssssssssssssss");
-        checkAuth();
-        console.log("hhhhhhhhhhhhhhhhhhhhhhh");
-        //อัพเดทรูปภาพ Profile
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const hdlSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axiosInstance.patch("user/me/edit", userForm);
-      checkAuth();
+      const res = await axiosInstance.patch(
+        `/user/patient/edit/${id}`,
+        patientForm
+      );
+      fetchData();
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log("authUser", authUser);
+  console.log("patientForm", patientForm);
   return (
     <div className="font-sans bg-gray-100 min-h-screen">
       <div className="bg-white shadow-md p-4 flex justify-between items-center">
@@ -99,43 +76,25 @@ function settingPageUser() {
       <div>
         {userAddress.map((address) => {
           return (
-            <div className="max-w-md mx-auto p-4">
+            <div key={address.id} className="max-w-md mx-auto p-4">
               <div className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center">
-                <div>
-                  <input
-                    hidden
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    accept="image/*" // อนุญาตเฉพาะไฟล์รูปภาพ
+                <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
+                  <img
+                    src="path/to/profile-image.jpg"
+                    alt="Profile"
+                    className="w-full h-full object-cover"
                   />
-                  <div
-                    className="w-16 h-16 rounded-full overflow-hidden mr-4 cursor-pointer" // เพิ่ม cursor-pointer
-                    onClick={handleProfileClick}
-                  >
-                    {authUser?.result?.profileImage ? (
-                      <img
-                        src={authUser?.result?.profileImage}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <img
-                        src="path/to/profile-image.jpg"
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
                 </div>
                 <div>
                   <div className="font-semibold">
-                    {authUser?.result?.firstName +
-                      "  " +
-                      authUser?.result?.lastName}
+                    {patientData.firstName + "  " + patientData.lastName}
                   </div>
                   <div className="text-sm text-gray-600">
-                    {authUser?.result?.phoneNumber}
+                    {patientData.phoneNumber}
+                  </div>
+                  <div className="text-sm text-gray-600">{patientData.age}</div>
+                  <div className="text-sm text-gray-600">
+                    {patientData.healthCondition}
                   </div>
                   <div className="text-sm text-gray-600">{address.address}</div>
                 </div>
@@ -161,7 +120,7 @@ function settingPageUser() {
                   name="firstName"
                   id="firstName"
                   className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                  value={userForm.firstName}
+                  value={patientForm.firstName}
                   onChange={hdlOnchange}
                 />
               </div>
@@ -180,7 +139,7 @@ function settingPageUser() {
                   name="lastName"
                   id="lastName"
                   className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                  value={userForm.lastName}
+                  value={patientForm.lastName}
                   onChange={hdlOnchange}
                 />
               </div>
@@ -200,58 +159,62 @@ function settingPageUser() {
                 name="phoneNumber"
                 id="phoneNumber"
                 className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                value={userForm.phoneNumber}
+                value={patientForm.phoneNumber}
                 onChange={hdlOnchange}
               />
             </div>
           </div>
           <div className="mb-4">
             <label
-              htmlFor="phoneNumber"
+              htmlFor="age"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              Age
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
               <input
                 type="text"
-                name="phoneNumber"
-                id="phoneNumber"
+                name="age"
+                id="age"
                 className="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
-                value={userForm.email}
+                value={patientForm.age}
                 onChange={hdlOnchange}
               />
             </div>
           </div>
 
-          <div className="font-semibold mb-4">Address</div>
+          <div className="font-semibold mb-4">Health Condition</div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Your address
+            <label
+              htmlFor="healthCondition"
+              className="block text-sm font-medium text-gray-700"
+            >
+              your health condition
             </label>
             <input
               type="text"
-              name="Address"
-              id="Address"
+              name="healthCondition"
+              id="healthCondition"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md sm:text-sm border-gray-300"
-              value={userForm.address}
+              value={patientForm.healthCondition}
               onChange={hdlOnchange}
             />
           </div>
 
           <button className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300">
-            + Add another address
+            + Add another Health Conditions
           </button>
         </div>
+        <button
+          className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={hdlSubmit}
+        >
+          Update
+        </button>
       </div>
-      <button
-        className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        onClick={hdlSubmit}
-      >
-        Update
-      </button>
     </div>
   );
 }
-export default settingPageUser;
+
+export default SettingPagePatiens;
