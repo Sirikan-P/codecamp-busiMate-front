@@ -1,5 +1,6 @@
 import {
   Car,
+  ClipboardPlus,
   Home,
   LogOut,
   Menu,
@@ -52,7 +53,7 @@ function MainNavUser() {
           <PencilLine /> Create Booking
         </Link>
         <Link to="/user/patients" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-              <Settings />Patients
+              <ClipboardPlus />Patients
         </Link>
         {authUser && (
           <>

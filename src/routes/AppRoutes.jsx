@@ -111,6 +111,7 @@ import SettingPagePatiens from "../pages/user/SettingPagePatiens";
 import PatientsPageUser from "../pages/user/PatientsPageUser";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
+import HandleBookingResponse from "../pages/user/userBooking/HandleBookingResponse";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -156,6 +157,7 @@ function AppRoutes() {
           <Route path="booking/create" element={authUser ? <CreateBooking /> : <Navigate to="/user/login" />}/>
           <Route path="booking/uploadimg" element={authUser ? <UploadAppointmentImg /> : <Navigate to="/user/login" />}/>
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
