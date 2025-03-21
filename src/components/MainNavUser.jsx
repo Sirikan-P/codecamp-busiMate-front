@@ -51,16 +51,16 @@ function MainNavUser() {
         <Link to='/user/booking/create' className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <PencilLine /> Create Booking
         </Link>
-        <Link to="/user/setting" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-              <Settings />Settings
+        <Link to="/user/patients" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+              <Settings />Patients
         </Link>
         {authUser && (
           <>
             <Link
-              to="/user/profile"
+              to="/user/setting"
               className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
             >
-              <User className="w-5 h-5" />Profile
+              <User className="w-5 h-5" />Edit Profile
             </Link>
             <div className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
               <LogOut className="w-5 h-5" /> Logout
