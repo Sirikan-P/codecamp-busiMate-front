@@ -33,11 +33,11 @@ function settingPageUser() {
   useEffect(() => {
     setUserForm({
       ...userForm,
-      firstName: authUser.result.firstName,
-      lastName: authUser.result.lastName,
-      phoneNumber: authUser.result.phoneNumber,
-      email: authUser.result.email,
-      address: userAddress[0].address,
+      firstName: authUser?.result?.firstName,
+      lastName: authUser?.result?.lastName,
+      phoneNumber: authUser?.result?.phoneNumber,
+      email: authUser?.result?.email,
+      address: userAddress[0]?.address,
     });
     fetchData();
     fetchGetUserAddress();

@@ -107,14 +107,10 @@ import DriverAddress from "../pages/driver/DriverAddress";
 import DriverAddAddress from "../pages/driver/DriverAddAddress";
 import DriverBooking from "../pages/driver/DriverBooking";
 import CreateBookingNoti from "../pages/user/CreateBookingNoti";
-import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
-<<<<<<< HEAD
-import DriverBooking from "../pages/driver/DriverBooking";
 import SettingPagePatiens from "../pages/user/SettingPagePatiens";
 import PatientsPageUser from "../pages/user/PatientsPageUser";
-=======
+import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
->>>>>>> dev
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -149,12 +145,10 @@ function AppRoutes() {
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
-<<<<<<< HEAD
         <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
           <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
-=======
           <Route index element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="booking" element={authUser ? <AllBooking /> : <Navigate to="/user/login" />}/>
@@ -162,7 +156,6 @@ function AppRoutes() {
           <Route path="booking/create" element={authUser ? <CreateBooking /> : <Navigate to="/user/login" />}/>
           <Route path="booking/uploadimg" element={authUser ? <UploadAppointmentImg /> : <Navigate to="/user/login" />}/>
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
->>>>>>> dev
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
@@ -186,7 +179,7 @@ function AppRoutes() {
            <Route path="address/add" element={<DriverAddAddress />} />
            <Route path="booking" element={<DriverBooking />} />
            <Route path="sendNoti" element={<CreateBookingNoti />} />
-           <Route path="receiveNoti" element={<DriverBookingNoti />} />
+           <Route path="receiveNoti" element={<DriverBookingNoti/>} />
          </Route>
 
         {/* Admin Routes */}
