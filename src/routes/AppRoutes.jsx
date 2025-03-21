@@ -112,6 +112,9 @@ import PatientsPageUser from "../pages/user/PatientsPageUser";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
 import HandleBookingResponse from "../pages/user/userBooking/HandleBookingResponse";
+import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
+import Checkout from "../pages/user/payment/Checkout";
+import CheckoutComplete from "../pages/user/payment/CheckoutComplete";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -161,6 +164,11 @@ function AppRoutes() {
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
+          
+          {/* payment */}
+            <Route path='checkout/:id'element= { <Checkout /> } /> 
+            <Route path='complete/:session'element= { <CheckoutComplete /> } /> 
+        
         </Route>
 
          <Route path="user" element={<LayoutUser />}>
@@ -179,9 +187,12 @@ function AppRoutes() {
            <Route path="edit" element={<DriverEditProfile />} />
            <Route path="address" element={<DriverAddress />} />
            <Route path="address/add" element={<DriverAddAddress />} />
-           <Route path="booking" element={<DriverBooking />} />
+           <Route path="booking" element={<DriverBooking />} />          
+           <Route path="receiveNoti" element={<DriverBookingNoti />} />
+           
+           {/*move these route for usernoti page */}
            <Route path="sendNoti" element={<CreateBookingNoti />} />
-           <Route path="receiveNoti" element={<DriverBookingNoti/>} />
+           <Route path="receiveNotiresult" element={<CreateBookingNotiResult />} />
          </Route>
 
         {/* Admin Routes */}
