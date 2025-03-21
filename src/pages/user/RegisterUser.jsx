@@ -48,20 +48,21 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="w-full rounded-lg flex justify-center flex-col bg-whites p-10">
-      {/* register head */}
+    <div className="bg-cyan-600 p-5 pt-10 pb-10 w-full">
+    <div className=" rounded-lg flex justify-center flex-col bg-white p-10 ">
       <h1 className="text-2xl font-bold text-cyan-600 mb-30">Register</h1>
+      {/* register head */}
       {/* <div className="flex justify-center">
         <img src={Elder01} alt="" className="w-[250px]" />
       </div> */}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 text-cyan-700">
         {/* firstname input */}
         <div>
           <label
             htmlFor="firstname"
             s
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             First Name
           </label>
@@ -84,7 +85,7 @@ const RegisterUser = () => {
         <div>
           <label
             htmlFor="lastname"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Last Name
           </label>
@@ -107,7 +108,7 @@ const RegisterUser = () => {
         <div className="form-control">
           <label
             htmlFor="phone"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400mb-1"
           >
             Phone Number
           </label>
@@ -130,7 +131,7 @@ const RegisterUser = () => {
         <div className="form-control">
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Email
           </label>
@@ -153,7 +154,7 @@ const RegisterUser = () => {
         <div className="relative">
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400mb-1"
           >
             Password
           </label>
@@ -183,7 +184,7 @@ const RegisterUser = () => {
         <div className="relative">
           <label
             htmlFor="confirmpassword"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Confirm Password
           </label>
@@ -214,7 +215,7 @@ const RegisterUser = () => {
           <button
             disabled={isRegister}
             type="submit"
-            className="w-1/2 bg-cyan-500 text-white py-2 px-4 rounded-4xl h-12 hover:bg-cyan-600 transition-colors"
+            className="w-1/2 bg-cyan-600 text-white py-2 px-4 rounded-md h-12"
           >
             {isRegister ? (
               <>
@@ -229,13 +230,14 @@ const RegisterUser = () => {
       </form>
       {/* Sign in bt */}
       <div className="text-center pt-5">
-        <p className="text-gray-500">
+        <p className="text-slate-400">
           Already have an account?{" "}
-          <Link to="/user/login" className=" link text-cyan-600">
+          <Link to="/user/login" className="font-semibold link text-pink-800">
             Sign in
           </Link>
         </p>
       </div>
+    </div>
     </div>
   );
 };

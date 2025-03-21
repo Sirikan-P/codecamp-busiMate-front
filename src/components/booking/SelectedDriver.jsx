@@ -15,7 +15,7 @@ export default function SelectedDriver() {
 
   return (
     <div className='flex flex-col place-items-center'>
-        <div className="text-3xl font-semibold text-cyan-600 mb-5 mt-10">CONFIRM BOOKING</div>
+        <div className="text-2xl font-semibold text-cyan-600 mb-5 mt-10">CONFIRM BOOKING</div>
         <div className="flex flex-col text-2xl text-cyan-600 shadow-2xl p-6 pb-10 rounded-md bg-white">
         {/* Title */}
         <div className="flex flex-col gap-2">
