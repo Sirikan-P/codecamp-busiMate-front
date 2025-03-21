@@ -1,76 +1,155 @@
 import {
-  Car,
   Home,
   NotebookText,
   MessageCircleMore,
-  MapPinHouse,
   Menu,
   PencilLine,
-  Settings,
   User,
   LogOut,
+  X,
 } from "lucide-react";
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { driverAuthStore } from "../store/driverAuthStore";
-import { useNavigate } from "react-router-dom";
 
 function MainNavDriver() {
-const [isOpen, setIsOpen] = useState(false);
-const { authDriver } = driverAuthStore();
-const navigate = useNavigate();
-const logout = () => {
-  navigate("/driver/login");
-  localStorage.removeItem("token");
-};
+  const { authDriver, logout: logoutFromStore } = driverAuthStore();
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const logout = () => {
+    logoutFromStore();
+    navigate("/driver/login");
+  };
+
+  const navItems = [
+    { to: "/driver", icon: <Home className="w-5 h-5" />, label: "Home" },
+    { to: "#", icon: <NotebookText className="w-5 h-5" />, label: "Booking" },
+    {
+      to: "/driver/chat",
+      icon: <MessageCircleMore className="w-5 h-5" />,
+      label: "Chat",
+    },
+    {
+      to: "#",
+      icon: <PencilLine className="w-5 h-5" />,
+      label: "Create Booking",
+    },
+  ];
+
+  const authItems = authDriver
+    ? [
+        {
+          to: "/driver/profile",
+          icon: <User className="w-5 h-5" />,
+          label: "Profile",
+        },
+        {
+          to: null,
+          icon: <LogOut className="w-5 h-5" />,
+          label: "Logout",
+          onClick: logout,
+        },
+      ]
+    : [];
 
   return (
-    <nav className=" w-full h-full shadow-lg ">
-    <div
-      onClick={() => {
-        setIsOpen(!isOpen);
-      }}
-      className="text-cyan-600 hover:text-blue-500  flex justify-end p-5"
-    >
+    <nav className="w-full shadow-lg bg-white">
+      {/* Mobile Toggle Button */}
+      <div className="flex justify-between items-center p-4 md:hidden">
+        <Link to="/driver" className="text-cyan-600 font-bold text-lg">
+          Busimate
+        </Link>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-cyan-600 hover:text-cyan-500 focus:outline-none"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
 
-      <Menu className="w-[30px] h-[30px]≈" />
-    </div>
-
-    { isOpen && 
-    <div className="grid grid-rows-6  shadow-2xl place-items-start gap-2 absolute z-10 right-1 w-[200px] bg-white pt-5 pb-5">
-      <Link to="/driver"  className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
-        <Home /> Home
-      </Link>
-      <Link className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <NotebookText /> Booking
-      </Link>
-      <Link  className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <MessageCircleMore /> Chat
-      </Link>
-      <Link  className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <PencilLine /> Create Booking
-      </Link>
-      <Link to="/driver/setting" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-            <Settings />Settings
-      </Link>
-      {authDriver && (
-        <>
-          <Link
-            to="/driver/profile"
-            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
-          >
-            <User className="w-5 h-5" />Profile
-          </Link>
-          <div className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
-            <LogOut className="w-5 h-5" /> Logout
-          </div>
-        </>
+      {/* Mobile Dropdown Menu */}
+      {isOpen && (
+        <div className="md:hidden absolute top-16 right-0 w-64 bg-white shadow-2xl rounded-lg z-10 p-4 transition-all duration-300 ease-in-out">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full"
+              onClick={() => setIsOpen(false)}
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+          {authItems.map((item) =>
+            item.to ? (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ) : (
+              <div
+                key={item.label}
+                className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full cursor-pointer"
+                onClick={() => {
+                  if (item.onClick) item.onClick();
+                  setIsOpen(false);
+                }}
+              >
+                {item.icon}
+                {item.label}
+              </div>
+            )
+          )}
+        </div>
       )}
-    </div>
-    
-    }
 
-  </nav>
+      {/* Desktop Horizontal Menu */}
+      <div className="hidden md:flex justify-between items-center p-4 max-w-7xl mx-auto">
+        <Link to="/driver" className="text-cyan-600 font-bold text-lg">
+          Busimate
+        </Link>
+        <div className="flex items-center gap-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              className="flex items-center gap-2 text-cyan-600 hover:text-cyan-500 transition-colors"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+          {authItems.map((item) =>
+            item.to ? (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="flex items-center gap-2 text-cyan-600 hover:text-cyan-500 transition-colors"
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            ) : (
+              <div
+                key={item.label}
+                className="flex items-center gap-2 text-cyan-600 hover:text-cyan-500 transition-colors cursor-pointer"
+                onClick={item.onClick}
+              >
+                {item.icon}
+                {item.label}
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }
 
