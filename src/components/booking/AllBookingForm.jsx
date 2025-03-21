@@ -62,12 +62,12 @@ export default function AllBookingForm() {
             {/* Patient Name */}
             <div className="text-cyan-600">
               <div>{booking.patient.id}</div>
-              <label className="text-pink-800 font-semibold text-xl">Patient</label>
+              <label className="text-pink-800 font-semibold text-lg">Patient</label>
               <div className="flex gap-2">
-                <div className="text-2xl font-semibold">
+                <div className="text-xl font-semibold">
                   {booking.patient.firstName}
                 </div>
-                <div className="text-2xl font-semibold">
+                <div className="text-xl font-semibold">
                   {booking.patient.lastName}
                 </div>
               </div>
@@ -75,7 +75,7 @@ export default function AllBookingForm() {
             {/* Hospital Name */}
             <div className="text-cyan-600">
               <label className="text-pink-800">Hospital</label>
-              <div className="text-xl font-semibold">
+              <div className="text-lg font-semibold">
                 {booking.hospital.name}
               </div>
             </div>

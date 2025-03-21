@@ -214,7 +214,7 @@ function CreateBooking() {
         className="bg-cyan-700 w-80 text-xl text-slate-300 p-2 rounded-md mt-10 h-[64px] shadow-2xl"
         onClick={handleConfirmBookingData}
       >
-        Confirm Booking
+        Create Booking
       </button>
     </div>
   );

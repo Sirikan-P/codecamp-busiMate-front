@@ -18,15 +18,15 @@ console.log(bookingData);
   }, []);
 
   return (
-    <div className="flex flex-col place-items-center p-5 bg-cyan-600">
-      <div className="bg-white flex flex-col shadow-2xl justify-center place-items-center gap-5 rounded">
+    <div className="flex flex-col place-items-center bg-cyan-600">
+      <div className="bg-white flex flex-col shadow-2xl justify-center place-items-center gap-5 m-5 pb-5 rounded">
         {/* Selected Driver */}
         <SelectedDriver />
         {/* Map */}
         <MapUserFindDriver />
         {/* Booking Data */}
         <BookingData bookingData={bookingData}/>
-        
+        <button className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>
   );
