@@ -39,16 +39,16 @@ function MainNavUser() {
 
       { isOpen && 
       <div className="grid grid-rows-6  shadow-2xl place-items-start gap-2 absolute z-10 right-1 w-[200px] bg-white pt-5 pb-5">
-        <Link to="/user/profile" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
+        <Link to='/user' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
           <Home /> Home
         </Link>
-        <Link href="#" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to='/user/booking' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <NotebookText /> Booking
         </Link>
         <Link href="#" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <MessageCircleMore /> Chat
         </Link>
-        <Link href="#" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to='/user/booking/create' className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <PencilLine /> Create Booking
         </Link>
         <Link to="/user/patients" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { userAuthStore } from "../../store/userAuthStore";
 
@@ -208,3 +209,27 @@ const ProfilePageUser = () => {
 };
 export default ProfilePageUser;
 
+=======
+import useHospitalStore from "../../store/hospital-store";
+import { userAuthStore } from "../../store/userAuthStore";
+
+const ProfilePageUser = () => {
+  const fetchHospitalData = useHospitalStore(
+    (state) => state.fetchHospitalData
+  );
+  const fetchGetUserAddress = userAuthStore(
+    (state) => state.fetchGetUserAddress
+  );
+
+  useEffect(() => {
+    
+    fetchHospitalData();
+  }, []);
+
+
+  return <div>
+
+  </div>;
+};
+export default ProfilePageUser;
+>>>>>>> dev
