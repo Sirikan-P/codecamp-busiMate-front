@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import {
   actionCreateUserBooking,
   actionFindDriver,
+  actionGetOneUserBooking,
   actionPostImg,
 } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
@@ -21,6 +22,8 @@ function CreateBooking() {
   const navigate = useNavigate();
   const setUserBooking = useUserBookingStore((state) => state.setUserBooking);
   const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
+  const setBookingwithId = useUserBookingStore((state) => state.setBookingwithId);
+  const userbooking = useUserBookingStore((state) => state.userbooking);
 
   const [booking, setBooking] = useState({
     needWheelChair: "",
@@ -38,7 +41,7 @@ function CreateBooking() {
     userAddressId: "",
   });
 
-
+console.log(booking);
 
   // Upload Image
   const handleImageUpload = async (event) => {
@@ -48,6 +51,16 @@ function CreateBooking() {
       appointmentImage: image,
     }));
   };
+
+
+
+    const bookingUser = async () => {
+      console.log("object");
+      const res = await actionGetOneUserBooking(userbooking.id);
+      setBookingwithId(res.data);
+      console.log(res.data);
+     
+    };
 
   // handleConfirmBookingData
   const handleConfirmBookingData = async () => {
@@ -86,6 +99,7 @@ function CreateBooking() {
       await actionCreateUserBooking(formData);
       const selectedDriver = await actionFindDriver(booking);
       setSelectDriver(selectedDriver);
+      await bookingUser();
 
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
       navigate("/user/booking/finddriver");
@@ -96,12 +110,22 @@ function CreateBooking() {
 
   // Appointment Date
   const handleDateChange = (e) => {
-    const newDate = e;
-    setBooking((prevState) => ({
-      ...prevState,
-      appointmentDate: newDate.toLocaleDateString("en-CA"),
-    }));
-  };
+
+    const currentDate = new Date();
+    const selectedDate = new Date(e);
+    if (selectedDate < currentDate) {
+      Swal.fire({
+        title: "Please select a future date!",
+        icon: "error",
+        confirmButtonText: "Okay",
+      })
+   
+  }
+  setBooking((prevState) => ({
+    ...prevState,
+    appointmentDate: selectedDate.toLocaleDateString("en-CA"),
+  }));
+}
 
   //Select Patient
   const handlePatientChange = (newPatient) => {

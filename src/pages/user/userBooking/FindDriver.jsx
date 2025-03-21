@@ -3,27 +3,34 @@ import useUserBookingStore from "../../../store/booking-store";
 import MapUserFindDriver from "../../../components/booking/MapUserFindDriver";
 import SelectedDriver from "../../../components/booking/SelectedDriver";
 import BookingData from "../../../components/booking/BookingData";
-import { actionGetOneUserBooking } from "../../../api/userBooking";
+import { actionGetOneUserBooking, actionGetUserBooking } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 import io from "socket.io-client"
 import { useNavigate } from "react-router";
 import useNotifyStored from "../../../store/notify-store";
+import { use } from "react";
 
 function FindDriver() {
   const navigate = useNavigate()
-  const [bookingData, setBookingData] = useState();
+  const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  const setBookingwithId = useUserBookingStore((state) => state.setBookingwithId);
   const selectDriver = useUserBookingStore((state) => state.selectDriver);
   const driverDataToSendNoti = selectDriver.data
+  const userBooking = useUserBookingStore((state) => state.userbooking);
 
-  const bookingUser = async () => {
-    const res = await actionGetOneUserBooking();
-    setBookingData(res.data);
-  };
-console.log(bookingData);
 
-  useEffect(() => {
-    bookingUser();
-  }, []);
+  // const bookingUser = async () => {
+  //   console.log("object");
+  //   const res = await actionGetOneUserBooking(userBooking.id);
+  //   setBookingwithId(res.data);
+  //   console.log(res.data);
+  //   console.log(bookingData.id);
+  // };
+
+
+  // useEffect(() => {
+  //   bookingUser();
+  // }, []);
 
 // send noti to driver
 const socket = io('http://localhost:8877')
@@ -51,9 +58,9 @@ const hdlGetDriver = () => {
         {/* Selected Driver */}
         <SelectedDriver />
         {/* Map */}
-        <MapUserFindDriver />
+        <MapUserFindDriver bookingData={bookingData}/>
         {/* Booking Data */}
-        <BookingData bookingData={bookingData}/>
+        <BookingData bookingData={bookingData} />
         <button onClick={hdlGetDriver} className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>

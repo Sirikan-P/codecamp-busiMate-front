@@ -8,11 +8,13 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router";
 
 import io from "socket.io-client";
+import useUserBookingStore from "../../../store/booking-store";
 
 const socket = io("http://localhost:8877", {});
 
 function HandleBookingResponse() {
   const [progress, setProgress] = useState(0);
+  const userBooking = useUserBookingStore((state) => state.userBooking);
   
   const bookingId = 1; // น้องแพรว ... หาจาก store นะคะ
 
