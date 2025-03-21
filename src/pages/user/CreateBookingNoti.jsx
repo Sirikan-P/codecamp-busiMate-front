@@ -7,9 +7,9 @@ const socket = io('http://localhost:8877', {})
 
 function CreateBookingNoti() {
 
-  const booking = { //ต้องการ booking ID และข้อมูล booking
-    id: '3',
-    date: '26MAR25',
+  const booking = { //ต้องการ booking ID และข้อมูล booking น้องแพรว ... หาจาก store นะคะ
+    id: '1',
+    date: '27MAR25',
     driverId: 1,
     userId: 3,
     lat:13, 

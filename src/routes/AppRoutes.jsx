@@ -110,6 +110,8 @@ import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import Patients from "../pages/admin/Patients";
 import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
+import Checkout from "../pages/user/payment/Checkout";
+import CheckoutComplete from "../pages/user/payment/CheckoutComplete";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -154,6 +156,11 @@ function AppRoutes() {
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
+          
+          {/* payment */}
+            <Route path='checkout/:id'element= { <Checkout /> } /> 
+            <Route path='complete/:session'element= { <CheckoutComplete /> } /> 
+        
         </Route>
 
          <Route path="user" element={<LayoutUser />}>
