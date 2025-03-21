@@ -81,6 +81,18 @@ const Dashboard2 = () => {
       </div>
     );
   };
+  const StatCard2 = ({ title, value, icon: Icon, trend, color }) => {
+    return (
+      <div className="bg-white p-6 rounded-lg shadow">
+        <div className="flex items-center justify-between">
+          <Icon className={`w-6 h-6 text-${color}-600`} />
+          <span className="text-sm font-medium">{value}</span>
+        </div>
+        <h3 className="text-2xl font-bold mt-4">{trend}</h3>
+        <p className="text-gray-500 text-sm">{title}</p>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -96,28 +108,28 @@ const Dashboard2 = () => {
             <h1>Total Booking: {totalBooking} </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard
+            <StatCard2
               title="Finding Driver"
               value={findingDriver}
               icon={Users}
               trend={findingDriverRatio}
               color="blue"
             />
-            <StatCard
+            <StatCard2
               title="On the way to Patient"
               value={upComing}
               icon={Car}
               trend={upComingRatio}
               color="green"
             />
-            <StatCard
+            <StatCard2
               title="During processing"
               value={inProcess}
               icon={Clock}
               trend={inProcessRatio}
               color="yellow"
             />
-            <StatCard
+            <StatCard2
               title="Complete"
               value={complete}
               icon={Star}
@@ -131,7 +143,6 @@ const Dashboard2 = () => {
       <div className="mt-4">
         <h1>Booking List Today</h1>
         {bookingDataByDate.map((bookingData) => <ListBooking key={bookingData.id} bookingData={bookingData} /> )}
-        <ListBooking bookingDataByDate={bookingDataByDate} />
       </div>
     </div>
   );
