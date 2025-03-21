@@ -70,7 +70,7 @@ const LoginUser = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-linear-to-b from-cyan-700 space-y-6 h-[600px] rounded-t-[60px] flex flex-col justify-center place-items-center"
+          className="bg-cyan-600 space-y-6 h-[600px] rounded-t-md flex flex-col justify-center place-items-center"
         >
           {/* Sign in */}
           <div className="w-full flex justify-items-start pl-15 ">
