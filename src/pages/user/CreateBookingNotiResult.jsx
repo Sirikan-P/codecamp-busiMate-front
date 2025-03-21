@@ -8,7 +8,7 @@ function CreateBookingNotiResult() {
 
  const bookingId = 1 //หาจาก store 
  const [socketResult,setSocketResult]  = useState({})
- const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
+ 
  
  useEffect(()=>{ 
     socket.on( bookingId ,(data)=>{ 
@@ -32,7 +32,7 @@ function CreateBookingNotiResult() {
     <p> { (socketResult=='ACCEPT') && <button onClick={hdlAccept} className='btn'> go to payment </button> } </p>
     <p> { (socketResult=='REJECT') && <button onClick={hdlReject} className='btn'> go to select new driver </button> } </p>
 
-
+   
     </div>
   )
 }

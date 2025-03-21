@@ -8,16 +8,16 @@ const socket = io('http://localhost:8877', {})
 function CreateBookingNoti() {
 
   const booking = { //ต้องการ booking ID และข้อมูล booking
-    id: '1',
-    date: '30MAR25',
+    id: '3',
+    date: '26MAR25',
     driverId: 1,
-    userId: 2,
+    userId: 3,
     lat:13, 
     long:100 , 
-    patient:"grandpa"
+    patient:"grandma"
   }
 
-  
+  const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
   const actionSetSocketUsersReq = useNotifyStored(state => state.actionSetSocketUsersReq)
   
   const navigate = useNavigate()
@@ -36,8 +36,8 @@ function CreateBookingNoti() {
       <button
         onClick={hdlGetDriver}
         className='btn'>  confirm </button>
-
-    {/* {(socketUsersReq) &&
+        
+       {(socketUsersReq) &&
         <div>
           {socketUsersReq?.map((item, index) => (
             <div key={index}>
@@ -51,8 +51,7 @@ function CreateBookingNoti() {
             </div>
           ))}
         </div>         
-      } */}
-      
+      }
     </div>
   )
 }

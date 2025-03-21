@@ -39,12 +39,17 @@ const notifyStored = (set) => ({
   
   actionClearSocketUsersReq : (bookingId)=>{    
     console.log("updatedData1",bookingId)
+    set((state) => ({
+      socketUsersReq: state.socketUsersReq.filter(item => item.id !== bookingId)
+    }));
   },
 
   actionClearSocketData : (bookingId)=>{
     //const updatedData = socketData.filter(item => item.id !== bookingId);
     console.log("updatedData2",bookingId)
-
+    set((state) => ({
+      socketData: state.socketData.filter(item => item.id !== bookingId)
+    }));
   }
 
 })
