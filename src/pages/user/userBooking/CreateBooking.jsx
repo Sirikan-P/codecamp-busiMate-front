@@ -16,6 +16,7 @@ import {
 } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 
+
 function CreateBooking() {
   const navigate = useNavigate();
   const setUserBooking = useUserBookingStore((state) => state.setUserBooking);
@@ -37,7 +38,7 @@ function CreateBooking() {
     userAddressId: "",
   });
 
-  console.log(booking);
+
 
   // Upload Image
   const handleImageUpload = async (event) => {

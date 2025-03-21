@@ -7,6 +7,7 @@ import { actionGetOneUserBooking } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 import io from "socket.io-client"
 import { useNavigate } from "react-router";
+import useNotifyStored from "../../../store/notify-store";
 
 function FindDriver() {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ function FindDriver() {
     setBookingData(res.data);
   };
 console.log(bookingData);
+
   useEffect(() => {
     bookingUser();
   }, []);
@@ -26,15 +28,14 @@ console.log(bookingData);
 // send noti to driver
 const socket = io('http://localhost:8877')
 
-  const driver = {
-    id: driverDataToSendNoti.id,
-    name: `${driverDataToSendNoti.firstName} ${driverDataToSendNoti.lastName} `
-  }
+const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
+const actionSetSocketUsersReq = useNotifyStored(state => state.actionSetSocketUsersReq)
 
-  const hdlGetDriver = ()=> {
-      // socket.emit('send_noti',(driver))
-      navigate('/user/booking/handlebookingres')
-  }
+const hdlGetDriver = () => {
+  socket.emit('send_noti', (bookingData)) // create socket event 
+  actionSetSocketUsersReq(bookingData)
+  navigate('/user/booking/handlebookingres')
+}
 
   return (
     <div className="flex flex-col place-items-center bg-cyan-600">

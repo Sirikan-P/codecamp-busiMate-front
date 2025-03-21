@@ -2,12 +2,18 @@ import React from "react";
 import useUserBookingStore from "../../../store/booking-store";
 import MapShowOneBooking from "../../../components/booking/MapShowOneBook";
 import {MoveVertical} from "lucide-react"
+import { useNavigate } from "react-router";
 
 function ShowOneBooking() {
   const showOneBook = useUserBookingStore((state) => state.showOneBook);
   const userBooking = useUserBookingStore((state) => state.userbooking);
+  const navigate = useNavigate()
   console.log(userBooking);
   console.log(showOneBook);
+  const actionBack = () =>{
+    navigate('/user/booking')
+  }
+
   return (
     <div className=" w-full flex justify-center bg-cyan-600 pb-15">
       <div className="flex flex-col mt-10 p-5 w-90 bg-white  rounded-md shadow-2xl">
@@ -145,7 +151,7 @@ function ShowOneBooking() {
           <MapShowOneBooking />
         </div>
 
-        <button className="btn bg-cyan-600 rounded-md text-white mt-110">CONFIRM</button>
+        <button onClick={actionBack} className="btn bg-cyan-600 rounded-md text-white mt-110">CONFIRM</button>
       </div>
     </div>
   );

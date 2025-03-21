@@ -5,9 +5,37 @@ import Handle2 from "../../../assets/handle2.jpg";
 import Handle4 from "../../../assets/handle4.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { useNavigate } from "react-router";
+
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8877", {});
 
 function HandleBookingResponse() {
   const [progress, setProgress] = useState(0);
+  
+  const bookingId = 1; // น้องแพรว ... หาจาก store นะคะ
+
+  const [socketResult, setSocketResult] = useState({});
+  const navigate = useNavigate();
+
+  const hdlAccept = () => {
+    socket.off(bookingId);
+    navigate(`/user/checkout/${bookingId}`);
+    console.log("hello see you");
+  };
+  const hdlReject = () => {
+    socket.off(bookingId);
+    navigate('/user/booking/finddriver')
+   
+  };
+
+  useEffect(() => {
+    socket.on(bookingId, (data) => {
+      console.log("effectat user", data);
+      setSocketResult(data);
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,18 +46,16 @@ function HandleBookingResponse() {
   }, []);
 
   return (
-    <div>
-      <div className="flex flex-col place-items-center bg-cyan-600 h-screen pt-5 pr-5 pl-5 ">
-        {/* progess */}
-        <div className="flex gap-5 w-full text-white place-items-center justify-center m-5 ">
-          <CircleDashed size={32} />
-          <div className=" w-20 h-1 bg-white"></div>
-          <CircleDashed size={32} />
-          <div className=" w-20 h-1 bg-white"></div>
-          <CircleCheckBig size={48} color="#ffff" />
-        </div>
-
-
+    <div className="flex flex-col place-items-center bg-cyan-600 h-screen pt-5 pr-5 pl-5 ">
+      {/* progess */}
+      <div className="flex gap-5 w-full text-white place-items-center justify-center m-5 ">
+        <CircleDashed size={32} />
+        <div className=" w-20 h-1 bg-white"></div>
+        <CircleDashed size={32} />
+        <div className=" w-20 h-1 bg-white"></div>
+        <CircleCheckBig size={48} color="#ffff" />
+      </div>
+      <div className="flex flex-col w-full h-screen rounded-lg place-items-center bg-white m-5 p-10 gap-10">
         {/* loop */}
         <div className="flex flex-col justify-center items-center">
           <Swiper
@@ -67,17 +93,41 @@ function HandleBookingResponse() {
                         transition="stroke-dashoffset 0.5s ease-in-out"
                       />
                     </svg>
-                 
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
+        {/* text */}
+        <div>
+        <p> this booking is created ,please wait for driver action.... </p>
+        <p>
+        <button onClick={hdlReject} className="btn">
+              {" "}
+              Find New Driver{" "}
+            </button>
+             {/* btn checkout */}
+          {" "}
+          {socketResult == "ACCEPT" && (
+            <button onClick={hdlAccept} className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-2xl rounded-md text-white">
+              {" "}
+              Pay Now{" "}
+            </button>
+          )}{" "}
+        </p>
+        <p>
+          {" "}
+          {socketResult == "REJECT" && (
+            <button onClick={hdlReject} className="btn">
+              {" "}
+              Find New Driver{" "}
+            </button>
+          )}{" "}
+        </p>
+        </div>
 
-        {/* btn checkout */}
-        <button className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-2xl rounded-md text-white">Pay Now</button>
-
+  
       </div>
     </div>
   );
