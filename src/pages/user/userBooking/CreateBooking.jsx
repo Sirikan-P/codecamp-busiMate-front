@@ -53,14 +53,13 @@ console.log(booking);
   };
 
 
-
-    const bookingUser = async () => {
+// get lastest created booking for sent to FindDriver.jsx
+const bookingUser = async () => {
       console.log("object");
       const res = await actionGetOneUserBooking(userbooking.id);
       setBookingwithId(res.data);
       console.log(res.data);
-     
-    };
+ };
 
   // handleConfirmBookingData
   const handleConfirmBookingData = async () => {
@@ -96,9 +95,9 @@ console.log(booking);
       setUserBooking(booking);
 
       // เรียก API เพื่อสร้าง booking
-      await actionCreateUserBooking(formData);
-      const selectedDriver = await actionFindDriver(booking);
-      setSelectDriver(selectedDriver);
+      const response = await actionCreateUserBooking(formData);
+      console.log(response);
+      
       await bookingUser();
 
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
@@ -110,7 +109,6 @@ console.log(booking);
 
   // Appointment Date
   const handleDateChange = (e) => {
-
     const currentDate = new Date();
     const selectedDate = new Date(e);
     if (selectedDate < currentDate) {

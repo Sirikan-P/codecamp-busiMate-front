@@ -9,28 +9,69 @@ import { useNavigate } from "react-router";
 
 import io from "socket.io-client";
 import useUserBookingStore from "../../../store/booking-store";
+import { actionFindNewDriver, actionNewdriver } from "../../../api/userBooking";
 
 const socket = io("http://localhost:8877", {});
 
 function HandleBookingResponse() {
   const [progress, setProgress] = useState(0);
-  const userBooking = useUserBookingStore((state) => state.userBooking);
-  
-  const bookingId = 1; // น้องแพรว ... หาจาก store นะคะ
+  const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  const [searchnewdriver, setSearchnewdriver] = useState({
+     id: "",
+     driverId: "",
+ 
+   })
 
+   
+  const bookingId = bookingData.id; 
+
+  // noti
   const [socketResult, setSocketResult] = useState({});
   const navigate = useNavigate();
-
   const hdlAccept = () => {
     socket.off(bookingId);
     navigate(`/user/checkout/${bookingId}`);
-    console.log("hello see you");
+    console.log("hello see you");      
   };
-  const hdlReject = () => {
+
+  const hdlReject = async () => {
     socket.off(bookingId);
-    navigate('/user/booking/finddriver')
-   
+    hdlFindNewDriver()
+    hdUpdateDriver()
+    // navigate("/user/booking/findNewdriver");
   };
+
+
+const hdlFindNewDriver = async () =>{
+  try {
+    const newSelectDriver = await actionFindNewDriver(bookingData)
+     console.log(newSelectDriver.data.id);
+     const bookingId = bookingData.id
+     console.log(bookingId);
+     setSearchnewdriver({ driverId: newSelectDriver.data.id, id: bookingId})
+     console.log(searchnewdriver);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const hdUpdateDriver = async () => {
+  try {
+       // updateDriverAddressBookingWithNewDriverId
+       console.log("object");
+       console.log(bookingData);
+       const updateNewDriver = await actionNewdriver(searchnewdriver)
+       console.log(updateNewDriver,"updateNewDriver");
+  }
+catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
 
   useEffect(() => {
     socket.on(bookingId, (data) => {
@@ -46,6 +87,15 @@ function HandleBookingResponse() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    console.log("Booking data updated:", bookingData);
+  }, [bookingData]);  // เมื่อ bookingData เปลี่ยนแปลง จะ log ค่าใหม่
+
+  // find new driver
+  // const hdlFindNewDriver = async () => {
+  //   const response = await actionFindNewDriver(bookingId);
+  //   console.log(response);}
 
   return (
     <div className="flex flex-col place-items-center bg-cyan-600 h-screen pt-5 pr-5 pl-5 ">
@@ -121,7 +171,9 @@ function HandleBookingResponse() {
         <p>
           {" "}
           {socketResult == "REJECT" && (
-            <button onClick={hdlReject} className="btn">
+            <button onClick={hdlReject} className="btn"
+            
+            >
               {" "}
               Find New Driver{" "}
             </button>

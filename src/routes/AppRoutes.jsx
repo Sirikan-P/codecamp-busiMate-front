@@ -115,6 +115,7 @@ import HandleBookingResponse from "../pages/user/userBooking/HandleBookingRespon
 import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
 import Checkout from "../pages/user/payment/Checkout";
 import CheckoutComplete from "../pages/user/payment/CheckoutComplete";
+import FindNewDriver from "../pages/user/userBooking/FindNewDriver";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -160,6 +161,7 @@ function AppRoutes() {
           <Route path="booking/create" element={authUser ? <CreateBooking /> : <Navigate to="/user/login" />}/>
           <Route path="booking/uploadimg" element={authUser ? <UploadAppointmentImg /> : <Navigate to="/user/login" />}/>
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/findNewdriver" element={authUser ? <FindNewDriver /> : <Navigate to="/user/login" />}/>
           <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>

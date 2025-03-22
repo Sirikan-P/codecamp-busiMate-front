@@ -3,7 +3,7 @@ import useUserBookingStore from "../../../store/booking-store";
 import MapUserFindDriver from "../../../components/booking/MapUserFindDriver";
 import SelectedDriver from "../../../components/booking/SelectedDriver";
 import BookingData from "../../../components/booking/BookingData";
-import { actionGetOneUserBooking, actionGetUserBooking } from "../../../api/userBooking";
+import { actionFindDriver, actionGetOneUserBooking, actionGetUserBooking } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 import io from "socket.io-client"
 import { useNavigate } from "react-router";
@@ -13,24 +13,28 @@ import { use } from "react";
 function FindDriver() {
   const navigate = useNavigate()
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
-  const setBookingwithId = useUserBookingStore((state) => state.setBookingwithId);
-  const selectDriver = useUserBookingStore((state) => state.selectDriver);
+  const setBookingwithId = useUserBookingStore((state)=> state.setBookingwithId)
+  const selectDriver = useUserBookingStore((state) => state.selectDriver);     
+  const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
   const driverDataToSendNoti = selectDriver.data
   const userBooking = useUserBookingStore((state) => state.userbooking);
 
 
-  // const bookingUser = async () => {
-  //   console.log("object");
-  //   const res = await actionGetOneUserBooking(userBooking.id);
-  //   setBookingwithId(res.data);
-  //   console.log(res.data);
-  //   console.log(bookingData.id);
-  // };
+  // Function for find Driver by using  state of bookingwithId from useUserBookingStore
+const hdlFindDriver = async (bookingData) => {
+  try {
+    const selectedDriver = await actionFindDriver(bookingData);
+      setSelectDriver(selectedDriver);
+      console.log(selectedDriver);
+} catch (error) {
+    console.log(error);
+  }
+};
 
-
-  // useEffect(() => {
-  //   bookingUser();
-  // }, []);
+useEffect(() => {
+  hdlFindDriver();
+}, []);
+  
 
 // send noti to driver
 const socket = io('http://localhost:8877')
