@@ -16,6 +16,7 @@ import {
   actionPostImg,
 } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
+import { use } from "react";
 
 
 function CreateBooking() {
@@ -41,7 +42,6 @@ function CreateBooking() {
     userAddressId: "",
   });
 
-console.log(booking);
 
   // Upload Image
   const handleImageUpload = async (event) => {
@@ -54,12 +54,8 @@ console.log(booking);
 
 
 // get lastest created booking for sent to FindDriver.jsx
-const bookingUser = async () => {
-      console.log("object");
-      const res = await actionGetOneUserBooking(userbooking.id);
-      setBookingwithId(res.data);
-      console.log(res.data);
- };
+
+
 
   // handleConfirmBookingData
   const handleConfirmBookingData = async () => {
@@ -92,14 +88,12 @@ const bookingUser = async () => {
       }
 
       // บันทึกข้อมูลลง Store
-      setUserBooking(booking);
-
+      
       // เรียก API เพื่อสร้าง booking
       const response = await actionCreateUserBooking(formData);
       console.log(response);
-      
-      await bookingUser();
-
+      setUserBooking(response.data);
+      console.log(userbooking);
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
       navigate("/user/booking/finddriver");
     } catch (error) {

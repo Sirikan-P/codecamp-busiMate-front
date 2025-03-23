@@ -50,8 +50,7 @@ export const userAuthStore = create((set) => ({
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
-    } finally {
-      set({ isLogin: false });
+    } finally { set({ isLogin: false });
     }
   },
 

@@ -13,28 +13,24 @@ import { use } from "react";
 function FindDriver() {
   const navigate = useNavigate()
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  const selectDriver = useUserBookingStore((state) => state.selectDriver);  
+  const userbooking = useUserBookingStore((state) => state.userbooking);
   const setBookingwithId = useUserBookingStore((state)=> state.setBookingwithId)
-  const selectDriver = useUserBookingStore((state) => state.selectDriver);     
   const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
   const driverDataToSendNoti = selectDriver.data
-  const userBooking = useUserBookingStore((state) => state.userbooking);
 
-
-  // Function for find Driver by using  state of bookingwithId from useUserBookingStore
-const hdlFindDriver = async (bookingData) => {
-  try {
-    const selectedDriver = await actionFindDriver(bookingData);
-      setSelectDriver(selectedDriver);
-      console.log(selectedDriver);
-} catch (error) {
-    console.log(error);
-  }
+console.log(userbooking.id);
+  const bookingUser = async () => {
+    const res = await actionGetOneUserBooking(userbooking.id);
+    console.log(res.data);
+    setBookingwithId(res.data);
+    console.log(bookingData);
 };
 
 useEffect(() => {
-  hdlFindDriver();
+  bookingUser();
 }, []);
-  
+
 
 // send noti to driver
 const socket = io('http://localhost:8877')
@@ -60,11 +56,11 @@ const hdlGetDriver = () => {
       </div>
       <div className="bg-white flex flex-col shadow-2xl justify-center place-items-center gap-5 m-5 pb-5 rounded">
         {/* Selected Driver */}
-        <SelectedDriver />
+        {/* <SelectedDriver /> */}
         {/* Map */}
-        <MapUserFindDriver bookingData={bookingData}/>
+        {/* <MapUserFindDriver bookingData={bookingData}/> */}
         {/* Booking Data */}
-        <BookingData bookingData={bookingData} />
+        {/* <BookingData bookingData={bookingData} /> */}
         <button onClick={hdlGetDriver} className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>
