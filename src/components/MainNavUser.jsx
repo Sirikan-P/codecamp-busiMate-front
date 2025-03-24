@@ -75,11 +75,8 @@ function MainNavUser() {
               <User className="w-5 h-5" />Edit Profile
             </Link>
             <div 
-            onClick={() => {
-              setIsOpen(!isOpen);
-              logout
-            }}
-            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+          
+            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
               <LogOut className="w-5 h-5" /> Logout
             </div>
           </>

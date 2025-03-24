@@ -20,15 +20,15 @@ function FindDriver() {
 
   // const bookingData = 1
 
-const bookingData = userbooking.id
+const bookingData = userbooking
 console.log(bookingData);
 
   
 const bookingUser = async () => {
     try {
-      const showbooking = await actionGetOneUserBooking(bookingData);
+      const showbooking = await actionGetOneUserBooking(bookingData.id);
       console.log(showbooking.data);
-      setBookingwithId(showbooking.data)
+      setBookingwithId( showbooking.data)
     } catch (error) {
       console.log(error);
     }
