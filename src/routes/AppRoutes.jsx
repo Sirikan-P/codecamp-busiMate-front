@@ -157,8 +157,8 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
-          {/* <Route index element={<Home />} /> */}
+        {/* <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/> */}
+          <Route index element={<Home />} />
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
           <Route path="user/register" element={<RegisterUser />} />
