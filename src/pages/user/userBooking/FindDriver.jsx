@@ -12,20 +12,28 @@ import { use } from "react";
 
 function FindDriver() {
   const navigate = useNavigate()
-  const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  const booking = useUserBookingStore((state) => state.bookingwithId);
   const selectDriver = useUserBookingStore((state) => state.selectDriver);  
   const userbooking = useUserBookingStore((state) => state.userbooking);
-  const setBookingwithId = useUserBookingStore((state)=> state.setBookingwithId)
-  const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
+  const setBookingwithId = useUserBookingStore ((state) => state.setBookingwithId)
   const driverDataToSendNoti = selectDriver.data
 
-console.log(userbooking.id);
-  const bookingUser = async () => {
-    const res = await actionGetOneUserBooking(userbooking.id);
-    console.log(res.data);
-    setBookingwithId(res.data);
-    console.log(bookingData);
-};
+  // const bookingData = 1
+
+const bookingData = userbooking.id
+console.log(bookingData);
+
+  
+const bookingUser = async () => {
+    try {
+      const showbooking = await actionGetOneUserBooking(bookingData);
+      console.log(showbooking.data);
+      setBookingwithId(showbooking.data)
+    } catch (error) {
+      console.log(error);
+    }
+   console.log(booking);
+  };
 
 useEffect(() => {
   bookingUser();
@@ -56,11 +64,11 @@ const hdlGetDriver = () => {
       </div>
       <div className="bg-white flex flex-col shadow-2xl justify-center place-items-center gap-5 m-5 pb-5 rounded">
         {/* Selected Driver */}
-        {/* <SelectedDriver /> */}
+        <SelectedDriver />
         {/* Map */}
-        {/* <MapUserFindDriver bookingData={bookingData}/> */}
+        <MapUserFindDriver/>
         {/* Booking Data */}
-        {/* <BookingData bookingData={bookingData} /> */}
+        <BookingData />
         <button onClick={hdlGetDriver} className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>

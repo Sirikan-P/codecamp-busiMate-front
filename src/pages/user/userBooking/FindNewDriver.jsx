@@ -11,14 +11,24 @@ import useNotifyStored from "../../../store/notify-store";
 import { use } from "react";
 
 
+
+
 function FindNewDriver() {
   const navigate = useNavigate()
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
-  const setBookingwithId = useUserBookingStore((state)=> state.setBookingwithId)
-  
+  console.log(bookingData);
 
+  // send noti to driver
+const socket = io('http://localhost:8877')
 
+const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
+const actionSetSocketUsersReq = useNotifyStored(state => state.actionSetSocketUsersReq)
 
+const hdlGetDriver = () => {
+  socket.emit('send_noti', (bookingData)) // create socket event 
+  actionSetSocketUsersReq(bookingData)
+  navigate('/user/booking/handlebookingres')
+}
 
 
   return (
@@ -36,10 +46,10 @@ function FindNewDriver() {
         {/* Selected Driver */}
         <SelectedDriver />
         {/* Map */}
-        <MapUserFindDriver bookingData={bookingData}/>
+        <MapUserFindDriver/>
         {/* Booking Data */}
-        <BookingData bookingData={bookingData} />
-        <button className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
+        <BookingData/>
+        <button onClick={hdlGetDriver} className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>
    

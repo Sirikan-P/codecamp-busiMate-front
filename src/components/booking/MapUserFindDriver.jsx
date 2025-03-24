@@ -5,6 +5,7 @@ import useUserBookingStore from '../../store/booking-store';
 
 export default function MapUserFindDriver() {
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  console.log(bookingData);
 
   // Hospital Lat and Long
   const hospitalLat = bookingData?.hospital?.lat;

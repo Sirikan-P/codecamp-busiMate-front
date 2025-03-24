@@ -6,6 +6,7 @@ import { driverAuthStore } from "../../store/driverAuthStore";
 import Elder04 from "../../assets/elder04.jpg";
 import busimatelogo from "../../assets/busimatelogo.png";
 import { toast } from "react-toastify";
+import loginDriver from "../../assets/loginDriver.png"
 
 const LoginDriver = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +51,7 @@ const LoginDriver = () => {
              <div className="text-4xl font-bold top-40 text-cyan-700 ">
                Busi <span className="italic text-5xl ">Mate</span>
              </div>
-             <img className="w-30" src={Elder04} alt="" />
+             <img className="w-35" src={loginDriver} alt="" />
            </div>
 
           {/* Form */}

@@ -18,12 +18,14 @@ import {
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 import { use } from "react";
 
-
 function CreateBooking() {
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
   const setUserBooking = useUserBookingStore((state) => state.setUserBooking);
   const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
-  const setBookingwithId = useUserBookingStore((state) => state.setBookingwithId);
+  const setBookingwithId = useUserBookingStore(
+    (state) => state.setBookingwithId
+  );
   const userbooking = useUserBookingStore((state) => state.userbooking);
 
   const [booking, setBooking] = useState({
@@ -42,7 +44,6 @@ function CreateBooking() {
     userAddressId: "",
   });
 
-
   // Upload Image
   const handleImageUpload = async (event) => {
     const image = event.target.files[0];
@@ -52,14 +53,12 @@ function CreateBooking() {
     }));
   };
 
-
-// get lastest created booking for sent to FindDriver.jsx
-
-
+  // get lastest created booking for sent to FindDriver.jsx
 
   // handleConfirmBookingData
   const handleConfirmBookingData = async () => {
     try {
+      setIsLoading(true)
       // ตรวจสอบว่าทุกฟิลด์ที่จำเป็นถูกกรอกหรือไม่
       if (
         !booking.appointmentDate ||
@@ -88,13 +87,14 @@ function CreateBooking() {
       }
 
       // บันทึกข้อมูลลง Store
-      
+
       // เรียก API เพื่อสร้าง booking
       const response = await actionCreateUserBooking(formData);
       console.log(response);
       setUserBooking(response.data);
       console.log(userbooking);
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
+      setIsLoading(false)
       navigate("/user/booking/finddriver");
     } catch (error) {
       console.log(error);
@@ -110,14 +110,13 @@ function CreateBooking() {
         title: "Please select a future date!",
         icon: "error",
         confirmButtonText: "Okay",
-      })
-   
-  }
-  setBooking((prevState) => ({
-    ...prevState,
-    appointmentDate: selectedDate.toLocaleDateString("en-CA"),
-  }));
-}
+      });
+    }
+    setBooking((prevState) => ({
+      ...prevState,
+      appointmentDate: selectedDate.toLocaleDateString("en-CA"),
+    }));
+  };
 
   //Select Patient
   const handlePatientChange = (newPatient) => {
@@ -169,13 +168,13 @@ function CreateBooking() {
     <div className="flex flex-col justify-center w-full place-items-center pb-15 bg-cyan-600 ">
       {/* progess */}
       <div className="flex gap-5 w-full text-white place-items-center justify-center mt-10">
-        <CircleCheckBig size={48} color="#ffff"/>
+        <CircleCheckBig size={48} color="#ffff" />
         <div className=" w-20 h-1 bg-white"></div>
         <CircleDashed size={32} />
         <div className=" w-20 h-1 bg-white"></div>
         <CircleDashed size={32} />
       </div>
-      
+
       <div className=" rounded-2xl shadow-2xl w-100 bg-white flex flex-col place-items-center pb-20 mt-10 p-5 gap-5 ">
         {/* Make Booking Title */}
         <div className="text-3xl pt-5 pb-5 font-semibold text-cyan-600">
@@ -242,9 +241,14 @@ function CreateBooking() {
       <button
         className="bg-cyan-700 w-80 text-xl text-slate-300 p-2 rounded-md mt-10 h-[64px] shadow-2xl"
         onClick={handleConfirmBookingData}
-      >
+      >ß
         Create Booking
       </button>
+      {
+        isLoading &&
+      <div className="w-full h-screen bg-amber-400">is loading</div>
+      }
+
     </div>
   );
 }

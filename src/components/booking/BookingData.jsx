@@ -2,7 +2,10 @@ import React from 'react'
 import useUserBookingStore from '../../store/booking-store';
 
 export default function BookingData() {
+  // bookingData
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  console.log(bookingData);
+
 
     return (
         <div className="mb-5">
@@ -14,7 +17,7 @@ export default function BookingData() {
               {" "}
               {/* patient info */}
               <div className="text-xl text-slate-400">
-                Status:{" "}
+                Booking Id:{" "}
                 <span className="font-semibold text-cyan-700">
                   {bookingData?.id}
                 </span>
@@ -38,7 +41,7 @@ export default function BookingData() {
                   </div>
                   <div className='text-cyan-600 font-semibold'>{bookingData?.patient.firstName}</div>
                   <div className='text-cyan-600 font-semibold'>{bookingData?.patient.lastName}</div>
-                
+                 
                 </div>
     
                 {/* Condition */}

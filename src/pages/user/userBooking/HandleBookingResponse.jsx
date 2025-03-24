@@ -6,6 +6,7 @@ import Handle4 from "../../../assets/handle4.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useNavigate } from "react-router";
+import LandingPic from "../../../assets/LandingPic.png"
 
 import io from "socket.io-client";
 import useUserBookingStore from "../../../store/booking-store";
@@ -16,62 +17,64 @@ const socket = io("http://localhost:8877", {});
 function HandleBookingResponse() {
   const [progress, setProgress] = useState(0);
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
+  const setBookingwithId = useUserBookingStore(
+    (state) => state.setBookingwithId
+  );
   const [searchnewdriver, setSearchnewdriver] = useState({
-     id: "",
-     driverId: "",
- 
-   })
+    id: "",
+    driverId: "",
+  });
 
-   
-  const bookingId = bookingData.id; 
+  const bookingId = bookingData.id;
 
   // noti
   const [socketResult, setSocketResult] = useState({});
   const navigate = useNavigate();
+
   const hdlAccept = () => {
     socket.off(bookingId);
     navigate(`/user/checkout/${bookingId}`);
-    console.log("hello see you");      
+    console.log("hello see you");
   };
 
   const hdlReject = async () => {
     socket.off(bookingId);
-    hdlFindNewDriver()
-    hdUpdateDriver()
-    // navigate("/user/booking/findNewdriver");
+    await hdlFindNewDriver();
   };
 
+  const hdlFindNewDriver = async () => {
+    try {
+      const newSelectDriver = await actionFindNewDriver(bookingData);
+      console.log(newSelectDriver.data.id);
+      const bookingId = bookingData.id;
+      console.log(bookingId);
 
-const hdlFindNewDriver = async () =>{
-  try {
-    const newSelectDriver = await actionFindNewDriver(bookingData)
-     console.log(newSelectDriver.data.id);
-     const bookingId = bookingData.id
-     console.log(bookingId);
-     setSearchnewdriver({ driverId: newSelectDriver.data.id, id: bookingId})
-     console.log(searchnewdriver);
+      setSearchnewdriver({ driverId: newSelectDriver.data.id, id: bookingId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+  const hdUpdateDriver = async () => {
+    try {
+      console.log(searchnewdriver);
 
-const hdUpdateDriver = async () => {
-  try {
-       // updateDriverAddressBookingWithNewDriverId
-       console.log("object");
-       console.log(bookingData);
-       const updateNewDriver = await actionNewdriver(searchnewdriver)
-       console.log(updateNewDriver,"updateNewDriver");
-  }
-catch (error) {
-    console.log(error);
-  }
-}
+      console.log("Updating driver...");
+      console.log(bookingData);
 
+      const updateNewDriver = await actionNewdriver(searchnewdriver);
+      const data = updateNewDriver.data;
+      console.log(data);
 
+      setBookingwithId(data);
+      console.log(bookingData, "bookingData");
 
-
+      // Navigate only after update is complete
+      navigate("/user/booking/findNewdriver");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     socket.on(bookingId, (data) => {
@@ -89,13 +92,10 @@ catch (error) {
   }, []);
 
   useEffect(() => {
-    console.log("Booking data updated:", bookingData);
-  }, [bookingData]);  // เมื่อ bookingData เปลี่ยนแปลง จะ log ค่าใหม่
-
-  // find new driver
-  // const hdlFindNewDriver = async () => {
-  //   const response = await actionFindNewDriver(bookingId);
-  //   console.log(response);}
+    if (searchnewdriver.id && searchnewdriver.driverId) {
+      hdUpdateDriver();
+    }
+  }, [searchnewdriver]); // เมื่อ bookingData เปลี่ยนแปลง จะ log ค่าใหม่
 
   return (
     <div className="flex flex-col place-items-center bg-cyan-600 h-screen pt-5 pr-5 pl-5 ">
@@ -151,37 +151,38 @@ catch (error) {
             ))}
           </Swiper>
         </div>
-        {/* text */}
+        <div >
+          <img src={LandingPic} alt="" />
+        </div>
         <div>
-        <p> this booking is created ,please wait for driver action.... </p>
-        <p>
-        <button onClick={hdlReject} className="btn">
+          <div className=" flex flex-col place-items-center">
+        {/* text */}
+            <div className="text-xl text-cyan-700 mb-10">
               {" "}
-              Find New Driver{" "}
-            </button>
-             {/* btn checkout */}
-          {" "}
-          {socketResult == "ACCEPT" && (
-            <button onClick={hdlAccept} className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-2xl rounded-md text-white">
-              {" "}
-              Pay Now{" "}
-            </button>
-          )}{" "}
-        </p>
-        <p>
-          {" "}
-          {socketResult == "REJECT" && (
-            <button onClick={hdlReject} className="btn"
-            
+              This booking is created ,please wait for driver action....{" "}
+            </div>
+            <div>
+              {/* btn checkout */} {/* {socketResult == "ACCEPT" && ( */}
+              <button
+                onClick={hdlAccept}
+                className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-xl rounded-md text-white"
+              >
+                {" "}
+                Pay Now{" "}
+              </button>
+              {/* )}{" "} */}
+            </div>
+            <div></div> {/* {socketResult == "REJECT" && ( */}
+            <button
+              onClick={hdlReject}
+              className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-xl rounded-md text-white"
             >
               {" "}
               Find New Driver{" "}
             </button>
-          )}{" "}
-        </p>
+            {/* )}{" "} */}
+          </div>
         </div>
-
-  
       </div>
     </div>
   );
