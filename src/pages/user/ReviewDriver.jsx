@@ -56,7 +56,7 @@ const ReviewDriver = () => {
     <div className="bg-white shadow-lg rounded-2xl p-6 max-w-md mx-auto mt-10">
       <h2 className="text-m text-cyan-500 mb-5 text-center">How was experience with the driver ?</h2>
 
-      <div className="rating mb-5 justify-center">
+      <div className="rating mb-5 justify-center w-full">
         <input type="radio" name="rating-1" className="mask mask-star bg-amber-300" aria-label="1 star" onClick={()=>{setRating("E")}}/>
         <input type="radio" name="rating-1" className="mask mask-star bg-amber-300" aria-label="2 star" onClick={()=>{setRating("D")}}/>
         <input type="radio" name="rating-1" className="mask mask-star bg-amber-300" aria-label="3 star" onClick={()=>{setRating("C")}}/>

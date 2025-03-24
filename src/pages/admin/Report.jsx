@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import {
   BarChart,
   Bar,
@@ -12,6 +13,7 @@ import {
   Cell,
 } from "recharts";
 import { Filter, PlusCircle, X } from "lucide-react";
+
 
 const tripData = [
   { month: "Jan", completed: 65, cancelled: 12 },
@@ -40,12 +42,36 @@ const Reports = () => {
     type: "",
     status: "",
     message: "",
+    topic: "",
   });
+
+
 
   // Handle creating report
 
   const handleCreateReport = () => {
-    const report = {
+    if(!newReport.type){
+      toast.error("please all input ")
+      return
+    }
+
+    if(!newReport.status){
+      toast.error("please input type")
+      return
+    }
+
+    if(!newReport.topic){
+      toast.error("please input type")
+      return
+    }
+
+    if(!newReport.message){
+      toast.error("please input type")
+      return
+    }
+
+  const report = {
+
       id: 2025000 + reports.length + 1, // Generate unique ID
       type: newReport.type, // Report type
       date: new Date().toLocaleDateString("en-US", {
@@ -56,11 +82,12 @@ const Reports = () => {
       }),
       status: newReport.status,
       message: newReport.message,
+      topic: newReport.topic
     };
 
     setReports((prev) => [report, ...prev]);
     setShowCreateModal(false);
-    setNewReport({ type: "", status: "", message: "" });
+    setNewReport({ type: "", status: "", message: "" ,topic: ""});
   };
 
   const editReport = (id) => {
@@ -69,6 +96,7 @@ const Reports = () => {
       type: report.type,
       status: report.status,
       message: report.message,
+      topic: report.topic,
     });
     setShowCreateModal(true);
   };
@@ -164,6 +192,7 @@ const Reports = () => {
             <thead>
               <tr className="text-left border-b">
                 <th className="pb-3">Report ID</th>
+                <th className="pb-3">Topic</th>
                 <th className="pb-3">Type</th>
                 <th className="pb-3">Date</th>
                 <th className="pb-3">Status</th>
@@ -174,26 +203,33 @@ const Reports = () => {
               {reports.map((report) => (
                 <tr key={report.id}>
                   <td className="py-3">#{report.id}</td>
+                  <td className="py-3">{report.topic}</td>
                   <td className="py-3">{report.type}</td>
                   <td className="py-3">{report.date}</td>
                   <td className="py-3">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        report.status === "Completed"
-                          ? "bg-green-100 text-green-800"
-                          : report.status === "Pending"
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === "Completed"
+                        ? "bg-green-100 text-green-800"
+                        : report.status === "In progress"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-blue-100 text-blue-800"
-                      }`}
+                        }`}
                     >
                       {report.status}
                     </span>
                   </td>
-                  <td className="py-3">
-                    <button className="text-blue-600 hover:text-blue-800">
-                      View Details
-                    </button>
-                  </td>
+
+                  {/*view detail*/}
+                  <button className="btn mt-2" onClick={() => document.getElementById('my_modal_3').showModal()}>View Detail</button>
+                  <dialog id="my_modal_3" className="modal">
+                    <div className="modal-box ">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2">✕</button>
+                      </form>
+                      <h3 className="font-bold text-lg">Report</h3>
+
+                    </div>
+                  </dialog>
                 </tr>
               ))}
             </tbody>
@@ -205,7 +241,13 @@ const Reports = () => {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
+
+            <button 
+            className=" px-4 py-2 rounded-2xl right-137 absolute mb-2 hover:bg-gray-200" 
+            onClick={() => setShowCreateModal(false)} >✕</button>
+
             <h2 className="text-lg font-semibold mb-4">Create New Report</h2>
+
             <select
               value={newReport.type}
               onChange={(e) =>
@@ -214,8 +256,8 @@ const Reports = () => {
               className="border w-full p-2 rounded mb-4"
             >
               <option value="">Select Report Type</option>
-              <option value="Driver Performance">Driver Performance</option>
-              <option value="Patient Feedback">Patient Feedback</option>
+              <option value="Driver">Driver </option>
+              <option value="User">User</option>
             </select>
 
             {/* Status dropdown */}
@@ -228,9 +270,17 @@ const Reports = () => {
             >
               <option value="">Select Status</option>
               <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
               <option value="In Progress">In Progress</option>
             </select>
+
+            <div>
+                <input className="border w-full p-2 mb-4 rounded" 
+                placeholder="Topic"
+                value={newReport.topic}
+                onChange={(e) =>
+                setNewReport({ ...newReport, topic: e.target.value })
+              }/>
+            </div>
 
             <textarea
               placeholder="Report Message"
@@ -249,6 +299,7 @@ const Reports = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
