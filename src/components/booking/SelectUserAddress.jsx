@@ -11,6 +11,7 @@ export default function SelectUserAddress({ handleUserAddressChange }) {
 
   useEffect(() => {
     fetchGetUserAddress();
+    console.log(userAddress);
   }, []);
 
   // const userAddressdata = userAddress.map((address) => ({

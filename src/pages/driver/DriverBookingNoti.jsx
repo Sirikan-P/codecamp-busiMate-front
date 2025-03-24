@@ -17,10 +17,11 @@ function DriverBookingNoti() {
   const actionClearSocketData = useNotifyStored(state => state.actionClearSocketData)
 
   useEffect(() => {
+    console.log("test test",driver.id)
     socket.on("U"+driver.id, (data) => {
       // if(sender=="USER") {
       console.log("effect at driver", data)
-      actionSetSocketData(data)
+      //actionSetSocketData(data)
       // }
       //global storage
     })
@@ -29,35 +30,25 @@ function DriverBookingNoti() {
   ///console.log("socket from user", socketData)
 
 
-  const hdlDriversubmit = (bookingId) => {
-    const data = {
-      driverId: '1',
-      name: "driver1",
-      userId: '2',
-      bookingId: bookingId,
-      result:'ACCEPT'
-    }
-    actionClearSocketData(bookingId)
-    actionClearSocketUsersReq(bookingId)
+  const hdlDriversubmit = (booking) => {
+    const data = {...booking , result:'ACCEPT'}    
+    
+    actionClearSocketData(booking.id)
+    actionClearSocketUsersReq(booking.id)
     socket.emit("driver_noti", (data))
   }
 
-  const hdlDriverReject = (bookingId) => {
-    const data = {
-      driverId: '1',
-      name: "driver1",
-      userId: '2',
-      bookingId: bookingId,
-      result:'REJECT'
-    }
-    actionClearSocketData(bookingId)
-    actionClearSocketUsersReq(bookingId)
+  const hdlDriverReject = (booking) => {
+   
+   const data = {...booking , result:'REJECT'} 
+    actionClearSocketData(booking.id)
+    actionClearSocketUsersReq(booking.id)
     socket.emit("driver_noti", (data))
   }
 
   return (
     <div>DriverBookingNoti
-      {(socketData) &&
+      {/* {(socketData) &&
         <div>
           {socketData?.map((item, index) => (
             <div key={index}>
@@ -69,16 +60,16 @@ function DriverBookingNoti() {
               <p>Booking long: {item.long}</p>
 
               <button
-            onClick={()=>hdlDriversubmit(item.id)}
+            onClick={()=>hdlDriversubmit(item)}
             className='btn'>  SEND ACCEPT </button>
                       <button
-            onClick={()=>hdlDriverReject(item.id)}
+            onClick={()=>hdlDriverReject(item)}
             className='btn'>  SEND REJECT </button>
               
             </div>
           ))}
         </div>         
-      }
+      } */}
 
     </div>
   )
