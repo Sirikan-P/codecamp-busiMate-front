@@ -37,28 +37,28 @@ const LoginDriver = () => {
   const actionLinktoDriverRegister = () => navigate("/driver/register");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center w-full p-4 md:p-8">
-      <div className="w-full max-w-md md:max-w-lg bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Logo Section */}
-        <div className="flex flex-col items-center py-6 md:py-10">
-          <img
-            src={busimatelogo}
-            alt="Busimate Logo"
-            className="w-3/4 max-w-[200px] md:max-w-[250px]"
-          />
-        </div>
+    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full">
+     {/* TITLE */}
+           <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center ">
+             <div className="text-4xl font-bold top-40 text-cyan-700 ">
+               Busi <span className="italic text-5xl ">Mate</span>
+             </div>
+             <img className="w-30" src={Elder04} alt="" />
+           </div>
 
-        {/* Form Section */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-cyan-50 px-6 md:px-10 py-8 md:py-12 rounded-t-[40px] md:rounded-t-[60px] flex flex-col gap-6 items-center"
+          {/* Form */}
+          <form onSubmit={handleSubmit} 
+        className="bg-white space-y-6 h-[500px] top-90 absolute z-10 rounded-lg p-5  shadow-2xl flex flex-col justify-center place-items-center"
         >
-          <h1 className="text-2xl md:text-3xl text-cyan-600 font-bold">
-            Sign In
-          </h1>
-
-          {/* Email Input */}
-          <div className="w-full">
+            {/* Sign in */}
+        <div className="w-full flex justify-center">
+          <div className="text-[24px] text-cyan-600 pt-5 pb-5 font-semibold">
+            Driver Login
+          </div>
+        </div>
+            <div className="gap-5 flex flex-col justify-center place-items-center">
+            {/* email input */}
+          <div className="">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
@@ -127,9 +127,11 @@ const LoginDriver = () => {
               Become our Driver
             </span>
           </div>
-        </form>
-      </div>
-    </div>
+          </form>
+          <div className="bg-slate-50 absolute z-5 bottom-135 w-full h-full rounded-b-4xl"></div>
+
+        </div>
+     
   );
 };
 

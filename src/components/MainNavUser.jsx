@@ -1,4 +1,6 @@
 import {
+  Car,
+  ClipboardPlus,
   Home,
   LogOut,
   Menu,
@@ -68,62 +70,30 @@ function MainNavUser() {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {isOpen && (
-        <div className="md:hidden absolute top-16 right-0 w-64 bg-white shadow-2xl rounded-lg z-10 p-4 transition-all duration-300 ease-in-out">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-          {authItems.map((item) =>
-            item.to ? (
-              <Link
-                key={item.label}
-                to={item.to}
-                className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            ) : (
-              <div
-                key={item.label}
-                className="flex items-center gap-2 text-cyan-600 hover:bg-cyan-50 active:bg-rose-100 p-2 rounded-md w-full cursor-pointer"
-                onClick={() => {
-                  if (item.onClick) item.onClick();
-                  setIsOpen(false);
-                }}
-              >
-                {item.icon}
-                {item.label}
-              </div>
-            )
-          )}
-        </div>
-      )}
-
-      {/* Desktop Horizontal Menu */}
-      <div className="hidden md:flex justify-between items-center p-4 max-w-7xl mx-auto">
-        <Link to="/user" className="text-cyan-600 font-bold text-lg">
-          Busimate
+      { isOpen && 
+      <div className="grid grid-rows-6  shadow-2xl place-items-start gap-2 absolute z-10 right-1 w-[200px] bg-white pt-5 pb-5">
+        <Link to='/user' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
+          <Home /> Home
         </Link>
-        <div className="flex items-center gap-6">
-          {navItems.map((item) => (
+        <Link to='/user/booking' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+          <NotebookText /> Booking
+        </Link>
+        <Link href="#" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+          <MessageCircleMore /> Chat
+        </Link>
+        <Link to='/user/booking/create' className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+          <PencilLine /> Create Booking
+        </Link>
+        <Link to="/user/patients" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+              <ClipboardPlus />Patients
+        </Link>
+        {authUser && (
+          <>
             <Link
-              key={item.label}
-              to={item.to}
-              className="flex items-center gap-2 text-cyan-600 hover:text-cyan-500 transition-colors"
+              to="/user/setting"
+              className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
             >
-              {item.icon}
-              {item.label}
+              <User className="w-5 h-5" />Edit Profile
             </Link>
           ))}
           {authItems.map((item) =>

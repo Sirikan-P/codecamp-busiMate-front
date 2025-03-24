@@ -1,16 +1,23 @@
 import { React, useState, useEffect } from "react";
-import { Car, MapPin, Shield, ChevronRight } from "lucide-react";
+import { Car, MapPin, Shield, Clock, Star, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import busiMate from "../assets/busimatelogo.png";
 import homeImg from "../assets/homeImg.jpg";
-import Elder01 from "../assets/Elder01.jpg";
-import Elder02 from "../assets/Elder02.jpg";
-import Elder03 from "../assets/Elder03.jpg";
-import { motion } from "framer-motion";
+
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 function Home() {
   const navigate = useNavigate();
-  const [currentBoxIndex, setCurrentBoxIndex] = useState(0);
+  const [currentBoxIndex, setCurrentBoxIndex] = useState(0); // เก็บหมายเลขกล่องที่จะแสดง
+
   const boxData = [
     {
       icon: <Car className="w-10 h-10" />,
@@ -36,74 +43,77 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const boxVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.8 } },
+
+  const actionLinktoLogin = () => {
+    navigate("/user/login");
   };
 
-  const actionLinktoLogin = () => navigate("/user/login");
-  const actionLinktoDriverRegister = () => navigate("/driver/register");
+  const actionLinktoDriverRegister = () => {
+    navigate("/driver/register");
+  };
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
-      {/* Hero Section with Full-Size Background Image */}
-      <div className="relative w-full h-[50vh] md:h-screen overflow-hidden">
-        <img
-          src={homeImg}
-          alt="Home Background"
-          className="w-full h-full object-cover"
-        />
-        {/* Animated Feature Box */}
-        <div className="absolute inset-0 flex items-center justify-center px-4 md:px-8">
-          <motion.div
-            className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg text-cyan-600 flex flex-col gap-2"
-            variants={boxVariants}
-            initial="hidden"
-            animate="visible"
-            key={currentBoxIndex}
-            transition={{ duration: 1 }}
-          >
-            {boxData[currentBoxIndex].icon}
-            <h3 className="font-semibold text-lg md:text-xl">
-              {boxData[currentBoxIndex].title}
-            </h3>
-            <p className="text-xs md:text-sm">
-              {boxData[currentBoxIndex].text}
-            </p>
-          </motion.div>
-        </div>
+    <div className="w-full min-h-screen relative">
+      {/* Background Image */}
+      <img src={homeImg} alt="" className="w-full h-full object-cover " />
+
+      {/* Swiper บนสุด */}
+      <div className="absolute top-100 left-1/2 transform -translate-x-1/2 z-20 w-[90%] max-w-lg">
+        <Swiper
+          spaceBetween={5}
+          autoplay={{
+            delay: 2000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          // pagination={{ clickable: true }}
+          // navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="w-full"
+        >
+          {boxData.map((box, index) => (
+            <SwiperSlide key={index}>
+              <div className="shadow-lg p-5 bg-white rounded-lg text-cyan-600 flex flex-col items-start ">
+                {box.icon}
+                <div className="font-semibold mt-2">{box.title}</div>
+                <span className="text-[12px]">{box.text}</span>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
-      {/* Call-to-Action Section */}
-      <div className="flex flex-col items-center gap-8 p-6 md:p-10 bg-cyan-600 text-center">
-        <div className="flex flex-col items-center gap-4">
-          <h2 className="text-xl md:text-3xl font-bold text-cyan-200">
+      {/* Content ด้านล่าง Swiper */}
+      <div className="flex flex-col gap-10 items-center text-center p-10 pt-30 h-[470px] bg-cyan-600">
+        <div className="flex flex-col items-center gap-5">
+          <h2 className="text-2xl font-bold text-cyan-200">
             Too busy to take your loved ones to the Hospital?
           </h2>
-          <p className="text-slate-200 text-xs md:text-base max-w-lg">
-            Join thousands of users who trust Busimate for their transportation
-            needs.
+          <p className="text-slate-200 text-[12px]">
+            Join thousands of users who trust Busimate for their transportation needs.
           </p>
         </div>
 
-        <div className="flex flex-col items-center gap-4">
+        {/* Buttons */}
+        <div>
           <button
-            onClick={actionLinktoLogin}
-            className="bg-cyan-700 text-white px-10 py-3 md:px-20 rounded-full hover:bg-blue-600 transition-colors flex items-center text-sm md:text-base"
+            onClick={() => navigate("/user/login")}
+            className="bg-cyan-700 text-white px-20 py-3 rounded-full  flex items-center"
           >
             Get Started
             <ChevronRight className="ml-2 h-5 w-5" />
           </button>
-          <div className="flex flex-col md:flex-row items-center gap-2">
-            <span className="text-slate-300 text-xs md:text-sm">
-              Want to Become Our Drivers?
+
+          <div className="flex justify-center items-center gap-2 mt-5">
+            <span className="text-[14px] text-slate-300">
+             Driver Login
             </span>
-            <button
-              onClick={actionLinktoDriverRegister}
-              className="text-rose-300 text-xs md:text-sm hover:underline"
+            <span
+              onClick={() => navigate("/driver/login")}
+              className="text-rose-300 text-[12px] cursor-pointer"
             >
               Click Here
-            </button>
+            </span>
           </div>
         </div>
       </div>

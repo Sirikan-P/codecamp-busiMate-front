@@ -1,10 +1,14 @@
 //connect authend backend
-import axios from "axios";
+import axios from "../lib/axios.js";
 
-export const actionUserRegister = async (token) => {
-  try {
-   console.log("mocck");
-  } catch (error) {
-   
-  }
-};
+export const actionCurrentUser = async () =>{
+  return await axios.get('http://localhost:8877/user'
+     )}
+
+// export const actionCurrentDriver = async (token) =>{
+//   console.log(token);
+//   return await axios.get('http://localhost:8877/user', {
+//       headers:{
+//           Authorization: `Bearer ${token}`
+//       }
+//   })}

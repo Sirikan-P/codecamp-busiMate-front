@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
-import { Loader2, Lock, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import ElderIllus from "../../assets/elder05.png";
+import AuthImagePattern from "../../components/AuthImagePattern";
+import { Loader2, Lock, Mail, MessageSquare, Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import elder05 from "../../assets/elder05.png";
+import busimatelogo from "../../assets/busimatelogo.png";
 import { toast } from "react-toastify";
 
 const LoginUser = () => {
@@ -30,7 +32,7 @@ const LoginUser = () => {
     const success = validateForm();
     if (success === true) {
       await login(formData);
-      navigate("/user");
+      navigate("/user/profile");
     }
   };
 
@@ -38,109 +40,110 @@ const LoginUser = () => {
   const actionLinktoDriverRegister = () => navigate("/driver/register");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center w-full p-4 md:p-8">
-      <div className="w-full max-w-md md:max-w-lg bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Logo/Illustration Section */}
-        <div className="flex flex-col items-center py-6 md:py-10">
-          <h1 className="text-2xl md:text-3xl text-cyan-600 font-bold">
-            Sign In
-          </h1>
-          <img
-            src={ElderIllus}
-            alt="Healthcare Illustration"
-            className="w-3/4 max-w-[300px] md:max-w-[400px] mt-6 md:mt-10"
-          />
+    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full">
+      {/* TITLE */}
+      <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center">
+        <div className="text-4xl font-bold top-40 text-cyan-700 ">
+          Busi <span className="italic text-5xl ">Mate</span>
+        </div>
+        <img className="w-80" src={elder05} alt="" />
+      </div>
+
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white space-y-6 h-[500px] top-90 absolute z-10 rounded-lg p-5  shadow-2xl flex flex-col justify-center place-items-center"
+      >
+        {/* Sign in */}
+        <div className="w-full flex justify-center">
+          <div className="text-[24px] text-cyan-600 pt-5 pb-5 font-semibold">
+            Login Account
+          </div>
+        </div>
+        <div className="form-control">
+          {/* email input */}
+          <label className="block text-sm font-medium text-cyan-800  mb-2">
+            Email
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"></div>
+            <input
+              type="email"
+              className="bg-white w-[300px] px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        {/* password Input */}
+        <div className="form-control">
+          <label className="block text-sm font-medium text-cyan-800  mb-2">
+            Password
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Lock className="w-5 h-5 text-gray-500" />
+            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input input-bordered pl-10 h-12 w-[300px]"
+              placeholder="•••••••••"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            </button>
+          </div>
+        </div>
+        {/* btn login */}
+        <button
+          type="submit"
+          className="w-1/2 bg-cyan-600 text-white py-3 rounded-md text-xl"
+          disabled={isLogin}
+        >
+          {isLogin ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Loading....
+            </>
+          ) : (
+            "Login"
+          )}
+        </button>
+        {/* USER Register */}
+        <div className="w-full flex justify-center">
+          <div className="text-center text-sm text-slate-500">
+            Don't have an account?
+            <span
+              onClick={actionLinktoRegister}
+              className="text-cyan-800 hover:text-cyan-600 font-medium pl-2"
+            >
+              Register
+            </span>
+          </div>
         </div>
 
-        {/* Form Section */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-cyan-50 px-6 md:px-10 py-8 md:py-12 rounded-t-[40px] md:rounded-t-[60px] flex flex-col gap-6 items-center"
-        >
-          {/* Email Input */}
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
-            <div className="relative">
-              <input
-                type="email"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-            </div>
-          </div>
-
-          {/* Password Input */}
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="•••••••••"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center"
-            disabled={isLogin}
+        {/* Driver Register */}
+        <div className="text-center text-sm text-gray-500">
+          <div
+            onClick={actionLinktoDriverRegister}
+            className="text-rose-800 font-medium"
           >
-            {isLogin ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                Loading...
-              </>
-            ) : (
-              "Login"
-            )}
-          </button>
-
-          {/* Register Links */}
-          <div className="text-center text-sm text-gray-500 space-y-2">
-            <p>
-              Don’t have an account?{" "}
-              <span
-                onClick={actionLinktoRegister}
-                className="text-cyan-500 hover:text-cyan-600 font-medium cursor-pointer"
-              >
-                Register
-              </span>
-            </p>
-            <p>
-              <span
-                onClick={actionLinktoDriverRegister}
-                className="text-cyan-500 hover:text-cyan-600 font-medium cursor-pointer"
-              >
-                Become our Driver
-              </span>
-            </p>
+            Become our Driver
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
+      <div className="bg-slate-50 absolute z-5 bottom-135 w-full h-full rounded-b-4xl"></div>
     </div>
   );
 };

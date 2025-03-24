@@ -11,6 +11,8 @@ export const userAuthStore = create(
       isLogin: false,
       isUpdatingProfile: false,
       isCheckingAuth: false,
+      patients: [],
+  userAddress: [],
 
       initializeAuth: async () => {
         const persistedState = localStorage.getItem("user-auth-storage");
@@ -91,6 +93,31 @@ export const userAuthStore = create(
           return false;
         } finally {
           set({ isLogin: false });
+        }
+      },
+
+      fetchGetPatients: async () => {
+        try {
+          const res = await axiosInstance.get("/user/patient");
+          set({ patients: res.data.patients });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      UpdateImageProfileAuthUser: async (formData) => {
+        try {
+          const res = await axiosInstance.post("/user/me/profile/upload", formData);
+          set({ patients: res.data });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      fetchGetUserAddress: async () => {
+        try {
+          const res = await axiosInstance.get("/user/useraddress");
+          set({ userAddress: res.data });
+        } catch (error) {
+          console.log(error);
         }
       },
 

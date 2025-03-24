@@ -1,112 +1,222 @@
-import { Camera, Mail, User } from "lucide-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { userAuthStore } from "../../store/userAuthStore";
-import { useState } from "react";
+import useHospitalStore from "../../store/hospital-store";
 
 const ProfilePageUser = () => {
-  const { authUser, isUpdatingProfile, updateProfile } = userAuthStore();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const checkAuth = userAuthStore((state) => state.checkAuth);
+  const authUser = userAuthStore((state) => state.authUser);
+  const fetchGetPatients = userAuthStore((state) => state.fetchGetPatients);
+  const patients = userAuthStore((state) => state.patients);
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const fetchHospitalData = useHospitalStore(
+    (state) => state.fetchHospitalData
+  );
+  const fetchGetUserAddress = userAuthStore(
+    (state) => state.fetchGetUserAddress
+  );
 
-    setSelectedImage(URL.createObjectURL(file));
+ console.log("patients", patients);
+  useEffect(() => {
+    checkAuth();
+    fetchGetPatients();
+    fetchHospitalData();
+  }, []);
 
-    try {
-      await updateProfile(file);
-      setSelectedImage(null);
-    } catch (error) {
-      console.error("Error uploading image in ProfilePageUser:", error);
-      setSelectedImage(null);
-    }
+  const navigate = useNavigate();
+  const hdlEdit = () => {
+    navigate("/user/setting");
   };
-
+  const hdlSelect =() =>{
+    navigate("/user/patients");
+  }
+  console.log("authUser", authUser);  
   return (
-    <div className="h-screen py-20 bg-gray-900 text-white">
-      <div className="max-w-2xl mx-auto p-4 py-8">
-        <div className="bg-gray-800 rounded-xl p-6 space-y-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-semibold">Profile</h1>
-            <p className="mt-2 text-gray-400">Your profile information</p>
+    <div
+      style={{
+        fontFamily: "sans-serif",
+        backgroundColor: "#f0f0f0",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "600px",
+          backgroundColor: "white",
+          padding: "20px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>Myprofile</div>
+          <button
+            style={{
+              backgroundColor: "#e0e0e0",
+              border: "none",
+              padding: "8px 15px",
+              borderRadius: "5px",
+            }}
+          >
+            MAKE APPOINTMENT
+          </button>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <div
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              backgroundColor: "#e0e0e0",
+              marginRight: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* Placeholder for Profile Image */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontWeight: "bold" }}>{authUser?.result?.firstName+"  " +authUser?.result?.lastName }</div>
+            <div>{authUser?.result?.phoneNumber}</div>
+            <div>Bkk, Thailand</div>
+          </div>
+        </div>
+
+        <button
+          style={{
+            backgroundColor: "#e0e0e0",
+            border: "none",
+            padding: "8px 15px",
+            borderRadius: "5px",
+            alignSelf: "flex-start",
+            marginBottom: "20px",
+          }}
+          onClick={hdlEdit}
+        >
+          PROFILE
+        </button>
+
+        <div style={{ marginBottom: "20px" }}>
+          <div
+            style={{
+              backgroundColor: "#e0e0e0",
+              padding: "15px",
+              borderRadius: "10px",
+            }}
+          >
+            {/* Placeholder for VISA Card */}
+            <div style={{ fontSize: "2em", textAlign: "center" }}>VISA</div>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ fontWeight: "bold", marginBottom: "10px" }}>
+            Patients
           </div>
 
-          {/* avatar upload section */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative inline-block">
-              <img
-                src={selectedImage || authUser?.profileImage || "/avatar.png"}
-                alt="Profile"
-                className="w-32 h-32 rounded-full object-cover border-4 border-gray-700"
-              />
-              <label
-                htmlFor="avatar-upload"
-                className={`absolute bottom-2 right-2 bg-gray-600 hover:bg-gray-500 p-2 rounded-full cursor-pointer transition-all duration-200 ${
-                  isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
-                }`}
+          {patients?.map((patient) => {
+            return (
+              <div
+                style={{
+                  backgroundColor: "#f8f8f8",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
               >
-                <Camera className="w-5 h-5 text-white" />
-                <input
-                  type="file"
-                  id="avatar-upload"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={isUpdatingProfile}
-                />
-              </label>
-            </div>
-            <p className="text-sm text-gray-400">
-              {isUpdatingProfile
-                ? "Uploading..."
-                : "Click the camera icon to update your photo"}
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <User className="w-4 h-4" />
-                Full Name
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                      backgroundColor: "#e0e0e0",
+                      marginRight: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* Placeholder for Patient Image */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="16"></line>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: "bold" }}>{patient.firstName + " " +patient.lastName }</div>
+                    <div>{patient.address}</div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    style={{
+                      backgroundColor: "#e0e0e0",
+                      border: "none",
+                      padding: "8px 15px",
+                      borderRadius: "5px",
+                      marginRight: "5px",
+                    }}
+                    onClick={hdlSelect}
+                  >
+                    Select
+                  </button>
+                 
+                </div>
               </div>
-              <input
-                type="text"
-                value={`${authUser?.firstName || ""} ${authUser?.lastName || ""}`}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <Mail className="w-4 h-4" />
-                Email Address
-              </div>
-              <input
-                type="email"
-                value={authUser?.email || ""}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 bg-gray-700 rounded-xl p-6">
-            <h2 className="text-lg font-medium mb-4 text-white">Account Information</h2>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-gray-600">
-                <span className="text-gray-400">Member Since</span>
-                <span className="text-white">{authUser?.createdAt?.split("T")[0]}</span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-400">Account Status</span>
-                <span className="text-green-500">Active</span>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 };
-
 export default ProfilePageUser;
+
+
+

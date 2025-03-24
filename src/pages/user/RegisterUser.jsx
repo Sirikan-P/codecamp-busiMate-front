@@ -47,160 +47,176 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-white flex items-center justify-center w-full p-4 md:p-8">
-      <div className="w-full max-w-md md:max-w-lg bg-white shadow-lg rounded-lg p-6 md:p-8">
-        {/* Header */}
-        <h1 className="text-2xl md:text-3xl font-bold text-cyan-600 mb-6 md:mb-8 text-center">
-          Register as User
-        </h1>
+    <div className="bg-cyan-600 p-5 pt-10 pb-10 w-full">
+    <div className=" rounded-lg flex justify-center flex-col bg-white p-10 ">
+      <h1 className="text-2xl font-bold text-cyan-600 mb-30">Register</h1>
+      {/* register head */}
+      {/* <div className="flex justify-center">
+        <img src={Elder01} alt="" className="w-[250px]" />
+      </div> */}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* First Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              First Name
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <User className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type="text"
-                className="w-full pl-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={(e) =>
-                  setFormData({ ...formData, firstName: e.target.value })
-                }
-              />
+      <form onSubmit={handleSubmit} className="space-y-6 text-cyan-700">
+        {/* firstname input */}
+        <div>
+          <label
+            htmlFor="firstname"
+            s
+            className="block text-sm font-medium text-slate-400 mb-1"
+          >
+            First Name
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <User className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type="text"
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+            />
           </div>
-
-          {/* Last Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Last Name
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <User className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type="text"
-                className="w-full pl-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
-                }
-              />
+        </div>
+        {/* Lastname input */}
+        <div>
+          <label
+            htmlFor="lastname"
+            className="block text-sm font-medium text-slate-400 mb-1"
+          >
+            Last Name
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <User className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type="text"
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+            />
           </div>
-
-          {/* Phone Number */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Phone className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type="text"
-                className="w-full pl-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="Phone Number"
-                value={formData.phoneNumber}
-                onChange={(e) =>
-                  setFormData({ ...formData, phoneNumber: e.target.value })
-                }
-              />
+        </div>
+        {/* Phone number input */}
+        <div className="form-control">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-slate-400mb-1"
+          >
+            Phone Number
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Phone className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type="text"
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="Phone Number"
+              value={formData.phoneNumber}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }
+            />
           </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type="email"
-                className="w-full pl-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
+        </div>
+        {/* Email input */}
+        <div className="form-control">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-slate-400 mb-1"
+          >
+            Email
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Mail className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type="email"
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
           </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="•••••••••"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
+        </div>
+        {/* Password input */}
+        <div className="relative">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-slate-400mb-1"
+          >
+            Password
+          </label>
+          <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Lock className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type={showPassword? 'text' : 'password'}
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="please enter your password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            </button>
           </div>
-
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="w-5 h-5 text-gray-500" />
-              </div>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition bg-white"
-                placeholder="•••••••••"
-                value={formData.confirmPassword}
-                onChange={(e) =>
-                  setFormData({ ...formData, confirmPassword: e.target.value })
-                }
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-              </button>
+        </div>
+        {/* Confirm Password input */}
+        <div className="relative">
+          <label
+            htmlFor="confirmpassword"
+            className="block text-sm font-medium text-slate-400 mb-1"
+          >
+            Confirm Password
+          </label>
+          <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Lock className="w-5 h-5 text-gray-500" />
             </div>
+            <input
+              type={showConfirmPassword? 'text' : 'password'}
+              className={`input input-bordered w-full pl-10 h-12`}
+              placeholder="please enter your password again"
+              value={formData.confirmPassword}
+              onChange={(e) =>
+                setFormData({ ...formData, confirmPassword: e.target.value })
+              }
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            </button>
           </div>
-
-          {/* Submit Button */}
+        </div>
+        {/* Create Account button */}
+        <div className="flex justify-center items-center">
           <button
             type="submit"
             className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center mx-auto"
             disabled={isRegister}
+            type="submit"
+            className="w-1/2 bg-cyan-600 text-white py-2 px-4 rounded-md h-12"
           >
             {isRegister ? (
               <>
@@ -211,18 +227,18 @@ const RegisterUser = () => {
               "Create Account"
             )}
           </button>
-        </form>
-
-        {/* Sign In Link */}
-        <div className="text-center mt-6">
-          <p className="text-gray-500 text-sm">
-            Already have an account?{" "}
-            <Link to="/user/login" className="text-cyan-600 hover:underline">
-              Sign in
-            </Link>
-          </p>
         </div>
+      </form>
+      {/* Sign in bt */}
+      <div className="text-center pt-5">
+        <p className="text-slate-400">
+          Already have an account?{" "}
+          <Link to="/user/login" className="font-semibold link text-pink-800">
+            Sign in
+          </Link>
+        </p>
       </div>
+    </div>
     </div>
   );
 };
