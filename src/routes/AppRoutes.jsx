@@ -96,12 +96,13 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+
 import CreateBooking from "../pages/user/userBooking/CreateBooking";
 import AllBooking from "../pages/user/userBooking/AllBooking";
 import FindDriver from "../pages/user/userBooking/FindDriver";
 import ShowOneBooking from "../pages/user/userBooking/ShowOneBooking";
 import UploadAppointmentImg from "../pages/user/userBooking/UploadAppointmentImg";
-import Dashboard2 from "../pages/admin/Dashboard2";
+
 import DriverEditProfile from "../pages/driver/DriverEditProfile";
 import DriverAddress from "../pages/driver/DriverAddress";
 import DriverAddAddress from "../pages/driver/DriverAddAddress";
@@ -110,11 +111,28 @@ import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import SettingPagePatiens from "../pages/user/SettingPagePatiens";
 import PatientsPageUser from "../pages/user/PatientsPageUser";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
-import Patients from "../pages/admin/Patients";
+
 import HandleBookingResponse from "../pages/user/userBooking/HandleBookingResponse";
 import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
 import Checkout from "../pages/user/payment/Checkout";
+
 import CheckoutComplete from "../pages/user/payment/CheckoutComplete";
+
+
+
+
+
+
+
+import UserHome from "../pages/user/UserHome";
+import UserBooking from "../pages/user/UserBooking";
+import UserProfile from "../pages/user/UserProfile";
+import MockUserProfile from "../pages/user/MockUserProfile";
+import Patients from "../pages/admin/Patients";
+import Dashboard1 from "../pages/admin/Dashboard1";
+import Dashboard2 from "../pages/admin/Dashboard2";
+import SettingPageDriver from "../pages/driver/SettingPageDriver";
+import Patients1 from "../pages/admin/Patients1";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -210,10 +228,11 @@ function AppRoutes() {
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<Dashboard2 />} />
           <Route path="drivers" element={<Drivers />} />
-          <Route path="patients" element={<Patients />} />
+          <Route path="patients" element={<Patients1 />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
           <Route path="drivers-old" element={<AdminGetDriver />} />
+          <Route path="dashboard-chun" element={<Dashboard />} />
         </Route>
 
         {/* 404 */}

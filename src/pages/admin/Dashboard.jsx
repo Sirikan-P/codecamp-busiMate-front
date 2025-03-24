@@ -115,9 +115,9 @@ const Dashboard = () => {
         </div>
       </div>
       {/* Weekly Overview and Recent Activities */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Weekly Trips Overview */}
-      {/* <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Weekly Trips Overview</h2>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -135,9 +135,9 @@ const Dashboard = () => {
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </div> */}
+        </div>
       {/* Recent Activities */}
-      {/* <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Recent Activities</h2>
           <div className="space-y-4">
             {mockRecentActivities.map((activity) => (
@@ -158,11 +158,11 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-      </div> */}
+      </div>
       {/* Top Performing Drivers and System Alerts */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Top Performing Drivers */}
-      {/* <div className="bg-white p-6 rounded-lg shadow col-span-2">
+      <div className="bg-white p-6 rounded-lg shadow col-span-2">
           <h2 className="text-lg font-semibold mb-4">Top Performing Drivers</h2>
           <div className="space-y-4">
             {mockTopDrivers.map((driver) => (
@@ -194,10 +194,10 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
-        </div> */}
+        </div>
 
       {/* System Alerts */}
-      {/* <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">System Alerts</h2>
           <div className="space-y-4">
             {mockAlerts.map((alert) => (
@@ -216,7 +216,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
