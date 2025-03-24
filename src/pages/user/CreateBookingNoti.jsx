@@ -24,7 +24,7 @@ function CreateBookingNoti() {
   const hdlGetDriver = () => {
     socket.emit('send_noti', (booking)) // create socket event 
     actionSetSocketUsersReq(booking)
-    navigate('/driver/receiveNotiresult')
+    //navigate('/driver/receiveNotiresult')
   }
 
   return (

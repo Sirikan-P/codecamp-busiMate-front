@@ -9,13 +9,13 @@ export const actionGetUserBooking = async () =>{
 
 // GetOneBooking
 export const actionGetOneUserBooking = async (id) =>{
-  console.log(id);
+  console.log("api booking id:",id);
   return await axiosInstance.get(`http://localhost:8877/api/user/booking/get/${id}`)
 }
 
 // CreateUserBooking
 export const actionCreateUserBooking = async ( data) =>{
-  console.log(data);
+  console.log("api data" , data);
   return await axiosInstance.post('http://localhost:8877/api/user/booking/create', data)
 }
 

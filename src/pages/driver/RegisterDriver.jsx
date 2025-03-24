@@ -272,8 +272,7 @@ const RegisterDriver = () => {
             type="submit"
             className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center mx-auto"
             disabled={isRegister}
-            type="submit"
-            className="w-1/2 bg-cyan-600 text-white py-2 px-4 rounded-md h-12"
+
           >
             {isRegister ? (
               <>

@@ -208,14 +208,14 @@ function AppRoutes() {
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
           <Route path="booking/findNewdriver" element={authUser ? <FindNewDriver/> : <Navigate to="/user/login" />}/>
           <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
-          <Route
+          {/* <Route
             path="register"
             element={authUser ? <Navigate to="/user" /> : <RegisterUser />}
           />
            <Route
             path="login"
             element={authUser ? <Navigate to="/user" /> : <LoginUser />}
-          />
+          /> */}
            <Route
             path="chat"
             element={authUser ? <ChatUser /> : <Navigate to="/user/login" />}
@@ -234,15 +234,17 @@ function AppRoutes() {
         <Route path="driver" element={<LayoutDriver />}>
           <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
           <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
-          <Route path="edit" element={<DriverEditProfile />} />
-           <Route path="address" element={<DriverAddress />} />
-           <Route path="address/add" element={<DriverAddAddress />} />
-           <Route path="booking" element={<DriverBooking />} />          
+          <Route path="edit" element={authDriver ? (<DriverEditProfile />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="address" element={authDriver ? (<DriverAddress />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="address/add" element={authDriver ? (<DriverAddAddress />) : (<Navigate to="/driver/login" /> )}/>
+          <Route path="booking" element={authDriver ? (<DriverBooking />) : (<Navigate to="/driver/login" /> )}/>
+
+
            <Route path="receiveNoti" element={<DriverBookingNoti />} />
             {/*move these route for usernoti page */}
             <Route path="sendNoti" element={<CreateBookingNoti />} />
            <Route path="receiveNotiresult" element={<CreateBookingNotiResult />} />
-           <Route
+           {/* <Route
             path="register"
             element={
               authDriver ? <Navigate to="/driver" /> : <RegisterDriver />
@@ -251,7 +253,7 @@ function AppRoutes() {
           <Route
             path="login"
             element={authDriver ? <Navigate to="/driver" /> : <LoginDriver />}
-          />
+          /> */}
           <Route
             path="chat"
             element={

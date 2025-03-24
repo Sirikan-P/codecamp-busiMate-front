@@ -19,27 +19,23 @@ function FindDriver() {
   const driverDataToSendNoti = selectDriver.data
 
   // const bookingData = 1
-
 const bookingData = userbooking
-console.log(bookingData);
 
-  
 const bookingUser = async () => {
-    try {
+      try {
+      //console.log("booking user" ,bookingData.id)
       const showbooking = await actionGetOneUserBooking(bookingData.id);
-      console.log(showbooking.data);
+      console.log("show booking" ,showbooking.data);
       setBookingwithId( showbooking.data)
     } catch (error) {
-      console.log(error);
-    }
-   console.log(booking);
+      console.log(error);    }   
   };
 
-useEffect(() => {
-  bookingUser();
+useEffect(() => { 
+  bookingUser()
 }, []);
 
-
+console.log("current booking to io",booking.id,',driverid:',booking.driverId);
 // send noti to driver
 const socket = io('http://localhost:8877')
 
@@ -47,8 +43,8 @@ const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
 const actionSetSocketUsersReq = useNotifyStored(state => state.actionSetSocketUsersReq)
 
 const hdlGetDriver = () => {
-  socket.emit('send_noti', (bookingData)) // create socket event 
-  actionSetSocketUsersReq(bookingData)
+  socket.emit('send_noti', (booking)) // create socket event 
+  actionSetSocketUsersReq(booking)
   navigate('/user/booking/handlebookingres')
 }
 
