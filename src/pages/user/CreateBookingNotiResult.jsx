@@ -6,9 +6,9 @@ import io from "socket.io-client"
 const socket = io('http://localhost:8877', {})
 
 function CreateBookingNotiResult() {
-
+ 
+ 
  const bookingId = 1 // น้องแพรว ... หาจาก store นะคะ
-
  const [socketResult,setSocketResult]  = useState({})
  const navigate = useNavigate()
  

@@ -127,6 +127,7 @@ import ChatUser from "../pages/user/ChatUser";
 import ChatDriver from "../pages/driver/ChatDriver";
 import LoginAdmin from "../pages/admin/LoginAdmin";
 import { adminAuthStore } from "../store/adminAuthStore";
+import FindNewDriver from "../pages/user/userBooking/FindNewDriver";
 
 function AppRoutes() {
   const {
@@ -205,6 +206,7 @@ function AppRoutes() {
           <Route path="booking/create" element={authUser ? <CreateBooking /> : <Navigate to="/user/login" />}/>
           <Route path="booking/uploadimg" element={authUser ? <UploadAppointmentImg /> : <Navigate to="/user/login" />}/>
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/findNewdriver" element={authUser ? <FindNewDriver/> : <Navigate to="/user/login" />}/>
           <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
           {/* <Route
             path="register"

@@ -9,6 +9,7 @@ export const actionGetUserBooking = async () =>{
 
 // GetOneBooking
 export const actionGetOneUserBooking = async (id) =>{
+  console.log(id);
   return await axiosInstance.get(`http://localhost:8877/api/user/booking/get/${id}`)
 }
 
@@ -21,6 +22,15 @@ export const actionCreateUserBooking = async ( data) =>{
 // FindDriver
 export const actionFindDriver = async (data) =>{
   return await axiosInstance.post('http://localhost:8877/api/user/booking/finddriver', data)
+}
+
+// FindNewDriver
+export const actionFindNewDriver = async (data) =>{
+  return await axiosInstance.post('http://localhost:8877/api/user/booking/findNewdriver', data)
+}
+
+export const actionNewdriver = async (data) =>{
+  return await axiosInstance.patch('http://localhost:8877/api/user/booking/updateNewdriver', data)
 }
 
 // getHospital

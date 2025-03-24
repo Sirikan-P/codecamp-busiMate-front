@@ -8,6 +8,8 @@ import { actionGetUserBooking } from "../api/userBooking";
 const userbookingStore = (set) => ({
   userbooking: [], 
   setUserBooking: (newBookingData) => set({ userbooking: newBookingData }),
+  bookingwithId: [],
+  setBookingwithId: (newBookingData) => set({ bookingwithId: newBookingData }),
   showOneBook: [],
   setShowOneBook: (newBookingData) => set({ showOneBook: newBookingData }),
   allBooking: [],
