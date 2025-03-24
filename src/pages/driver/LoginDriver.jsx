@@ -44,27 +44,25 @@ const LoginDriver = () => {
   };
 
   return (
-    <div className="">
-      <div className="flex flex-col justify-center items-center pt-5 ">
-        <div className="w-full ">
-          {/* Logo */}
-                <div className="flex flex-col justify-center ">
-                  <div className="flex justify-center">
-                    <img
-                      src={busimatelogo}
-                      alt="Healthcare Illustration"
-                      className="w-[250px]"
-                    />
-                  </div>
-                </div>
+    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full">
+     {/* TITLE */}
+           <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center ">
+             <div className="text-4xl font-bold top-40 text-cyan-700 ">
+               Busi <span className="italic text-5xl ">Mate</span>
+             </div>
+             <img className="w-30" src={Elder04} alt="" />
+           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="bg-cyan-50  h-full rounded-t-[60px] flex flex-col gap-5 justify-center place-items-center pb-30"
-          >
+          <form onSubmit={handleSubmit} 
+        className="bg-white space-y-6 h-[500px] top-90 absolute z-10 rounded-lg p-5  shadow-2xl flex flex-col justify-center place-items-center"
+        >
             {/* Sign in */}
-            <div className="w-full flex justify-items-start pl-15 ">
-             <div className="text-[24px]  text-cyan-600 pt-20 pb-5">Sign In</div>
-            </div>
+        <div className="w-full flex justify-center">
+          <div className="text-[24px] text-cyan-600 pt-5 pb-5 font-semibold">
+            Driver Login
+          </div>
+        </div>
             <div className="gap-5 flex flex-col justify-center place-items-center">
             {/* email input */}
           <div className="">
@@ -137,12 +135,10 @@ const LoginDriver = () => {
             </div>
           </div>
           </form>
+          <div className="bg-slate-50 absolute z-5 bottom-135 w-full h-full rounded-b-4xl"></div>
 
         </div>
-      </div>
-
-
-    </div>
+     
   );
 };
 export default LoginDriver;

@@ -96,12 +96,33 @@ import { driverAuthStore } from "../store/driverAuthStore";
 import LoginDriver from "../pages/driver/LoginDriver";
 import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
+
+import CreateBooking from "../pages/user/userBooking/CreateBooking";
+import AllBooking from "../pages/user/userBooking/AllBooking";
+import FindDriver from "../pages/user/userBooking/FindDriver";
+import ShowOneBooking from "../pages/user/userBooking/ShowOneBooking";
+import UploadAppointmentImg from "../pages/user/userBooking/UploadAppointmentImg";
+
+import DriverEditProfile from "../pages/driver/DriverEditProfile";
+import DriverAddress from "../pages/driver/DriverAddress";
+import DriverAddAddress from "../pages/driver/DriverAddAddress";
+import DriverBooking from "../pages/driver/DriverBooking";
+import CreateBookingNoti from "../pages/user/CreateBookingNoti";
+import SettingPagePatiens from "../pages/user/SettingPagePatiens";
+import PatientsPageUser from "../pages/user/PatientsPageUser";
+import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
+
+import HandleBookingResponse from "../pages/user/userBooking/HandleBookingResponse";
+import CreateBookingNotiResult from "../pages/user/CreateBookingNotiResult";
+import Checkout from "../pages/user/payment/Checkout";
+import CheckoutComplete from "../pages/user/payment/CheckoutComplete";
 import DriverEditProfile from "../pages/driver/DriverEditProfile";
 import DriverAddress from "../pages/driver/DriverAddress";
 import DriverAddAddress from "../pages/driver/DriverAddAddress";
 import CreateBookingNoti from "../pages/user/CreateBookingNoti";
 import DriverBookingNoti from "../pages/driver/DriverBookingNoti";
 import DriverBooking from "../pages/driver/DriverBooking";
+
 import UserHome from "../pages/user/UserHome";
 import UserBooking from "../pages/user/UserBooking";
 import UserProfile from "../pages/user/UserProfile";
@@ -135,7 +156,7 @@ function AppRoutes() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<Layout />}>
-        <Route index element={ <Home /> } />
+        <Route index element={authUser ? <Home /> : <Navigate to="/user/login" />}/>
           {/* <Route index element={<Home />} /> */}
           <Route path="driver/register" element={<RegisterDriver />} />
           <Route path="driver/login" element={<LoginDriver />} />
@@ -145,37 +166,51 @@ function AppRoutes() {
 
         {/* User Routes */}
         <Route path="user" element={<LayoutUser />}>
-          <Route
-            path="profile"
-            element={
-              authUser ? <MockUserProfile /> : <Navigate to="/user/login" />
-            }
-          />
-          <Route
-            path="home"
-            element={authUser ? <UserHome /> : <Navigate to="/user/login" />}
-          />
-          <Route
-            path="booking"
-            element={authUser ? <UserBooking /> : <Navigate to="/user/login" />}
-          />
-          <Route
-            path="setting"
-            element={
-              authUser ? <SettingPageUser /> : <Navigate to="/user/login" />
-            }
-          />
+        <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
+          <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
+          <Route index element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="booking" element={authUser ? <AllBooking /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/get/:id" element={authUser ? <ShowOneBooking /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/create" element={authUser ? <CreateBooking /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/uploadimg" element={authUser ? <UploadAppointmentImg /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
+          <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
+          
+          {/* payment */}
+            <Route path='checkout/:id'element= { <Checkout /> } /> 
+            <Route path='complete/:session'element= { <CheckoutComplete /> } /> 
+        
         </Route>
 
-        {/* Driver Routes */}
-        <Route path="driver" element={<LayoutDriver />}>
-          <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
-          <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
-          <Route path="setting" element={authDriver ? (<SettingPageDriver />) : (<Navigate to="/driver/login" /> )}/>
-        </Route>
+         <Route path="user" element={<LayoutUser />}>
+           <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
+           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+           {/* <Route path="booking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+           <Route path="chat" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+           <Route path="makebooking" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/> */}
+         </Route>
+
+          {/* Driver Routes */}
+        <Route path="driver/" element={<LayoutDriver />}>
+           <Route index element={authDriver ? <HomeDriver /> : <Navigate to="/driver/login" />} />
+           <Route path="profile" element={authDriver ? (<ProfilePageDriver />) : (<Navigate to="/driver/login" /> )}/>
+        
+           <Route path="edit" element={<DriverEditProfile />} />
+           <Route path="address" element={<DriverAddress />} />
+           <Route path="address/add" element={<DriverAddAddress />} />
+           <Route path="booking" element={<DriverBooking />} />          
+           <Route path="receiveNoti" element={<DriverBookingNoti />} />
+           
+           {/*move these route for usernoti page */}
+           <Route path="sendNoti" element={<CreateBookingNoti />} />
+           <Route path="receiveNotiresult" element={<CreateBookingNotiResult />} />
+         </Route>
 
         {/* Admin Routes */}
         {/* <Route path="admin" element={<LayoutAdmin />}>
