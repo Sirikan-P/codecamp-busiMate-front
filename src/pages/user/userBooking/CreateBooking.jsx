@@ -1,4 +1,7 @@
 import { act, useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { CircleCheckBig, CircleDashed, Loader } from "lucide-react";
+
 import Calendar from "react-calendar";
 import SelectHospital from "../../../components/booking/SelectHospital";
 import SelectUserAddress from "../../../components/booking/SelectUserAddress";
@@ -15,11 +18,11 @@ import {
   actionGetOneUserBooking,
   actionPostImg,
 } from "../../../api/userBooking";
-import { CircleCheckBig, CircleDashed } from "lucide-react";
 import { use } from "react";
+import elder02 from "../../../assets/elder02.jpg";
 
 function CreateBooking() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const setUserBooking = useUserBookingStore((state) => state.setUserBooking);
   const setSelectDriver = useUserBookingStore((state) => state.setSelectDriver);
@@ -27,6 +30,7 @@ function CreateBooking() {
     (state) => state.setBookingwithId
   );
   const userbooking = useUserBookingStore((state) => state.userbooking);
+  const [progress, setProgress] = useState(0);
 
   const [booking, setBooking] = useState({
     needWheelChair: "",
@@ -58,7 +62,7 @@ function CreateBooking() {
   // handleConfirmBookingData
   const handleConfirmBookingData = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       // ตรวจสอบว่าทุกฟิลด์ที่จำเป็นถูกกรอกหรือไม่
       if (
         !booking.appointmentDate ||
@@ -94,7 +98,7 @@ function CreateBooking() {
       setUserBooking(response.data);
       console.log(userbooking);
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
-      setIsLoading(false)
+      setIsLoading(false);
       navigate("/user/booking/finddriver");
     } catch (error) {
       console.log(error);
@@ -163,6 +167,15 @@ function CreateBooking() {
       needWheelChair: newWheelChair,
     }));
   };
+
+  //loop
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => (prev >= 100 ? 0 : prev + 10));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col justify-center w-full place-items-center pb-15 bg-cyan-600 ">
@@ -241,14 +254,69 @@ function CreateBooking() {
       <button
         className="bg-cyan-700 w-80 text-xl text-slate-300 p-2 rounded-md mt-10 h-[64px] shadow-2xl"
         onClick={handleConfirmBookingData}
-      >ß
-        Create Booking
+      >
+        ß Create Booking
       </button>
-      {
-        isLoading &&
-      <div className="w-full h-screen bg-amber-400">is loading</div>
-      }
+      {isLoading && (
+        <div className="w-full h-full absolute pt-20 pb-20">
+        <div className="flex flex-col  h-full rounded-lg place-items-center shadow-2xl  bg-white gap-10 pt-20">
+          <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center ">
+            <div className="text-4xl font-bold top-40 text-cyan-700 mt-20">
+              Busi <span className="italic text-5xl ">Mate</span>
+            </div>
+            <img src={elder02} className="w-40" alt="" />
+          <div className="text-4xl text-cyan-600">Loading...</div>
+          
 
+          {/* loop */}
+          <div className="flex flex-col justify-center items-center">
+            <Swiper
+              slidesPerView={1}
+              loop={true}
+              autoplay={{ delay: 100 }}
+              className="w-40 h-40"
+            >
+              {[...Array(10)].map((_, index) => (
+                <SwiperSlide key={index}>
+                  <div className="flex justify-center items-center w-full h-full">
+                    <div className="relative w-30 h-30">
+                      <svg
+                        className="w-full h-full transform -rotate-90"
+                        viewBox="0 0 100 100"
+                      >
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          stroke="lightgray"
+                          strokeWidth="10"
+                          fill="none"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          stroke="cyan"
+                          strokeWidth="10"
+                          fill="none"
+                          strokeDasharray="251.2"
+                          strokeDashoffset={251.2 - (progress / 100) * 251.2}
+                          strokeLinecap="round"
+                          transition="stroke-dashoffset 0.5s ease-in-out"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+)}
+      
     </div>
   );
 }
