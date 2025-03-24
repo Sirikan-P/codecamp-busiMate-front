@@ -13,6 +13,7 @@ function CreateBookingNotiResult() {
  const navigate = useNavigate()
  
  useEffect(()=>{ 
+  console.log("hello")
     socket.on( bookingId ,(data)=>{ 
       console.log("effectat user",data) 
       setSocketResult(data)

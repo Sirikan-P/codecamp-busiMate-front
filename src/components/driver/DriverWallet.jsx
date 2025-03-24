@@ -9,8 +9,7 @@ function DriverWallet(props) {
   
   const getMyWallet = async()=> {
     try {
-       const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMDUwNDQ0LCJleHAiOjE3NDMzNDY0NDR9.LlBUSVelok5Pk8ecWjdhk0fGvovX-uyVvuKUIb3I6Ks"
-       
+       const token = localStorage.getItem("driverToken")
        const res = await actionGetDriverWallet(token)
        const { result } = res.data
        setMyWallet(result)

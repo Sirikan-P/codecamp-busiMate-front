@@ -16,7 +16,7 @@ import { profileSchema } from "../../utils/driverValidators"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 function DriverEditProfile() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("driverToken")
   
   //zustand : global state  
   const driver = useDriverStored(state => state.driver)
