@@ -17,7 +17,8 @@ axiosInstance.interceptors.request.use(
       config.url.includes("/auth/register-user") ||
       config.url.includes("/auth/update-userprofile") ||
       config.url.includes("/user/booking") ||
-      config.url.includes("/auth/check/user")
+      config.url.includes("/auth/check/user") ||
+      config.url.includes("/user/patient")
     ) {
       if (userToken) {
         config.headers["Authorization"] = `Bearer ${userToken}`;

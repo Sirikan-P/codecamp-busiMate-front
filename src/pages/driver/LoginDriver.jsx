@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Loader2, Lock, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { driverAuthStore } from "../../store/driverAuthStore";
-import busimatelogo from "../../assets/busimatelogo.png";
+import busimatelogo from "../../assets/busimatelogo.png"; // Make sure this path is correct
 import { toast } from "react-toastify";
 
 const LoginDriver = () => {
@@ -17,7 +17,7 @@ const LoginDriver = () => {
 
   const validateForm = () => {
     if (!formData.email.trim()) return toast.error("Email is required");
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
+    if (!/\S+@\S+\.\S+/.test(formData.email))
       return toast.error("Please enter a valid email address");
     if (!formData.password) return toast.error("Password is required");
     if (formData.password.length < 6)
@@ -27,38 +27,44 @@ const LoginDriver = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = validateForm();
-    if (success === true) {
-      await login(formData);
-      navigate("/driver");
+    const isValid = validateForm();
+    if (isValid === true) {
+      try {
+        await login(formData);
+        navigate("/driver");
+      } catch (error) {
+        toast.error("Login failed. Please check your credentials.");
+      }
     }
   };
 
   const actionLinktoDriverRegister = () => navigate("/driver/register");
 
   return (
-    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full">
-     {/* TITLE */}
-           <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center ">
-             <div className="text-4xl font-bold top-40 text-cyan-700 ">
-               Busi <span className="italic text-5xl ">Mate</span>
-             </div>
-             <img className="w-30" src={Elder04} alt="" />
-           </div>
+    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full relative">
+      {/* TITLE */}
+      <div className="absolute top-10 z-20 text-center flex flex-col gap-5 items-center">
+        <div className="text-4xl font-bold text-white">
+          Busi <span className="italic text-5xl">Mate</span>
+        </div>
+        <img className="w-32" src={busimatelogo} alt="Busimate Logo" /> {/* Fixed Elder04 to busimatelogo */}
+      </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} 
-        className="bg-white space-y-6 h-[500px] top-90 absolute z-10 rounded-lg p-5  shadow-2xl flex flex-col justify-center place-items-center"
-        >
-            {/* Sign in */}
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white space-y-6 w-full max-w-md rounded-lg p-5 shadow-2xl flex flex-col justify-center items-center relative z-10 mt-20"
+      >
+        {/* Sign in */}
         <div className="w-full flex justify-center">
           <div className="text-[24px] text-cyan-600 pt-5 pb-5 font-semibold">
             Driver Login
           </div>
         </div>
-            <div className="gap-5 flex flex-col justify-center place-items-center">
-            {/* email input */}
-          <div className="">
+
+        <div className="w-full space-y-5 px-4">
+          {/* email input */}
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
@@ -74,7 +80,7 @@ const LoginDriver = () => {
           </div>
 
           {/* Password Input */}
-          <div className="w-full">
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
             </label>
@@ -104,7 +110,7 @@ const LoginDriver = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center"
+            className="w-full bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center"
             disabled={isLogin}
           >
             {isLogin ? (
@@ -127,11 +133,12 @@ const LoginDriver = () => {
               Become our Driver
             </span>
           </div>
-          </form>
-          <div className="bg-slate-50 absolute z-5 bottom-135 w-full h-full rounded-b-4xl"></div>
-
         </div>
-     
+      </form>
+
+      {/* Background shape */}
+      <div className="bg-slate-50 absolute z-0 bottom-0 w-full h-1/2 rounded-t-3xl"></div>
+    </div>
   );
 };
 

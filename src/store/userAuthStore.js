@@ -12,7 +12,7 @@ export const userAuthStore = create(
       isUpdatingProfile: false,
       isCheckingAuth: false,
       patients: [],
-  userAddress: [],
+      userAddress: [],
 
       initializeAuth: async () => {
         const persistedState = localStorage.getItem("user-auth-storage");
@@ -106,7 +106,10 @@ export const userAuthStore = create(
       },
       UpdateImageProfileAuthUser: async (formData) => {
         try {
-          const res = await axiosInstance.post("/user/me/profile/upload", formData);
+          const res = await axiosInstance.post(
+            "/user/me/profile/upload",
+            formData
+          );
           set({ patients: res.data });
         } catch (error) {
           console.log(error);

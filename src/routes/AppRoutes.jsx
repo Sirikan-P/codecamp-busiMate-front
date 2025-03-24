@@ -88,7 +88,6 @@ import DriverEarnings from "../pages/driver/DriverEarning";
 import DriverHistory from "../pages/driver/DriverHistory";
 import DriverChat from "../pages/driver/DriverChat";
 import DriverDashboard from "../pages/driver/DriverDashboard";
-import { useEffect } from "react";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { ToastContainer } from "react-toastify";
@@ -122,6 +121,7 @@ import Patients from "../pages/admin/Patients";
 import Dashboard1 from "../pages/admin/Dashboard1";
 import Dashboard2 from "../pages/admin/Dashboard2";
 import SettingPageDriver from "../pages/driver/SettingPageDriver";
+import SettingPageUser from "../pages/user/SettingPageUser";
 import Patients1 from "../pages/admin/Patients1";
 import ChatUser from "../pages/user/ChatUser";
 import ChatDriver from "../pages/driver/ChatDriver";
@@ -197,6 +197,7 @@ function AppRoutes() {
               authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />
           
             }/>
+          <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
           <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
           <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
           <Route path="booking" element={authUser ? <AllBooking /> : <Navigate to="/user/login" />}/>
