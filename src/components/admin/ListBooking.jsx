@@ -1,11 +1,12 @@
 import React from "react";
+import { createAlert } from "../../utils/createAlert";
 
 const ListBooking = (props) => {
   const { bookingData } = props;
   console.log("bookingData ==== ", bookingData);
 
   if (!bookingData) {
-    return null; // หรือแสดง message อื่นๆ
+    return createAlert("info", "Cannot received booking data!!")
   }
 
   const getStatusColor = (status) => {

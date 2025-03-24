@@ -110,6 +110,7 @@ import Patients from "../pages/admin/Patients";
 import Dashboard1 from "../pages/admin/Dashboard1";
 import Dashboard2 from "../pages/admin/Dashboard2";
 import SettingPageDriver from "../pages/driver/SettingPageDriver";
+import Patients1 from "../pages/admin/Patients1";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -191,10 +192,11 @@ function AppRoutes() {
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<Dashboard2 />} />
           <Route path="drivers" element={<Drivers />} />
-          <Route path="patients" element={<Patients />} />
+          <Route path="patients" element={<Patients1 />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
           <Route path="drivers-old" element={<AdminGetDriver />} />
+          <Route path="dashboard-chun" element={<Dashboard />} />
         </Route>
 
         {/* 404 */}
