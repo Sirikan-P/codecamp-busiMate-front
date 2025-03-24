@@ -21,12 +21,12 @@ function CreateBookingNotiResult() {
   },[])
 
   const hdlAccept= ()=>{
-    socket.off(bookingId)
-    navigate(`/user/checkout/${bookingId}`);
+    //socket.off(bookingId)
+    //navigate(`/user/checkout/${bookingId}`);
     console.log('hello see you')
   }
   const hdlReject= ()=>{
-    socket.off(bookingId)
+    //socket.off(bookingId)
     console.log('byeeee ')
   }
 

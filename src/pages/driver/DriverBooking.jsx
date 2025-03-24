@@ -6,7 +6,7 @@ import DriverBookingCards from '../../components/driver/DriverBookingCards'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 function DriverBooking() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("driverToken")
   const [myBooking,setMyBooking] = useState([])
   const [bookingStatus,setBookingStatus] = useState("UP_COMING")
   // Pagination state

@@ -1,9 +1,10 @@
 import React from 'react'
 import useUserBookingStore from '../../store/booking-store';
 
-export default function SelectedDriver() {
+export default function SelectedDriver() { 
+
     const driverData = useUserBookingStore((state) => state.bookingwithId);
-    console.log(driverData);
+    console.log("store driver",driverData);
   // const driverData = selectDriver.data;
   const carType = [
     { value: "SEETS_4", label: "4 SEATS" },
@@ -21,7 +22,7 @@ export default function SelectedDriver() {
           {/* Driver img */}
           <div className="w-30 bg-amber-500 rounded-md">
             <img
-              src={driverData.driver.profileImageUrl}
+              src={driverData?.driver?.profileImageUrl}
               alt=""
               className="w-100 h-20"
             />
@@ -29,24 +30,24 @@ export default function SelectedDriver() {
           {/* Driver Name */}
           <div className="flex gap-2 place-items-center">
             <label className="text-slate-400 text-lg font-semibold">Driver Name :</label>
-            <div className="text-xl  font-semibold">{driverData.driver.firstName}</div>
-            <div className="text-xl font-semibold">{driverData.driver.lastName}</div>
+            <div className="text-xl  font-semibold">{driverData?.driver?.firstName}</div>
+            <div className="text-xl font-semibold">{driverData?.driver?.lastName}</div>
           </div>
 
           {/* Driver Phone */}
           <div className="flex gap-2">
             <label className=" text-lg text-slate-400">Phone Number :</label>
-            <div className="text-xl font-semibold text-pink-800">{driverData.driver.phoneNumber}</div>
+            <div className="text-xl font-semibold text-pink-800">{driverData?.driver?.phoneNumber}</div>
           </div>
           {/* Driver CarType */}
           <div className="flex gap-2">
             <label className=" text-lg text-slate-400">Car :</label>
             <div className="font-semibold text-xl text-pink-800">
-              {driverData.driver.carType === "SEETS_4"
+              {driverData?.driver?.carType === "SEETS_4"
                 ? "4 SEATS"
-                : driverData.carType === "SEETS_5"
+                : driverData?.carType === "SEETS_5"
                 ? "5 SEATS"
-                : driverData.carType === "SEETS_7" ? "7 SEATS" : "N/A"}
+                : driverData?.carType === "SEETS_7" ? "7 SEATS" : "N/A"}
             </div>
           </div>
         </div>
