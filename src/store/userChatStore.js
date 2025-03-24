@@ -26,13 +26,17 @@ export const userChatStore = create(
           const token = localStorage.getItem("userToken");
           if (!token) throw new Error("No user token found. Please log in.");
           const res = await axiosInstance.get("/messages-user/users", {
-            headers: { Authorization: `Bearer ${token}`, "Cache-Control": "no-cache" },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Cache-Control": "no-cache",
+            },
           });
           console.log("Fetched users:", res.data);
           set({ users: res.data });
           return res.data;
         } catch (error) {
-          const errorMsg = error.response?.data?.error || "Failed to load drivers";
+          const errorMsg =
+            error.response?.data?.error || "Failed to load drivers";
           toast.error(errorMsg);
           console.error("Error in getUsers:", error);
           return null;
@@ -47,15 +51,27 @@ export const userChatStore = create(
         try {
           const token = localStorage.getItem("userToken");
           if (!token) throw new Error("No user token found. Please log in.");
-          const res = await axiosInstance.get(`/messages-user/user/${driverId}`, {
-            headers: { Authorization: `Bearer ${token}`, "Cache-Control": "no-cache" },
-          });
-          console.log("Fetched messages for driver:", driverId, "Data:", res.data);
+          const res = await axiosInstance.get(
+            `/messages-user/user/${driverId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Cache-Control": "no-cache",
+              },
+            }
+          );
+          console.log(
+            "Fetched messages for driver:",
+            driverId,
+            "Data:",
+            res.data
+          );
           set({ messages: res.data, isMessagesLoading: false });
           messageCache.set(driverId, res.data);
           return res.data;
         } catch (error) {
-          const errorMsg = error.response?.data?.error || "Failed to load messages";
+          const errorMsg =
+            error.response?.data?.error || "Failed to load messages";
           toast.error(errorMsg);
           console.error("Error in getMessages for driver:", driverId, error);
           set({ messages: [], isMessagesLoading: false });
@@ -64,7 +80,8 @@ export const userChatStore = create(
       },
 
       sendMessage: async (messageData) => {
-        const { selectedUser, socket, joinRoom, messages, messageCache } = get();
+        const { selectedUser, socket, joinRoom, messages, messageCache } =
+          get();
         const { authUser } = userAuthStore.getState();
 
         try {
@@ -90,7 +107,8 @@ export const userChatStore = create(
           };
           set((state) => {
             const updatedMessages = [...state.messages, tempMessage];
-            if (selectedUser) messageCache.set(selectedUser.id, updatedMessages);
+            if (selectedUser)
+              messageCache.set(selectedUser.id, updatedMessages);
             console.log("Optimistically added message:", tempMessage);
             return { messages: updatedMessages };
           });
@@ -108,7 +126,9 @@ export const userChatStore = create(
           console.error("Error in sendMessage:", error);
           toast.error(error.response?.data?.error || "Failed to send message");
           set((state) => ({
-            messages: state.messages.filter((msg) => String(msg.id).startsWith("temp-")),
+            messages: state.messages.filter((msg) =>
+              String(msg.id).startsWith("temp-")
+            ),
           }));
         }
       },
@@ -189,10 +209,16 @@ export const userChatStore = create(
           const authUser = userAuthStore.getState().authUser;
           if (!authUser || !message.id) return;
 
-          console.log("Received newMessage event:", message, "Current room:", currentRoom);
+          console.log(
+            "Received newMessage event:",
+            message,
+            "Current room:",
+            currentRoom
+          );
 
           const isReceiver =
-            message.receiverUserId === authUser.id || message.senderUserId === authUser.id;
+            message.receiverUserId === authUser.id ||
+            message.senderUserId === authUser.id;
           if (!isReceiver) {
             console.log("Message not relevant to this user:", authUser.id);
             return;
@@ -200,22 +226,48 @@ export const userChatStore = create(
 
           if (message.bookingId !== currentRoom) {
             console.log("Room mismatch, joining room:", message.bookingId);
-            const otherUserId = message.senderDriverId || message.receiverDriverId;
+            const otherUserId =
+              message.senderDriverId || message.receiverDriverId;
             await get().joinRoom(otherUserId);
           }
 
           set((state) => {
-            const updatedMessages = state.messages.some((msg) => String(msg.id).startsWith("temp-") && msg.bookingId === message.bookingId)
-              ? state.messages.map((msg) => (String(msg.id).startsWith("temp-") && msg.bookingId === message.bookingId ? message : msg))
-              : [...state.messages.filter((msg) => msg.id !== message.id), message];
+            const updatedMessages = state.messages.some(
+              (msg) =>
+                String(msg.id).startsWith("temp-") &&
+                msg.bookingId === message.bookingId
+            )
+              ? state.messages.map((msg) =>
+                  String(msg.id).startsWith("temp-") &&
+                  msg.bookingId === message.bookingId
+                    ? message
+                    : msg
+                )
+              : [
+                  ...state.messages.filter((msg) => msg.id !== message.id),
+                  message,
+                ];
 
-            if (selectedUser && (message.senderDriverId === selectedUser.id || message.receiverDriverId === selectedUser.id)) {
+            if (
+              selectedUser &&
+              (message.senderDriverId === selectedUser.id ||
+                message.receiverDriverId === selectedUser.id)
+            ) {
               messageCache.set(selectedUser.id, updatedMessages);
-              console.log("Updated messages for selected user:", updatedMessages);
-              return { messages: updatedMessages, currentRoom: message.bookingId };
+              console.log(
+                "Updated messages for selected user:",
+                updatedMessages
+              );
+              return {
+                messages: updatedMessages,
+                currentRoom: message.bookingId,
+              };
             } else {
-              console.log("Message cached but not displayed - no matching selectedUser");
-              const otherUserId = message.senderDriverId || message.receiverDriverId;
+              console.log(
+                "Message cached but not displayed - no matching selectedUser"
+              );
+              const otherUserId =
+                message.senderDriverId || message.receiverDriverId;
               messageCache.set(otherUserId, updatedMessages);
               return { currentRoom: message.bookingId };
             }
@@ -295,7 +347,7 @@ export const userChatStore = create(
 
 const getBookingId = async (receiverId) => {
   try {
-    const res = await axiosInstance.get(`/user/booking/chat/${receiverId}`, {
+    const res = await axiosInstance.get(`/messages-user/booking/chat/${receiverId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
     });
     console.log(`Booking ID for receiver ${receiverId}:`, res.data.bookingId);
@@ -305,5 +357,6 @@ const getBookingId = async (receiverId) => {
     console.error("Error fetching booking ID:", error);
     toast.error("Failed to fetch chat room ID");
     return null;
+
   }
 };

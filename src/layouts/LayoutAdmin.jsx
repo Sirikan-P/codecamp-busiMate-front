@@ -1,18 +1,15 @@
-import { Outlet } from "react-router"
-import MainNav from "../components/MainNavUser"
-import MainNavAdmin from "../components/MainNavAdmin"
+import { Outlet } from "react-router";
+import MainNavAdmin from "../components/MainNavAdmin";
 
 function LayoutAdmin() {
   return (
     <div>
+      <MainNavAdmin />
 
-        <MainNavAdmin />
-        
-        {/*  // <outlet/> render c   hild node */}
-        <Outlet />
-
+      {/*  // <outlet/> render c   hild node */}
+      <Outlet />
     </div>
-  )
+  );
 }
 
-export default LayoutAdmin
+export default LayoutAdmin;

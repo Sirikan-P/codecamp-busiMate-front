@@ -20,6 +20,8 @@ import RegisterDriver from "../pages/driver/RegisterDriver";
 import { userAuthStore } from "../store/userAuthStore";
 import ChatUser from "../pages/user/ChatUser";
 import ChatDriver from "../pages/driver/ChatDriver";
+import LoginAdmin from "../pages/admin/LoginAdmin";
+import { adminAuthStore } from "../store/adminAuthStore";
 
 function AppRoutes() {
   const {
@@ -34,6 +36,7 @@ function AppRoutes() {
     isCheckingAuthDriver,
     initializeAuth: initializeDriverAuth,
   } = driverAuthStore();
+  const { isCheckingAuthAdmin, authAdmin, checkAuthAdmin } = adminAuthStore();
 
   const [isInitialCheckDone, setIsInitialCheckDone] = useState(false);
 
@@ -45,6 +48,7 @@ function AppRoutes() {
       const promises = [];
       if (!authUser) promises.push(checkAuth());
       if (!authDriver) promises.push(checkAuthDriver());
+      if (!authAdmin) promises.push(checkAuthAdmin());
       await Promise.all(promises);
 
       setIsInitialCheckDone(true);
@@ -56,7 +60,8 @@ function AppRoutes() {
   if (
     !isInitialCheckDone ||
     (isCheckingAuth && !authUser) ||
-    (isCheckingAuthDriver && !authDriver)
+    (isCheckingAuthDriver && !authDriver) ||
+    (isCheckingAuthAdmin && !authAdmin)
   ) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -138,7 +143,13 @@ function AppRoutes() {
         {/* Admin Routes */}
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<HomeAdmin />} />
-          <Route path="admingetdriver" element={<AdminGetDriver />} />
+          <Route
+            path="admingetdriver"
+            element={
+              authAdmin ? <AdminGetDriver /> : <Navigate to="/admin/login" />
+            }
+          />
+          <Route path="login" element={<LoginAdmin />} />
         </Route>
 
         {/* 404 */}

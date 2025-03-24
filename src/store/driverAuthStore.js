@@ -22,24 +22,20 @@ export const driverAuthStore = create(
             return true;
           }
         }
-        console.log("No persisted authDriver or token found");
         return false;
       },
 
       checkAuthDriver: async () => {
         const { authDriver } = get();
         const token = localStorage.getItem("driverToken");
-
         if (!token) {
-          console.log("No driverToken found in localStorage");
           set({ authDriver: null, isCheckingAuthDriver: false });
           return false;
         }
 
-        console.log("Checking auth with driverToken:", token);
         set({ isCheckingAuthDriver: true });
         try {
-          const res = await axiosInstance.get("/auth/check", {
+          const res = await axiosInstance.get("/auth/check/driver", {
             headers: { Authorization: `Bearer ${token}` },
           });
           console.log("checkAuthDriver response:", res.data);
@@ -52,7 +48,6 @@ export const driverAuthStore = create(
             });
             return true;
           } else {
-            console.log("Role mismatch. Expected 'driver', got:", role);
             set({ authDriver: null, isCheckingAuthDriver: false });
             toast.error("Invalid role detected. Please log in again.");
             return false;
@@ -60,7 +55,6 @@ export const driverAuthStore = create(
         } catch (error) {
           console.error("Error in checkAuthDriver:", error.response || error);
           if (error.response?.status === 401) {
-            console.log("401 Unauthorized - clearing driverToken");
             localStorage.removeItem("driverToken");
             set({ authDriver: null, isCheckingAuthDriver: false });
             toast.error("Session expired. Please log in again.");
@@ -122,12 +116,18 @@ export const driverAuthStore = create(
           }
           formData.append("profilePic", file);
 
+          const token = localStorage.getItem("driverToken");
+          if (!token) {
+            throw new Error("No driver token found. Please log in again.");
+          }
+
           const res = await axiosInstance.put(
             "/auth/update-driverprofile",
             formData,
             {
               headers: {
                 "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -135,15 +135,7 @@ export const driverAuthStore = create(
           toast.success("Profile updated successfully");
           return res.data.data;
         } catch (error) {
-          console.error("Error in updateProfileDriver:", {
-            message: error.message,
-            status: error.response?.status,
-            responseData: error.response?.data,
-          });
-          toast.error(
-            error.response?.data?.message || "Failed to update profile"
-          );
-          throw error;
+          // ...
         } finally {
           set({ isUpdatingProfile: false });
         }

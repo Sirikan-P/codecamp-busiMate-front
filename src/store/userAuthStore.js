@@ -35,7 +35,7 @@ export const userAuthStore = create(
 
         set({ isCheckingAuth: true });
         try {
-          const res = await axiosInstance.get("/auth/check", {
+          const res = await axiosInstance.get("/auth/check/user", {
             headers: { Authorization: `Bearer ${token}` },
           });
           console.log("checkAuth response:", res.data);
