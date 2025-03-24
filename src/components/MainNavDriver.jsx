@@ -50,7 +50,7 @@ const socketData = useNotifyStored(state => state.socketData)
             className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
         <NotebookText />My Booking
       </Link>
-      <Link  className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+      <Link to="/driver/chat" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
         <MessageCircleMore /> Chat
       </Link >
       <Link  to="/driver/receiveNoti"

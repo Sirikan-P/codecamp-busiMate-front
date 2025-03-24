@@ -46,7 +46,7 @@ function MainNavUser() {
         <Link to='/user/booking' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <NotebookText /> Booking
         </Link>
-        <Link href="#" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to="/user/chat" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <MessageCircleMore /> Chat
         </Link>
         <Link to='/user/booking/create' className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">

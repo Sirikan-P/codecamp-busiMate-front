@@ -8,29 +8,29 @@ const ProfilePageUser = () => {
   const authUser = userAuthStore((state) => state.authUser);
   const fetchGetPatients = userAuthStore((state) => state.fetchGetPatients);
   const patients = userAuthStore((state) => state.patients);
+  const fetchHospitalData = useHospitalStore((state) => state.fetchHospitalData);
+  const fetchGetUserAddress = userAuthStore((state) => state.fetchGetUserAddress);
+  console.log(authUser)
 
-  const fetchHospitalData = useHospitalStore(
-    (state) => state.fetchHospitalData
-  );
-  const fetchGetUserAddress = userAuthStore(
-    (state) => state.fetchGetUserAddress
-  );
+  const navigate = useNavigate();
 
- console.log("patients", patients);
   useEffect(() => {
     checkAuth();
     fetchGetPatients();
     fetchHospitalData();
-  }, []);
+  }, [checkAuth, fetchGetPatients, fetchHospitalData]);
 
-  const navigate = useNavigate();
   const hdlEdit = () => {
     navigate("/user/setting");
   };
-  const hdlSelect =() =>{
+
+  const hdlSelect = () => {
     navigate("/user/patients");
-  }
-  console.log("authUser", authUser);  
+  };
+
+  console.log("authUser", authUser);
+  console.log("patients", patients);
+
   return (
     <div
       style={{
@@ -59,7 +59,7 @@ const ProfilePageUser = () => {
             marginBottom: "20px",
           }}
         >
-          <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>Myprofile</div>
+          <div style={{ fontSize: "1.5em", fontWeight: "bold" }}>My Profile</div>
           <button
             style={{
               backgroundColor: "#e0e0e0",
@@ -91,7 +91,6 @@ const ProfilePageUser = () => {
               alignItems: "center",
             }}
           >
-            {/* Placeholder for Profile Image */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="40"
@@ -108,7 +107,9 @@ const ProfilePageUser = () => {
             </svg>
           </div>
           <div>
-            <div style={{ fontWeight: "bold" }}>{authUser?.result?.firstName+"  " +authUser?.result?.lastName }</div>
+            <div style={{ fontWeight: "bold" }}>
+              {authUser.firstName + " " + authUser.lastName}
+            </div>
             <div>{authUser?.result?.phoneNumber}</div>
             <div>Bkk, Thailand</div>
           </div>
@@ -122,10 +123,11 @@ const ProfilePageUser = () => {
             borderRadius: "5px",
             alignSelf: "flex-start",
             marginBottom: "20px",
+            cursor: "pointer",
           }}
           onClick={hdlEdit}
         >
-          PROFILE
+          EDIT PROFILE
         </button>
 
         <div style={{ marginBottom: "20px" }}>
@@ -136,7 +138,6 @@ const ProfilePageUser = () => {
               borderRadius: "10px",
             }}
           >
-            {/* Placeholder for VISA Card */}
             <div style={{ fontSize: "2em", textAlign: "center" }}>VISA</div>
           </div>
         </div>
@@ -146,77 +147,75 @@ const ProfilePageUser = () => {
             Patients
           </div>
 
-          {patients?.map((patient) => {
-            return (
-              <div
-                style={{
-                  backgroundColor: "#f8f8f8",
-                  padding: "15px",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      backgroundColor: "#e0e0e0",
-                      marginRight: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+          {patients?.map((patient) => (
+            <div
+              key={patient.id || `${patient.firstName}-${patient.lastName}`} // Added unique key
+              style={{
+                backgroundColor: "#f8f8f8",
+                padding: "15px",
+                borderRadius: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: "#e0e0e0",
+                    marginRight: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    {/* Placeholder for Patient Image */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25"
-                      height="25"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="12" y1="8" x2="12" y2="16"></line>
-                      <line x1="8" y1="12" x2="16" y2="12"></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: "bold" }}>{patient.firstName + " " +patient.lastName }</div>
-                    <div>{patient.address}</div>
-                  </div>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                  </svg>
                 </div>
                 <div>
-                  <button
-                    style={{
-                      backgroundColor: "#e0e0e0",
-                      border: "none",
-                      padding: "8px 15px",
-                      borderRadius: "5px",
-                      marginRight: "5px",
-                    }}
-                    onClick={hdlSelect}
-                  >
-                    Select
-                  </button>
-                 
+                  <div style={{ fontWeight: "bold" }}>
+                    {patient.firstName + " " + patient.lastName}
+                  </div>
+                  <div>{patient.address}</div>
                 </div>
               </div>
-            );
-          })}
+              <div>
+                <button
+                  style={{
+                    backgroundColor: "#e0e0e0",
+                    border: "none",
+                    padding: "8px 15px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                  onClick={hdlSelect}
+                >
+                  Select
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
+
 export default ProfilePageUser;
-
-
-
