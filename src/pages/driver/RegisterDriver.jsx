@@ -1,19 +1,8 @@
 import { useState } from "react";
-import {
-  Loader2,
-  Lock,
-  Mail,
-  MessageSquare,
-  Phone,
-  User,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { Loader2, Lock, Mail, Phone, User, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthImagePattern from "../../components/AuthImagePattern";
 import { toast } from "react-toastify";
 import { driverAuthStore } from "../../store/driverAuthStore";
-import Elder02 from "../../assets/elder02.jpg";
 import Select from "react-select";
 
 const RegisterDriver = () => {
@@ -24,6 +13,7 @@ const RegisterDriver = () => {
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     phoneNumber: "",
     age: "",
     gender: "",
@@ -39,19 +29,21 @@ const RegisterDriver = () => {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!formData.firstName.trim()) return toast.error("Firstname is required");
-    if (!formData.lastName.trim()) return toast.error("Lastname is required");
+    if (!formData.firstName.trim())
+      return toast.error("First name is required");
+    if (!formData.lastName.trim()) return toast.error("Last name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       return toast.error("Please enter a valid email address");
     if (formData.phoneNumber.length !== 10)
-      return toast.error("Please input phone number correctly");
+      return toast.error("Phone number must be 10 digits");
     if (!formData.password) return toast.error("Password is required");
     if (formData.password.length < 6)
       return toast.error("Password must be at least 6 characters");
     if (formData.password !== formData.confirmPassword)
       return toast.error("Passwords do not match");
-
+    if (!formData.age.trim()) return toast.error("Age is required");
+    if (!formData.gender) return toast.error("Gender is required");
     return true;
   };
 
@@ -59,7 +51,8 @@ const RegisterDriver = () => {
     e.preventDefault();
     const success = validateForm();
     if (success === true) {
-      await register(formData);
+      const { confirmPassword, ...dataToSubmit } = formData; // Exclude confirmPassword from submission
+      await register(dataToSubmit);
       navigate("/driver/login");
     }
   };
@@ -276,14 +269,16 @@ const RegisterDriver = () => {
         {/* Create Account button */}
         <div className="flex justify-center items-center mt-5">                                           
           <button
+            type="submit"
+            className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center mx-auto"
             disabled={isRegister}
             type="submit"
             className="w-1/2 bg-cyan-600 text-white py-2 px-4 rounded-md h-12"
           >
             {isRegister ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Loading....
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Loading...
               </>
             ) : (
               "Create Account"
@@ -304,4 +299,5 @@ const RegisterDriver = () => {
   </div>
   );
 };
+
 export default RegisterDriver;
