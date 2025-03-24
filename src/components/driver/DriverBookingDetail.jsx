@@ -8,9 +8,9 @@ function DriverBookingDetail(props) {
 
   const bookingLatLng = { lat: 13.750,lng: 100.499}
   return (
-    <div> hello 
+    <div> 
       {/* แผนที่ ต้องวางไว้ layer ด้านหลัง*/}
-      <MapContainer className='h-[50vh] absolute -z-10 w-full'
+      <MapContainer className='h-[40vh] w-full'
                     center={bookingLatLng} 
                     zoom={10} >
         <TileLayer

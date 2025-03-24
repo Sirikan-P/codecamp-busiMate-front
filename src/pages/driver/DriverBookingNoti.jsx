@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useDriverStored from '../../store/driver-store'
 import useNotifyStored from '../../store/notify-store'
+import { useNavigate } from 'react-router'
 
 //socket
 import io from "socket.io-client"
@@ -28,7 +29,7 @@ function DriverBookingNoti() {
 
   ///console.log("socket from user", socketData)
 
-
+  const navigate = useNavigate()
   const hdlDriversubmit = (bookingId) => {
     const data = {
       driverId: '1',
@@ -40,6 +41,7 @@ function DriverBookingNoti() {
     actionClearSocketData(bookingId)
     actionClearSocketUsersReq(bookingId)
     socket.emit("driver_noti", (data))
+    navigate('/driver/booking')
   }
 
   const hdlDriverReject = (bookingId) => {
@@ -53,6 +55,7 @@ function DriverBookingNoti() {
     actionClearSocketData(bookingId)
     actionClearSocketUsersReq(bookingId)
     socket.emit("driver_noti", (data))
+    navigate('/driver/booking')
   }
 
   return (
