@@ -25,7 +25,7 @@ function DriverAddressCards(props) {
         {/* Table Header */}
         <thead>
           <tr className="bg-gray-100 text-gray-700 uppercase text-sm text-left">
-            <th className="py-3 px-4 text-left border-b w-12">ID</th>
+            <th className="py-3 px-4 text-left border-b w-4">ID</th>
             <th className="py-3 px-4 text-left border-b w-24">Status</th>
             <th className="py-3 px-4 text-left border-b w-40">Address</th>
             <th className="py-3 px-4 text-left border-b w-50">Action</th>
@@ -49,19 +49,22 @@ function DriverAddressCards(props) {
             <td className="py-4 px-4 border-b">{address.address}</td>
             <td className="py-4 px-4 border-b space-x-2">
               {address.status === "NOTUSE" && (
+                <div> 
                 <button
                   onClick={() => hdlSetUse(address.id)}
                   className="px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition"
                 >
                   Set Use
                 </button>
-              )}
-              <button
-                onClick={() => hdlDelete(address.id)}
-                className="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition"
-              >
-                Delete
+                 <button
+                 onClick={() => hdlDelete(address.id)}
+                 className="px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 transition"
+               > Delete
               </button>
+                </div>
+              )}
+             
+               
             </td>
           </tr>
         </tbody>

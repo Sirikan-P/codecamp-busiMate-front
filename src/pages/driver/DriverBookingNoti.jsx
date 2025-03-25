@@ -26,7 +26,7 @@ function DriverBookingNoti() {
   );
 
   useEffect(() => {
-    console.log("test test", driver.id);
+    
     socket.on("U" + driver.id, (data) => {
       // if(sender=="USER") {
       console.log("effect at driver", data);
@@ -52,7 +52,7 @@ function DriverBookingNoti() {
     actionClearSocketData(booking.id);
     actionClearSocketUsersReq(booking.id);
     socket.emit("driver_noti", data);
-    //navigate('/driver/booking')
+    navigate('/driver/booking')
   };
 
   const hdlDriverReject = (booking) => {

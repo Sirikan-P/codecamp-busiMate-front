@@ -11,7 +11,10 @@ function ShowOneBooking() {
   console.log(userBooking);
   console.log(showOneBook);
   const actionBack = () =>{
-    navigate('/user/booking')
+    navigate('/user/')
+  }
+  const actionReview = () =>{
+    navigate('/user/review/')
   }
 
   return (
@@ -157,8 +160,11 @@ function ShowOneBooking() {
           <MapShowOneBooking />
         </div>
 
-        <button onClick={actionBack} className="btn bg-cyan-600 w-full rounded-md text-white mt-110">CONFIRM</button>
-      </div>
+        <button onClick={actionBack} className="btn bg-cyan-600 w-full rounded-md text-white mt-110">BACK</button>
+        {(showOneBook.bookingStatus=="COMPLETE") && 
+        <button onClick={actionReview} className="btn bg-cyan-700 w-full rounded-md text-white mt-6">REVIEW DRIVER</button>
+        }
+        </div>
     </div>
   );
 }
