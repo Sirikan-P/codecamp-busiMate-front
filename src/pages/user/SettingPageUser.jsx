@@ -4,6 +4,7 @@ import { axiosInstance } from "../../lib/axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { Pencil } from "lucide-react";
+import { actionGetUser, actionUpdateUser } from "../../api/user";
 
 function settingPageUser() {
   const fileInputRef = useRef(null);
@@ -28,7 +29,7 @@ function settingPageUser() {
 
   const fetchData = async () => {
     try {
-      const res = await axiosInstance.get("user/me");
+      const res = await actionGetUser(authUser?.result?.id);
       setUserForm(res.data);
     } catch (error) {}
   };
@@ -69,9 +70,7 @@ function settingPageUser() {
         console.log("Selected file:", file);
         formData.append("profileImageUrl", file);
         await UpdateImageProfileAuthUser(formData);
-        console.log("ressssssssssssssssssssssssssss");
         checkAuth();
-        console.log("hhhhhhhhhhhhhhhhhhhhhhh");
         //อัพเดทรูปภาพ Profile
       }
     } catch (error) {
@@ -81,7 +80,7 @@ function settingPageUser() {
 
   const hdlSubmit = async (e) => {
     try {
-      const res = await axiosInstance.patch("user/me/edit", userForm);
+      const res = await actionUpdateUser(userForm);
       checkAuth();
     } catch (error) {
       console.log(error);
@@ -93,12 +92,7 @@ function settingPageUser() {
       const res = await axiosInstance.delete(`/user/address/${addressId}`);
       fetchGetUserAddress();
     } catch (error) {
-      if (
-        error.response.status === 400 &&
-        error.response.data.message === "Cannot delete current Address"
-      ) {
-        toast.error("Address is currently in use and cannot be deleted.");
-      }
+     
       console.log(error);
     }
   };
@@ -292,11 +286,10 @@ function settingPageUser() {
           </button>
           <button
             onClick={()=> navigate("/user/profile")}
-            className="flex-1 px-4 py-2.5 bg-slate-100 text-cyan-600 rounded-lg transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
+            className="flex-1 px-4 py-2.5 bg-slate-100 text-cyan-600 rounded-lg transition-colors">
+              Cancel
+            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -304,139 +297,3 @@ function settingPageUser() {
   );
 }
 export default settingPageUser;
-// import React, { useEffect, useState } from "react";
-// import { Pencil } from "lucide-react";
-// import useDriverStored from "../../store/driver-store";
-
-//   return (
-//     <div className="fixed inset-0 bg-cyan-600 bg-opacity-50 flex justify-center items-center z-50">
-//       <div className="bg-white p-8 rounded-3xl w-[400px] max-w-full mx-4">
-//         {/* Profile Image */}
-//         <h1 className="text-center pb-6 text-2xl font-semibold text-rose-800 border-b-1 border-cyan-600">
-//           Edit profile
-//         </h1>
-//         <div className="flex flex-col items-center mb-8">
-//           <button className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-lg border border-gray-200">
-//             <Pencil size={16} className="text-cyan-600" />
-//           </button>
-//         </div>
-
-//         {/* Form Fields */}
-//         <div className="space-y-4">
-//           {/* Firstname and Lastname */}
-//           <div className="grid grid-cols-2 gap-4">
-//             <InputField
-//               label="Firstname"
-//               name="firstName"
-//               value={profile.firstName}
-//               onChange={handleChange}
-//               placeholder={profile.firstName}
-//             />
-//             <InputField
-//               label="Lastname"
-//               name="lastName"
-//               value={profile.lastName}
-//               onChange={handleChange}
-//               placeholder={profile.lastName}
-//             />
-//           </div>
-
-//           {/* Email */}
-//           <InputField
-//             label="Email"
-//             type="email"
-//             name="email"
-//             value={profile.email}
-//             onChange={handleChange}
-//             placeholder={profile.email}
-//           />
-
-//           {/* Password */}
-//           <InputField
-//             label="Password"
-//             type="password"
-//             name="password"
-//             value={profile.password}
-//             onChange={handleChange}
-//             placeholder="••••••••••"
-//           />
-
-//           {/* Address */}
-//           <InputField
-//             label="Address"
-//             name="address"
-//             value={profile.address}
-//             onChange={handleChange}
-//             placeholder={profile.address}
-//           />
-
-//           {/* Province and Postcode */}
-//           <div className="grid grid-cols-2 gap-4">
-//             <SelectField
-//               label="Province"
-//               name="province"
-//               value={profile.province}
-//               onChange={handleChange}
-//               options={provinces.map((province) => ({
-//                 value: province,
-//                 label: province,
-//               }))}
-//             />
-//             <InputField
-//               label="Postcode"
-//               name="postcode"
-//               value={profile.postcode}
-//               onChange={handleChange}
-//               placeholder="10400"
-//             />
-//           </div>
-
-//           {/* Phone Number */}
-//           <div>
-//             <label className="block text-sm font-medium text-rose-800 mb-1">
-//               Phone Number
-//             </label>
-//             <div className="flex">
-//               <select
-//                 name="phoneCountry"
-//                 value={profile.phoneCountry}
-//                 onChange={handleChange}
-//                 className="w-20 p-2.5 border border-gray-300 rounded-lg mr-2 focus:ring-2 focus:ring-cyan-300 focus:border-cyan-600"
-//               >
-//                 <option value="66">🇹🇭 +66</option>
-//                 <option value="1">🇺🇸 +1</option>
-//                 <option value="44">🇬🇧 +44</option>
-//               </select>
-//               <input
-//                 type="tel"
-//                 name="phone"
-//                 value={profile.phone}
-//                 onChange={handleChange}
-//                 className="flex-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-300 focus:border-cyan-600 outline-none transition-all"
-//                 placeholder="85-777-4567"
-//               />
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Buttons */}
-//         <div className="flex gap-3 mt-8">
-//           <button
-//             onClick={onClose}
-//             className="flex-1 px-4 py-2.5 bg-gray-100 text-rose-800 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors"
-//           >
-//             Cancel
-//           </button>
-//           <button
-//             onClick={handleSubmit}
-//             className="flex-1 px-4 py-2.5 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors"
-//           >
-//             Save Change
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default EditProfileModal;

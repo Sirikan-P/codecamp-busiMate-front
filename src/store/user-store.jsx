@@ -14,14 +14,17 @@ const userStored = (set) => ({
   //function ,
   actionGetUserWithZustand : async(token) => {
     try {
-        const res = await actionGetUser(token)         
-        const { result } = res.data
 
+      console.log("userToken")
+        const res = await actionGetUser(token)         
+        const { users } = res.data
+        console.log("result", users)
+        const result = users
         const currentLocation = result.UserAddress.find(item => item.status === "USE");
 
         set({
           user: result,
-          userAddress: result.DriverAddress,
+          userAddress: result.userAddress,
           userCurrentLatLng: currentLocation 
             ? { lat: parseFloat(currentLocation.lat), lng: parseFloat(currentLocation.long) } 
             : { lat: 13.750,lng: 100.499 } // ค่า default ถ้าไม่เจอค่า
@@ -54,7 +57,7 @@ const userStored = (set) => ({
       const res = await actionDeleteUserAddress(token,value)
       const { result } = res.data
 
-      set( {driverAddress:result})
+      set( {userAddress:result})
 
       return { success: true , result } //object
     } catch (error) {

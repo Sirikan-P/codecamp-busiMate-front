@@ -55,7 +55,7 @@ function UserAddAddress() {
           <div>please select location</div>
           {/* แผนที่ */}
           <MapContainer
-            className="h-[50vh]"
+            className="h-[50vh] "
             center={[13.75, 100.499]}
             zoom={10}
           >

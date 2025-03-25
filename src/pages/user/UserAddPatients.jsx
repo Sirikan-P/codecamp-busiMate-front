@@ -11,7 +11,10 @@ const UserAddPatients = () => {
     phoneNumber: "",
     healthCondition: "",
   });
-  const navigate = useNavigate();
+
+   const navigate = useNavigate();
+
+   
 
   const handleChange = (e) => {
     const obj = {
