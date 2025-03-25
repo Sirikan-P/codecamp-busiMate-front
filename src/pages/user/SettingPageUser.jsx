@@ -113,13 +113,7 @@ function settingPageUser() {
         <div className="font-semibold text-cyan-700 mb-5 text-2xl flex gap-5 ">
           Edit Profile
           </div>
-          {/* Make booking button */}
-          <button
-            onClick={() => navigate("/user/booking/create")}
-            className="bg-cyan-700 w-50 text-lg text-slate-300 p-2 rounded-md mt-10 shadow-2xl"
-          >
-            MAKE BOOKING
-          </button>
+        
        
 
         {/* Update profile */}

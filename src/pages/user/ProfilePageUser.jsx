@@ -92,7 +92,7 @@ const ProfilePageUser = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cyan-600 p-5">
-      <div className="bg-white w-full max-w-md p-6 m-5 pt-20 rounded-lg shadow-lg h-screen">
+      <div className="bg-white w-full max-w-md p-6 m-5 pt-20 rounded-lg shadow-lg h-full">
           <div className="font-semibold  text-cyan-700  text-4xl flex gap-5">
             My Profile
           </div>
@@ -183,7 +183,11 @@ const ProfilePageUser = () => {
               <h2 className="text-2xl font-semibold text-rose-800">
                 Patient Lists
               </h2>
-              <button className="text-white text-sm">Add Patient</button>
+          <div className="flex justify-end px-6 py-4 w-80">
+                  <button onClick={()=> navigate('/user/patients')} className=" bg-cyan-700 text-white px-4 py-2 rounded-md">
+                    All Patients
+                  </button>
+                </div>
             </div>
           </div>
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden ">
@@ -199,11 +203,7 @@ const ProfilePageUser = () => {
                     </h3>
                   </div>
                 </div>
-                <div className="">
-                  <button className=" bg-cyan-700 text-white px-4 py-2 rounded-md">
-                    Edit Profile
-                  </button>
-                </div>
+               
               </div>
             ))}
           </div>
