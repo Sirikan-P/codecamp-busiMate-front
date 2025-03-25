@@ -24,3 +24,20 @@ export const actionDeleteUser = (token, id, value) => {
     }
   })
 }
+
+export const actionGetPatientDataAll = (token) => {
+  return axios.get("http://localhost:8877/api/admin/user/getPatientDataAll", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+
+export const actionFindPatientByName = (token, value) => {
+  return axios.get(`http://localhost:8877/api/admin/user/findPatientByName?name=${value}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+

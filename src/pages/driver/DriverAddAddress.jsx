@@ -15,7 +15,7 @@ import { actionCreateDriverAddress } from '../../api/driver'
 
 
 function DriverAddAddress() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("driverToken")
   const driver = useDriverStored(state => state.driver)
   const driverSelectLatLng = useDriverStored(state => state.driverSelectLatLng)
   

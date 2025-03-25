@@ -9,18 +9,28 @@ export const actionGetUserBooking = async () =>{
 
 // GetOneBooking
 export const actionGetOneUserBooking = async (id) =>{
+  console.log("api booking id:",id);
   return await axiosInstance.get(`http://localhost:8877/api/user/booking/get/${id}`)
 }
 
 // CreateUserBooking
 export const actionCreateUserBooking = async ( data) =>{
-  console.log(data);
+  console.log("api data" , data);
   return await axiosInstance.post('http://localhost:8877/api/user/booking/create', data)
 }
 
 // FindDriver
 export const actionFindDriver = async (data) =>{
   return await axiosInstance.post('http://localhost:8877/api/user/booking/finddriver', data)
+}
+
+// FindNewDriver
+export const actionFindNewDriver = async (data) =>{
+  return await axiosInstance.post('http://localhost:8877/api/user/booking/findNewdriver', data)
+}
+
+export const actionNewdriver = async (data) =>{
+  return await axiosInstance.patch('http://localhost:8877/api/user/booking/updateNewdriver', data)
 }
 
 // getHospital

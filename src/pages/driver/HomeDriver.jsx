@@ -6,7 +6,7 @@ import useDriverStored from '../../store/driver-store'
 import DriverHeader from '../../components/driver/DriverHeader'
 
 function HomeDriver() {  
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("driverToken")
  
   //zustand : global state  
   const driver = useDriverStored(state => state.driver)

@@ -20,6 +20,7 @@ const Sidebar = () => {
     { icon: FileText, label: "Reports", path: "/admin/reports" },
     { icon: Settings, label: "Settings", path: "/admin/settings" },
     { icon: CarFront, label: "Drivers-old", path: "/admin/drivers-old" },
+    { icon: LayoutDashboard, label: "Dashboard-Chun", path: "/admin/dashboard-chun" },
   ];
 
   return (

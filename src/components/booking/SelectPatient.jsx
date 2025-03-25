@@ -6,17 +6,15 @@ export default function SelectPatient({handlePatientChange}) {
   const fetchGetPatients = userAuthStore((state) => state.fetchGetPatients);
 
   const patients = userAuthStore((state) => state.patients) || [];
-  console.log("Patients", patients.patients);
 
   useEffect(() => {
     fetchGetPatients();
   }, []);
 
-  const patientData = patients.patients || [];
 
-  const patientOptions = patientData.map((patient) => ({
-    value: patient.id,
-    label: patient.firstName,
+  const patientOptions = patients.map((patient) => ({
+    value: patient?.id,
+    label: patient?.firstName,
   }));
 
  const handleSelect = (e) => {

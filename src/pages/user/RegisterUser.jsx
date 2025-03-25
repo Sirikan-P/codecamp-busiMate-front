@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
-import { Loader2, Lock, Mail, MessageSquare, Phone, User, Eye, EyeOff } from "lucide-react";
+import { Loader2, Lock, Mail, Phone, User, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthImagePattern from "../../components/AuthImagePattern";
 import { toast } from "react-toastify";
-import Elder01 from "../../assets/elder01.jpg";
 
 const RegisterUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,19 +20,19 @@ const RegisterUser = () => {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!formData.firstName.trim()) return toast.error("Firstname is required");
-    if (!formData.lastName.trim()) return toast.error("Lastname is required");
+    if (!formData.firstName.trim())
+      return toast.error("First name is required");
+    if (!formData.lastName.trim()) return toast.error("Last name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       return toast.error("Please enter a valid email address");
     if (formData.phoneNumber.length !== 10)
-      return toast.error("Please input phone number correctly");
+      return toast.error("Phone number must be 10 digits");
     if (!formData.password) return toast.error("Password is required");
     if (formData.password.length < 6)
       return toast.error("Password must be at least 6 characters");
     if (formData.password !== formData.confirmPassword)
       return toast.error("Passwords do not match");
-
     return true;
   };
 
@@ -42,26 +40,28 @@ const RegisterUser = () => {
     e.preventDefault();
     const success = validateForm();
     if (success === true) {
-      await register(formData);
+      const { confirmPassword, ...dataToSubmit } = formData; // Exclude confirmPassword from submission
+      await register(dataToSubmit);
       navigate("/user/login");
     }
   };
 
   return (
-    <div className="w-full rounded-lg flex justify-center flex-col bg-whites p-10">
-      {/* register head */}
+    <div className="bg-cyan-600 p-5 pt-10 pb-10 w-full">
+    <div className=" rounded-lg flex justify-center flex-col bg-white p-10 ">
       <h1 className="text-2xl font-bold text-cyan-600 mb-30">Register</h1>
+      {/* register head */}
       {/* <div className="flex justify-center">
         <img src={Elder01} alt="" className="w-[250px]" />
       </div> */}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 text-cyan-700">
         {/* firstname input */}
         <div>
           <label
             htmlFor="firstname"
             s
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             First Name
           </label>
@@ -84,7 +84,7 @@ const RegisterUser = () => {
         <div>
           <label
             htmlFor="lastname"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Last Name
           </label>
@@ -107,7 +107,7 @@ const RegisterUser = () => {
         <div className="form-control">
           <label
             htmlFor="phone"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400mb-1"
           >
             Phone Number
           </label>
@@ -130,7 +130,7 @@ const RegisterUser = () => {
         <div className="form-control">
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Email
           </label>
@@ -153,7 +153,7 @@ const RegisterUser = () => {
         <div className="relative">
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400mb-1"
           >
             Password
           </label>
@@ -183,7 +183,7 @@ const RegisterUser = () => {
         <div className="relative">
           <label
             htmlFor="confirmpassword"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-slate-400 mb-1"
           >
             Confirm Password
           </label>
@@ -212,14 +212,16 @@ const RegisterUser = () => {
         {/* Create Account button */}
         <div className="flex justify-center items-center">
           <button
+            type="submit"
+            className="w-full max-w-xs bg-cyan-500 text-white py-3 rounded-full hover:bg-cyan-600 transition duration-200 font-medium flex items-center justify-center mx-auto"
             disabled={isRegister}
             type="submit"
-            className="w-1/2 bg-cyan-500 text-white py-2 px-4 rounded-4xl h-12 hover:bg-cyan-600 transition-colors"
+            className="w-1/2 bg-cyan-600 text-white py-2 px-4 rounded-md h-12"
           >
             {isRegister ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Loading....
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Loading...
               </>
             ) : (
               "Create Account"
@@ -229,14 +231,16 @@ const RegisterUser = () => {
       </form>
       {/* Sign in bt */}
       <div className="text-center pt-5">
-        <p className="text-gray-500">
+        <p className="text-slate-400">
           Already have an account?{" "}
-          <Link to="/user/login" className=" link text-cyan-600">
+          <Link to="/user/login" className="font-semibold link text-pink-800">
             Sign in
           </Link>
         </p>
       </div>
     </div>
+    </div>
   );
 };
+
 export default RegisterUser;
