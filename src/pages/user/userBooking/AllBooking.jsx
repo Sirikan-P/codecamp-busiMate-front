@@ -6,7 +6,6 @@ import { userAuthStore } from "../../../store/userAuthStore";
 
 function AllBooking() {
   const authUser = userAuthStore((state) => state.authUser);
-  console.log(authUser);
 
   return (
     <div className="bg-cyan-600 w-full h-full p-5 flex flex-col gap-5">
@@ -18,8 +17,8 @@ function AllBooking() {
       </div>
       <div className="flex justify-center gap-5 rounded-md pb-5">
         <div className="flex gap-2 place-items-center ">
-        <div className="text-2xl text-pink-200 font-semibold">{authUser.result.firstName}</div>
-        <div className="text-2xl text-pink-200 font-semibold">{authUser.result.lastName}</div>
+        <div className="text-2xl text-pink-200 font-semibold">{authUser.firstName}</div>
+        <div className="text-2xl text-pink-200 font-semibold">{authUser.lastName}</div>
         </div>
         
         

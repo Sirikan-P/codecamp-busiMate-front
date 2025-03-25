@@ -40,30 +40,43 @@ function MainNavUser() {
 
       { isOpen && 
       <div className="grid grid-rows-6  shadow-2xl place-items-start gap-2 absolute z-10 right-1 w-[200px] bg-white pt-5 pb-5">
-        <Link to='/user' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
+        <Link to='/user' onClick={() => {
+          setIsOpen(!isOpen);
+        }} className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100 ">
           <Home /> Home
         </Link>
-        <Link to='/user/booking' className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to='/user/booking' onClick={() => {
+          setIsOpen(!isOpen);
+        }} className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <NotebookText /> Booking
         </Link>
-        <Link href="#" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to="/user/chat" className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <MessageCircleMore /> Chat
         </Link>
-        <Link to='/user/booking/create' className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to='/user/booking/create' onClick={() => {
+          setIsOpen(!isOpen);
+        }} className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
           <PencilLine /> Create Booking
         </Link>
-        <Link to="/user/patients" className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
+        <Link to="/user/patients" onClick={() => {
+          setIsOpen(!isOpen);
+        }} className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
               <ClipboardPlus />Patients
         </Link>
         {authUser && (
           <>
             <Link
               to="/user/setting"
+              onClick={() => {
+                setIsOpen(!isOpen);
+              }}
               className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100"
             >
               <User className="w-5 h-5" />Edit Profile
             </Link>
-            <div className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
+            <div 
+          
+            className="text-cyan-600 pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100" onClick={logout}>
               <LogOut className="w-5 h-5" /> Logout
             </div>
           </>

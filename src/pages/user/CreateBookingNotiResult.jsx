@@ -6,13 +6,14 @@ import io from "socket.io-client"
 const socket = io('http://localhost:8877', {})
 
 function CreateBookingNotiResult() {
-
+ 
+ 
  const bookingId = 1 // น้องแพรว ... หาจาก store นะคะ
-
  const [socketResult,setSocketResult]  = useState({})
  const navigate = useNavigate()
  
  useEffect(()=>{ 
+  console.log("hello")
     socket.on( bookingId ,(data)=>{ 
       console.log("effectat user",data) 
       setSocketResult(data)
@@ -20,12 +21,12 @@ function CreateBookingNotiResult() {
   },[])
 
   const hdlAccept= ()=>{
-    socket.off(bookingId)
-    navigate(`/user/checkout/${bookingId}`);
+    //socket.off(bookingId)
+    //navigate(`/user/checkout/${bookingId}`);
     console.log('hello see you')
   }
   const hdlReject= ()=>{
-    socket.off(bookingId)
+    //socket.off(bookingId)
     console.log('byeeee ')
   }
 

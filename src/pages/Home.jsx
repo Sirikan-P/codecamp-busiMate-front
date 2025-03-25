@@ -38,9 +38,9 @@ function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBoxIndex((prevIndex) => (prevIndex + 1) % boxData.length); // เปลี่ยนหมายเลขกล่องไปยังถัดไป และวนลูปเมื่อถึงกล่องสุดท้าย
-    }, 3000); // 3 วินาที
-    return () => clearInterval(interval); // เคลียร์ interval เมื่อ component ถูก unmount
+      setCurrentBoxIndex((prevIndex) => (prevIndex + 1) % boxData.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
 

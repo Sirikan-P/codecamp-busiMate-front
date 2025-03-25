@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import useUserBookingStore from '../../store/booking-store';
 
-export default function MapUserFindDriver() {
-  const bookingData = useUserBookingStore((state) => state.bookingwithId);
-  console.log(bookingData);
+export default function MapReciveNoti({bookingData}) {
+
 
   // Hospital Lat and Long
   const hospitalLat = bookingData?.hospital?.lat;
@@ -34,9 +32,9 @@ export default function MapUserFindDriver() {
 
 
   return (
-    <div>
+    <div className=''>
           {/* Map */}
-      <div className="w-100 h-[400px]">
+      <div className="w-70 h-[300px]">
         <MapContainer
           center={midpoint}
           zoom={11}

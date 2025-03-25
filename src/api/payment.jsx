@@ -21,3 +21,12 @@ export const actionCheckOutStatus = async ( token , session)=>{
       }
   })
 }
+
+export const actionCheckOutRefund = async ( token , value)=>{
+
+    return await axios.psot('http://localhost:8877/api/user/payment/checkout/refund' + value , {
+        headers: { 
+            Authorization:`Bearer ${token}`
+        }
+    })
+  }

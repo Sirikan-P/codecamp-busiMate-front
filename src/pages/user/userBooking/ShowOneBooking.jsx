@@ -2,20 +2,31 @@ import React from "react";
 import useUserBookingStore from "../../../store/booking-store";
 import MapShowOneBooking from "../../../components/booking/MapShowOneBook";
 import {MoveVertical} from "lucide-react"
+import { useNavigate } from "react-router";
 
 function ShowOneBooking() {
   const showOneBook = useUserBookingStore((state) => state.showOneBook);
   const userBooking = useUserBookingStore((state) => state.userbooking);
+  const navigate = useNavigate()
   console.log(userBooking);
   console.log(showOneBook);
+  const actionBack = () =>{
+    navigate('/user/booking')
+  }
+
   return (
     <div className=" w-full flex justify-center bg-cyan-600 pb-15">
-      <div className="flex flex-col mt-10 p-5 w-90 bg-white  rounded-md shadow-2xl">
+      <div className="flex flex-col mt-10 p-5 pt-10 w-90 bg-white rounded-md shadow-2xl">
         <img src={showOneBook.appointmentImage} alt="" />
+        <div className=" flex justify-end absolute top-25 -right-5">
+        <button className="text-rose-800 p-2 w-50 text-sm rounded-md mt-5">refund</button>
+        </div>
+
 
         {/* Booking Status  and Appointment Date */}
         <div className="flex flex-col p-5 border-b-1 border-cyan-700">
           {" "}
+          
           {/* patient info */}
           <div className="text-xl text-slate-400">
             Status:{" "}
@@ -47,6 +58,7 @@ function ShowOneBooking() {
                 {showOneBook.patient.lastName}
               </div>
             </div>
+            
 
             {/* Condition */}
             <div className="flex flex-col mt-5">
@@ -145,7 +157,7 @@ function ShowOneBooking() {
           <MapShowOneBooking />
         </div>
 
-        <button className="btn bg-cyan-600 rounded-md text-white mt-110">CONFIRM</button>
+        <button onClick={actionBack} className="btn bg-cyan-600 w-full rounded-md text-white mt-110">CONFIRM</button>
       </div>
     </div>
   );

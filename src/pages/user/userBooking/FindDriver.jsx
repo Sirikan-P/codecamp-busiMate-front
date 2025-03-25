@@ -3,38 +3,50 @@ import useUserBookingStore from "../../../store/booking-store";
 import MapUserFindDriver from "../../../components/booking/MapUserFindDriver";
 import SelectedDriver from "../../../components/booking/SelectedDriver";
 import BookingData from "../../../components/booking/BookingData";
-import { actionGetOneUserBooking } from "../../../api/userBooking";
+import { actionFindDriver, actionGetOneUserBooking, actionGetUserBooking } from "../../../api/userBooking";
 import { CircleCheckBig, CircleDashed } from "lucide-react";
 import io from "socket.io-client"
 import { useNavigate } from "react-router";
+import useNotifyStored from "../../../store/notify-store";
+import { use } from "react";
 
 function FindDriver() {
   const navigate = useNavigate()
-  const [bookingData, setBookingData] = useState();
-  const selectDriver = useUserBookingStore((state) => state.selectDriver);
+  const booking = useUserBookingStore((state) => state.bookingwithId);
+  const selectDriver = useUserBookingStore((state) => state.selectDriver);  
+  const userbooking = useUserBookingStore((state) => state.userbooking);
+  const setBookingwithId = useUserBookingStore ((state) => state.setBookingwithId)
   const driverDataToSendNoti = selectDriver.data
 
-  const bookingUser = async () => {
-    const res = await actionGetOneUserBooking();
-    setBookingData(res.data);
-  };
-console.log(bookingData);
-  useEffect(() => {
-    bookingUser();
-  }, []);
+  // const bookingData = 1
+const bookingData = userbooking
 
+const bookingUser = async () => {
+      try {
+      //console.log("booking user" ,bookingData.id)
+      const showbooking = await actionGetOneUserBooking(bookingData.id);
+      console.log("show booking" ,showbooking.data);
+      setBookingwithId( showbooking.data)
+    } catch (error) {
+      console.log(error);    }   
+  };
+
+useEffect(() => { 
+  bookingUser()
+}, []);
+
+console.log("current booking to io",booking.id,',driverid:',booking.driverId);
 // send noti to driver
 const socket = io('http://localhost:8877')
 
-  const driver = {
-    id: driverDataToSendNoti.id,
-    name: `${driverDataToSendNoti.firstName} ${driverDataToSendNoti.lastName} `
-  }
+const socketUsersReq = useNotifyStored(state => state.socketUsersReq)
+const actionSetSocketUsersReq = useNotifyStored(state => state.actionSetSocketUsersReq)
 
-  const hdlGetDriver = ()=> {
-      // socket.emit('send_noti',(driver))
-      navigate('/user/booking/handlebookingres')
-  }
+const hdlGetDriver = () => {
+  socket.emit('send_noti', (booking)) // create socket event 
+  actionSetSocketUsersReq(booking)
+  navigate('/user/booking/handlebookingres')
+}
 
   return (
     <div className="flex flex-col place-items-center bg-cyan-600">
@@ -50,9 +62,9 @@ const socket = io('http://localhost:8877')
         {/* Selected Driver */}
         <SelectedDriver />
         {/* Map */}
-        <MapUserFindDriver />
+        <MapUserFindDriver/>
         {/* Booking Data */}
-        <BookingData bookingData={bookingData}/>
+        <BookingData />
         <button onClick={hdlGetDriver} className="btn bg-cyan-600 w-60 mb-5 p-5 h-10 rounded-md text-white">CONFIRM</button>
       </div>
     </div>

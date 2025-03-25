@@ -9,11 +9,14 @@ import DriverButtons from '../../components/driver/driverForm/DriverButtons'
 import DriverHeader from '../../components/driver/DriverHeader'
 import DriverToggleInput from '../../components/driver/driverForm/DriverToggleInput'
 import DriverSelectInput from '../../components/driver/driverForm/DriverSelectInput'
+import { useNavigate } from 'react-router'
 
-
+//validator
+import { profileSchema } from "../../utils/driverValidators"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 function DriverEditProfile() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("driverToken")
   
   //zustand : global state  
   const driver = useDriverStored(state => state.driver)
@@ -21,12 +24,15 @@ function DriverEditProfile() {
 
    //react hook form
    const { register, handleSubmit, formState, reset, setValue, watch } = useForm({
+      //use zod validate
+      resolver: zodResolver(profileSchema)
   })
   const { isSubmitting, errors } = formState
 //----------------------------------------
 const arrayGender = ["MALE", "FEMALE", "OTHER"]
 const arrayCartype = ["SEETS_4", "SEETS_7", "SEETS_9"]
 
+const navigate = useNavigate()
 //----------------------------------------
     const hdlSubmit = async(value)=>{
     
@@ -54,6 +60,7 @@ const arrayCartype = ["SEETS_4", "SEETS_7", "SEETS_9"]
       //console.log("res",res)
       if(res.success){
         createAlert("success", "save driver profile success")
+        navigate('/driver')
       }else{
         createAlert("info","something wrong")
       }
