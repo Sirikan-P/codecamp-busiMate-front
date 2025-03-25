@@ -42,28 +42,28 @@ const LoginDriver = () => {
   const actionLinktoDriverRegister = () => navigate("/driver/register");
 
   return (
-    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full relative">
+    <div className="bg-cyan-600 h-screen flex flex-col items-center justify-center w-full">
       {/* TITLE */}
-      <div className="absolute top-10 z-20 text-center flex flex-col gap-5 items-center">
+      <div className="absolute top-30 z-20 text-center flex flex-col gap-5 place-items-center">
+        <img className="w-40" src={busimatelogo} alt="Busimate Logo" /> {/* Fixed Elder04 to busimatelogo */}
         <div className="text-4xl font-bold text-white">
           Busi <span className="italic text-5xl">Mate</span>
         </div>
-        <img className="w-32" src={busimatelogo} alt="Busimate Logo" /> {/* Fixed Elder04 to busimatelogo */}
+        {/* Sign in */}
+        <div className="w-full flex justify-center">
+          <div className="text-[24px] text-white pt-5 pb-5 font-semibold">
+            Driver Login
+          </div>
+        </div>
       </div>
 
       {/* Form */}
       <form
-        onSubmit={handleSubmit}
-        className="bg-white space-y-6 w-full max-w-md rounded-lg p-5 shadow-2xl flex flex-col justify-center items-center relative z-10 mt-20"
+          onSubmit={handleSubmit}
+        className="bg-white space-y-6 h-[500px] top-90 absolute z-10 rounded-lg p-5  shadow-2xl flex flex-col justify-center place-items-center"
       >
-        {/* Sign in */}
-        <div className="w-full flex justify-center">
-          <div className="text-[24px] text-cyan-600 pt-5 pb-5 font-semibold">
-            Driver Login
-          </div>
-        </div>
 
-        <div className="w-full space-y-5 px-4">
+        <div className="w-full space-y-5  ">
           {/* email input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
