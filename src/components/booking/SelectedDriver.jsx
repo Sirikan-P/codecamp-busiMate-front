@@ -47,7 +47,7 @@ export default function SelectedDriver() {
                 ? "4 SEATS"
                 : driverData?.carType === "SEETS_5"
                 ? "5 SEATS"
-                : driverData?.carType === "SEETS_7" ? "7 SEATS" : "N/A"}
+                : driverData?.carType === "SEETS_7" ? "7 SEATS" : "7 SEATS"}
             </div>
           </div>
         </div>

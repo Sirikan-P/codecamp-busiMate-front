@@ -63,12 +63,19 @@ function UserAddress() {
    }
   }
   return (
-    <div> UserCurrentAddress :
+    <div className="flex flex-col items-center justify-center min-h-screen bg-cyan-600 p-5">
+    <div className="bg-white w-full max-w-md p-6 m-5 pt-20 rounded-lg shadow-lg h-screen">
+      <div className="font-semibold  text-cyan-700  text-4xl flex gap-5">
+        User Address
+      </div>
+      <div className='text-xl text-cyan-600 flex flex-col gap-2'>
       <UserHeader user={user} />
-      <button onClick={ ()=>hdlAddAddress() }
-              className="btn">Add New Address</button>
-
-      <div> current location</div>    
+        User Current Address :
+      <UserHeader user={user} />
+      </div>
+      <button onClick={ ()=>hdlAddAddress() } className="bg-cyan-700 w-45 text-lg text-slate-300 p-2 rounded-md mt-5 shadow-2xl">Add New Address</button>
+    <div> 
+      <div  className='text-xl text-cyan-600 mt-5 flex flex-col gap-2'> current location</div>    
 
       {/* แผนที่ ต้องวางไว้ layer ด้านหลัง*/}
       <MapContainer className='h-[50vh] absolute -z-10 w-full'
@@ -93,6 +100,8 @@ function UserAddress() {
         ))
         }
       </div>
+    </div>
+    </div>
     </div>
   )
 }
