@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 import {
   BarChart,
   Bar,
@@ -49,57 +50,54 @@ const Reports = () => {
 
   // Handle creating report
 
-  const handleCreateReport = () => {
-    if(!newReport.type){
-      toast.error("please all input ")
-      return
+  const handleCreateReport = async () => {
+    if (!newReport.type || !newReport.status || !newReport.topic || !newReport.message) {
+      toast.error("Please fill in all fields");
+      return;
     }
 
-    if(!newReport.status){
-      toast.error("please input type")
-      return
-    }
-
-    if(!newReport.topic){
-      toast.error("please input type")
-      return
-    }
-
-    if(!newReport.message){
-      toast.error("please input type")
-      return
-    }
-
-  const report = {
-
+    const report = {
       id: 2025000 + reports.length + 1, // Generate unique ID
       type: newReport.type, // Report type
       date: new Date().toLocaleDateString("en-US", {
-        // Current date
         month: "short",
         day: "numeric",
         year: "numeric",
       }),
       status: newReport.status,
       message: newReport.message,
-      topic: newReport.topic
+      topic: newReport.topic,
     };
 
-    setReports((prev) => [report, ...prev]);
-    setShowCreateModal(false);
-    setNewReport({ type: "", status: "", message: "" ,topic: ""});
+    try {
+      const response = await axios.post("http://localhost:8877/api/report/createFeedbackReport", report);
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Report created successfully");
+
+        setReports((prev) => [report, ...prev]);
+        setShowCreateModal(false);
+        setNewReport({ type: "", status: "", message: "", topic: "" });
+
+      } else {
+        toast.error("Failed to create report");
+      }
+    } catch (error) {
+      console.error("Error creating report:", error);
+      toast.error("Please check your connection.");
+    }
   };
 
-  const editReport = (id) => {
-    const report = reports.find((report) => report.id === id);
-    setNewReport({
-      type: report.type,
-      status: report.status,
-      message: report.message,
-      topic: report.topic,
-    });
-    setShowCreateModal(true);
-  };
+  // const editReport = (id) => {
+  //   const report = reports.find((report) => report.id === id);
+  //   setNewReport({
+  //     type: report.type,
+  //     status: report.status,
+  //     message: report.message,
+  //     topic: report.topic,
+  //   });
+  //   setShowCreateModal(true);
+  // };
 
   return (
     <div className="space-y-6">
@@ -242,9 +240,9 @@ const Reports = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
 
-            <button 
-            className=" px-4 py-2 rounded-2xl right-137 absolute mb-2 hover:bg-gray-200" 
-            onClick={() => setShowCreateModal(false)} >✕</button>
+            <button
+              className=" px-4 py-2 rounded-2xl right-137 absolute mb-2 hover:bg-gray-200"
+              onClick={() => setShowCreateModal(false)} >✕</button>
 
             <h2 className="text-lg font-semibold mb-4">Create New Report</h2>
 
@@ -274,12 +272,12 @@ const Reports = () => {
             </select>
 
             <div>
-                <input className="border w-full p-2 mb-4 rounded" 
+              <input className="border w-full p-2 mb-4 rounded"
                 placeholder="Topic"
                 value={newReport.topic}
                 onChange={(e) =>
-                setNewReport({ ...newReport, topic: e.target.value })
-              }/>
+                  setNewReport({ ...newReport, topic: e.target.value })
+                } />
             </div>
 
             <textarea
