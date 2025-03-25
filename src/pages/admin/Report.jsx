@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   BarChart,
   Bar,
@@ -12,6 +13,8 @@ import {
   Cell,
 } from "recharts";
 import { Filter, PlusCircle, X } from "lucide-react";
+import axios from "axios";
+
 
 const tripData = [
   { month: "Jan", completed: 65, cancelled: 12 },
@@ -36,31 +39,54 @@ const Reports = () => {
   const [reports, setReports] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(null);
+
   const [newReport, setNewReport] = useState({
     type: "",
-    status: "",
+    status: "IN_PROCESS",
     message: "",
+    topic: "",
   });
 
-  // Handle creating report
 
-  const handleCreateReport = () => {
-    const report = {
-      id: 2025000 + reports.length + 1, // Generate unique ID
-      type: newReport.type, // Report type
-      date: new Date().toLocaleDateString("en-US", {
-        // Current date
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-      status: newReport.status,
-      message: newReport.message,
-    };
+  const handleCreateReport = async () => {
+    if (!newReport.type || !newReport.status || !newReport.topic || !newReport.message) {
+      toast("Please fill in all fields.");
+      return;
+    }
 
-    setReports((prev) => [report, ...prev]);
-    setShowCreateModal(false);
-    setNewReport({ type: "", status: "", message: "" });
+    try {
+      const response = await axios.post(
+        "http://localhost:8877/api/admin/report/createFeedbackReport",
+        {
+          type: newReport.type,
+          status: newReport.status,
+          topic: newReport.topic,
+          message: newReport.message,
+          bookingId: 1, // สมมติค่าทดสอบ
+          adminId: 1, // สมมติค่าทดสอบ
+        },
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0Mjg2NTQyNywiZXhwIjoxNzQ0MTYxNDI3fQ.ckBR8yGz48Ii3dlRwkwROZd-lkhDENUJLHLVQpCKDxw`,
+          },
+        }
+      );
+
+      // อัปเดตรายการ Report ที่หน้า UI
+      // setReports((prev) => [response.data.data, ...prev]);
+      fetchReports()
+
+      // รีเซ็ตค่าในฟอร์ม
+      setNewReport({ type: "", status: "", topic: "", message: "" });
+
+      // ปิด Modal
+      setShowCreateModal(false);
+
+      toast("Report created successfully!");
+    } catch (error) {
+      console.error("Error creating report:", error);
+      toast("Failed to create report");
+    }
   };
 
   const editReport = (id) => {
@@ -69,10 +95,42 @@ const Reports = () => {
       type: report.type,
       status: report.status,
       message: report.message,
+      topic: report.topic,
     });
     setShowCreateModal(true);
   };
 
+  const fetchReports = async () => {
+    try {
+      const token = localStorage.getItem("adminToken"); // หรือใช้ Context API
+      const response = await axios.get("http://localhost:8877/api/admin/report/getAllFeedbackReport", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setReports(response.data.data); // สมมติว่า response กลับมาเป็น { data: [...] }
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    return date.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // แสดง AM/PM
+    });
+  };
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -164,6 +222,7 @@ const Reports = () => {
             <thead>
               <tr className="text-left border-b">
                 <th className="pb-3">Report ID</th>
+                <th className="pb-3">Topic</th>
                 <th className="pb-3">Type</th>
                 <th className="pb-3">Date</th>
                 <th className="pb-3">Status</th>
@@ -174,26 +233,33 @@ const Reports = () => {
               {reports.map((report) => (
                 <tr key={report.id}>
                   <td className="py-3">#{report.id}</td>
+                  <td className="py-3">{report.topic}</td>
                   <td className="py-3">{report.type}</td>
-                  <td className="py-3">{report.date}</td>
+                  <td className="py-3">{formatDate(report.createdAt)}</td>
                   <td className="py-3">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        report.status === "Completed"
-                          ? "bg-green-100 text-green-800"
-                          : report.status === "Pending"
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === "COMPLETE"
+                        ? "bg-green-100 text-green-800"
+                        : report.status === "In progress"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-blue-100 text-blue-800"
-                      }`}
+                        }`}
                     >
                       {report.status}
                     </span>
                   </td>
-                  <td className="py-3">
-                    <button className="text-blue-600 hover:text-blue-800">
-                      View Details
-                    </button>
-                  </td>
+
+                  {/*view detail*/}
+                  <button className="btn mt-2" onClick={() => document.getElementById('my_modal_3').showModal()}>View Detail</button>
+                  <dialog id="my_modal_3" className="modal">
+                    <div className="modal-box ">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2">✕</button>
+                      </form>
+                      <h3 className="font-bold text-lg">Report</h3>
+
+                    </div>
+                  </dialog>
                 </tr>
               ))}
             </tbody>
@@ -205,50 +271,65 @@ const Reports = () => {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
+            <button
+              className="px-4 py-2 rounded-2xl absolute right-4 top-4 hover:bg-gray-200"
+              onClick={() => setShowCreateModal(false)}
+            >
+              ✕
+            </button>
+
             <h2 className="text-lg font-semibold mb-4">Create New Report</h2>
+
+            {/* Type Dropdown */}
             <select
               value={newReport.type}
-              onChange={(e) =>
-                setNewReport({ ...newReport, type: e.target.value })
-              }
+              onChange={(e) => setNewReport({ ...newReport, type: e.target.value })}
               className="border w-full p-2 rounded mb-4"
             >
               <option value="">Select Report Type</option>
-              <option value="Driver Performance">Driver Performance</option>
-              <option value="Patient Feedback">Patient Feedback</option>
+              <option value="USER">User</option>
+              <option value="DRIVER">Driver</option>
+              {/* <option value="GENERAL_FEEDBACK">General Feedback</option> */}
             </select>
 
-            {/* Status dropdown */}
+            {/* Status Dropdown */}
             <select
               value={newReport.status}
-              onChange={(e) =>
-                setNewReport({ ...newReport, status: e.target.value })
-              }
+              onChange={(e) => setNewReport({ ...newReport, status: e.target.value })}
               className="border w-full p-2 rounded mb-4"
             >
               <option value="">Select Status</option>
-              <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
+              <option value="IN_PROCESS">In Process</option>
+              <option value="COMPLETE">Completed</option>
             </select>
 
+            {/* Topic Input */}
+            <input
+              className="border w-full p-2 mb-4 rounded"
+              placeholder="Topic"
+              value={newReport.topic}
+              onChange={(e) => setNewReport({ ...newReport, topic: e.target.value })}
+            />
+
+            {/* Message Textarea */}
             <textarea
               placeholder="Report Message"
               value={newReport.message}
-              onChange={(e) =>
-                setNewReport({ ...newReport, message: e.target.value })
-              }
+              onChange={(e) => setNewReport({ ...newReport, message: e.target.value })}
               className="border w-full p-2 rounded mb-4"
             />
+
+            {/* Create Button */}
             <button
               onClick={handleCreateReport}
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-blue-600 text-white px-4 py-2 rounded w-full"
             >
               Create Report
             </button>
           </div>
         </div>
       )}
+
     </div>
   );
 };
