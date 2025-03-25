@@ -66,7 +66,7 @@ const socketData = useNotifyStored(state => state.socketData)
       }}
       to="/driver/receiveNoti"
             className="text-cyan-600  pl-2 pb-2 inline-flex gap-2 w-full active:bg-rose-100">
-        <Bell />  {(socketData.length>0)&& <div className="bg-red-400 w-5 h-5 rounded-4xl">{socketData.length} </div> }Incoming Booking
+        <Bell />  {(socketData.length>0)&& <div className="bg-red-400 absolute top-34 left-2 w-3 h-3 rounded-4xl text-xs text-center">{socketData.length} </div> }Incoming Booking
       </Link>
       <Link to="/driver/address" 
       onClick={() => {

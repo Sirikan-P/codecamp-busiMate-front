@@ -16,8 +16,7 @@ function HomeDriver() {
   useEffect( ()=>{ actionGetDriverWithZustand(token) } ,[])
 
   return (
-    <div>Home Driver Dashboard :  
-      <DriverHeader driver={driver} />
+    <div  className="bg-cyan-600 p-6" >      
       <DriverDashboard driver={driver} />
       <DriverWallet driver={driver} />
     </div>

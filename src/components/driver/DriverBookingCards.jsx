@@ -1,17 +1,40 @@
 import React, { useState } from 'react'
 import DriverBookingDetail from './DriverBookingDetail'
 import { Link } from 'react-router'
+import { actionUpdateBookingStatus } from '../../api/driverBooking'
 
 function DriverBookingCards(props) {
-  const { booking } = props
+  const token = localStorage.getItem("driverToken")
+  const { booking , status , getMybooking } = props
   const [isShow, setIsShow] = useState(false)
   const showmap = () => {
     setIsShow(!isShow)
   }
+  
 
-  const userAddress = booking?.UserAddress
-  const hospital = booking?.hospital
 
+  console.log(booking)
+
+  const updateStatus = async(status)=>{
+    try {
+      let newStatus 
+      if (status =="UP_COMING") { 
+        newStatus= { status: "IN_PROCESS"}
+      }
+      else if(status =="IN_PROCESS") {
+        newStatus= { status: "COMPLETE" }
+      }
+      const res = await actionUpdateBookingStatus(token,newStatus,booking.id)
+      const { result } = res.data      
+      console.log("result update" , result)
+
+      getMybooking(status)
+
+    } catch (error) {
+        return ("fail")
+    }
+
+  }
 
   return (
     <div className="p-5 bg-white shadow-2xl rounded-md flex flex-col gap-2">
@@ -42,37 +65,36 @@ function DriverBookingCards(props) {
           <div className="flex flex-col justify-between text-cyan-600">
             {/* Booking Date */}
             <div>
-              <label className="text-slate-300">Booking Date</label>
+              <label className="text-slate-400">Booking Date</label>
               <div className="font-semibold">{booking.appointmentDate}</div>
             </div>
             {/* Status of Booking */}
             <div>
-              <label className=" text-slate-300">Request</label>
+              <label className="text-pink-800 font-semibold text-lg">Request</label>
               <div className="font-semibold">{booking.specialRequirement}</div>
             </div>
             <div>
-              <label className=" text-slate-300">Need wheelchair</label>
+              <label className=" text-slate-400">Need wheelchair</label>
               <div className="font-semibold">{booking.needWheelChair}</div>
             </div>
             <div>
-              <label className=" text-slate-300">Need Assistant</label>
+              <label className=" text-slate-4 00">Need Assistant</label>
               <div className="font-semibold">{booking.needAssist}</div>
             </div>
           </div>  
-        <div >
-          <button onClick={showmap}
-                  className="btn" > {isShow ? "HIDEN LOCATION" : "SHOW LOCATION"} </button>    
-          <div 
-            className='m-2 text-pink-800 underline hover:text-2xl' > 
-            {/* <Link to={`https://www.google.com/maps/dir/${Number(userAddress.lat),Number(userAddress.long)}/${ Number(hospital.lat), Number(hospital.long)}`} >   Get Direction  </Link>  */}
-            <Link to={`https://www.google.com/maps/dir/${13,100}/${13.1,100.1}`} >   Get Direction  </Link> 
+        <div className='flex flex-col justify-center'>
+            <button onClick={showmap}
+                  className="btn  bg-cyan-600 text-lg" > {isShow ? "HIDEN LOCATION" : "SHOW LOCATION"} </button>    
             
+            <div>
+              {isShow &&
+                <DriverBookingDetail booking={booking} />
+              }
             </div>
-        </div>
-        <div>
-          {isShow &&
-            <DriverBookingDetail booking={booking} />
-          }
+
+            <button onClick={()=>updateStatus(status)}
+                    className="btn bg-cyan-700 text-lg text-slate-300 p-2 rounded-md mt-4 shadow-2xl"
+                  > {(status=="UP_COMING") ? "SET INPROCESS" :  "SET COMPLETE" } </button> 
         </div>
      
     </div>

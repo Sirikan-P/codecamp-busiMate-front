@@ -48,10 +48,18 @@ function DriverAddAddress() {
   }
 
   return (
-    <div>DriverAddAddress
-      <DriverHeader driver={driver} />
-      <div>
-        <div>please select location</div>
+    <div className="bg-cyan-600 min-h-screen p-4" > 
+      <div className=" bg-white p-4 rounded-lg shadow-lg">
+      <h1 className="text-center font-semibold text-xl text-rose-800  pb-4">
+          Add Address
+      </h1>
+      <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">  
+          <DriverHeader driver={driver} />
+      </div>  
+      <div className="border-t-1 pt-6 border-cyan-600">
+          <h1 className="text-center font-semibold text-xl text-rose-800 pb-6">
+            Please Select location
+          </h1>
         {/* แผนที่ */}
         <MapContainer className='h-[50vh]'
           center={[13.750, 100.499]}
@@ -68,7 +76,8 @@ function DriverAddAddress() {
           </Marker>
         </MapContainer>
         {/*จบ แผนที่ */}
-        <div>
+
+        <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">
           <form onSubmit ={ handleSubmit(hdlSubmit) } >
           <p> New Address :  </p>
               <DriverFormInput register={register} name={"address"} errors={errors} label="address :" /> 
@@ -80,6 +89,7 @@ function DriverAddAddress() {
         </div>
       </div>
     </div>
+  </div>
   )
 }
 

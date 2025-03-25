@@ -4,12 +4,12 @@ import React from 'react'
 
 function DriverButtons({isSubmitting ,label }) {
   return (
-    <button className="btn btn-wide bg-yellow-600 border-0 
-                    hover:cursor-pointer" 
+    <button  
+        className="btn w-52 text-white font-semibold  text-md my-2 bg-cyan-600 border-0  rounded-md
+                    hover:cursor-pointer"
                     >
                         { isSubmitting 
                         ? <div className="
-                                        flex
                                         gap-2"> 
                             <Loader className='animate-spin'/> 
                             <p> Loading... </p>
