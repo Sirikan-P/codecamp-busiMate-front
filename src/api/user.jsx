@@ -5,6 +5,7 @@ const userToken = localStorage.getItem("userToken");
 
 //home page user
 export const actionGetUser = async() =>{
+  console.log("userToken")
   return await axios.get(`http://localhost:8877/api/user/me`, {
       headers: { 
           Authorization:`Bearer ${userToken}`
@@ -12,10 +13,10 @@ export const actionGetUser = async() =>{
   })
 }
 
-export const actionUpdateUser = async(token,value) =>{
-  return await axios.patch(`http://localhost:8877/api/user/me`,value, {
+export const actionUpdateUser = async(value) =>{
+  return await axios.patch(`http://localhost:8877/api/user/me/edit`,value, {
       headers: { 
-          Authorization:`Bearer ${token}`
+          Authorization:`Bearer ${userToken}`
       }
   })
 }

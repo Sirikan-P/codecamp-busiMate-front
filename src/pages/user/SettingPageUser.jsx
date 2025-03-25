@@ -4,6 +4,7 @@ import { axiosInstance } from "../../lib/axios";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { Pencil } from "lucide-react";
+import { actionGetUser, actionUpdateUser } from "../../api/user";
 
 function settingPageUser() {
   const fileInputRef = useRef(null);
@@ -28,7 +29,7 @@ function settingPageUser() {
 
   const fetchData = async () => {
     try {
-      const res = await axiosInstance.get("user/me");
+      const res = await actionGetUser(authUser?.result?.id);
       setUserForm(res.data);
     } catch (error) {}
   };
@@ -69,9 +70,7 @@ function settingPageUser() {
         console.log("Selected file:", file);
         formData.append("profileImageUrl", file);
         await UpdateImageProfileAuthUser(formData);
-        console.log("ressssssssssssssssssssssssssss");
         checkAuth();
-        console.log("hhhhhhhhhhhhhhhhhhhhhhh");
         //อัพเดทรูปภาพ Profile
       }
     } catch (error) {
@@ -81,7 +80,7 @@ function settingPageUser() {
 
   const hdlSubmit = async (e) => {
     try {
-      const res = await axiosInstance.patch("user/me/edit", userForm);
+      const res = await actionUpdateUser(userForm);
       checkAuth();
     } catch (error) {
       console.log(error);

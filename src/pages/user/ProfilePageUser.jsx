@@ -25,6 +25,7 @@ const ProfilePageUser = () => {
   const authUser = userAuthStore((state) => state.authUser);
   const fetchGetPatients = userAuthStore((state) => state.fetchGetPatients);
   const patients = userAuthStore((state) => state.patients);
+  const userAddress = userAuthStore((state) => state.userAddress);
   const fetchHospitalData = useHospitalStore(
     (state) => state.fetchHospitalData
   );
@@ -34,12 +35,14 @@ const ProfilePageUser = () => {
   console.log(authUser);
 
   const navigate = useNavigate();
+  console.log(userAddress)
 
   useEffect(() => {
     checkAuth();
     fetchGetPatients();
     fetchHospitalData();
-  }, [checkAuth, fetchGetPatients, fetchHospitalData]);
+    fetchGetUserAddress()
+  }, [checkAuth, fetchGetPatients, fetchHospitalData, fetchGetUserAddress]);
 
   const hdlEdit = () => {
     navigate("/user/setting");
