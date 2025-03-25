@@ -19,6 +19,21 @@ function PatientsPageUser() {
     // console.log("patientId", patientId);
     navigate(`/user/settingpatients/${patientId}`);
   };
+ const hdlDelete = async (patientId) => {
+    try {
+      const res = await axiosInstance.delete(`/user/patient/delete/${patientId}`);
+      fetchGetPatients();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const hdlClick = () => {
+    // console.log("patientId", patientId);
+    navigate(`/user/patients/add`);
+  };
+
+  
 
   console.log("PatientsPageUser", PatientsPageUser);
   return (
@@ -53,7 +68,7 @@ function PatientsPageUser() {
                 }}
               >
                 {/* Placeholder for Patient Image */}
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
                   height="25"
@@ -67,7 +82,7 @@ function PatientsPageUser() {
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="8" x2="12" y2="16"></line>
                   <line x1="8" y1="12" x2="16" y2="12"></line>
-                </svg>
+                </svg> */}
               </div>
               <div>
                 <div style={{ fontWeight: "bold" }}>
@@ -78,6 +93,7 @@ function PatientsPageUser() {
                 <div>{patient.healthCondition}</div>
                 <div>{patient.address}</div>
               </div>
+              <button onClick={()=>hdlDelete(patient.id)}>Delete</button>
             </div>
             <div>
               <button
@@ -91,10 +107,17 @@ function PatientsPageUser() {
               >
                 Edit
               </button>
+         
             </div>
           </div>
+          
         );
       })}
+       <button className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+       onClick={hdlClick}
+       >
+            + Add Patients
+          </button>
     </div>
   );
 }

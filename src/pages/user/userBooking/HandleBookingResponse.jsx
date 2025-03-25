@@ -162,7 +162,8 @@ function HandleBookingResponse() {
               This booking is created ,please wait for driver action....{" "}
             </div>
             <div>
-              {/* btn checkout */}  {socketResult == "ACCEPT" && ( 
+              {/* btn checkout */}  
+              {/* {socketResult == "ACCEPT" && (  */}
               <button
                 onClick={hdlAccept}
                 className="btn bg-cyan-700 w-60 mb-5 p-5 h-10 text-xl rounded-md text-white"
@@ -170,7 +171,7 @@ function HandleBookingResponse() {
                 {" "}
                 Pay Now{" "}
               </button>
-              )}{" "} 
+              {/* )}{" "}  */}
             </div>
             <div></div> 
             {socketResult == "REJECT" && (
