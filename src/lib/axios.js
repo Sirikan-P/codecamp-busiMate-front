@@ -20,9 +20,14 @@ axiosInstance.interceptors.request.use(
       config.url.includes("/auth/check/user") ||
       config.url.includes("/user/patient") ||
       config.url.includes("/user/useraddress") ||
-      config.url.includes("/user/booking/create") 
+      config.url.includes("/user/booking/create") ||
+      config.url.includes("/user/setting") ||
+      config.url.includes("/user/address/add") ||
+      config.url.includes("/user/address") 
     ) {
+      console.log("User-specific route detected", userToken);
       if (userToken) {
+        console.log("User token found:", userToken);
         config.headers["Authorization"] = `Bearer ${userToken}`;
       }
     }

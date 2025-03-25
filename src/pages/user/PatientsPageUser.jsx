@@ -18,6 +18,21 @@ function PatientsPageUser() {
     // console.log("patientId", patientId);
     navigate(`/user/settingpatients/${patientId}`);
   };
+  const hdlDelete = async (patientId) => {
+    try {
+      const res = await axiosInstance.delete(
+        `/user/patient/delete/${patientId}`
+      );
+      fetchGetPatients();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const hdlClick = () => {
+    // console.log("patientId", patientId);
+    navigate(`/user/patients/add`);
+  };
 
   console.log("PatientsPageUser", PatientsPageUser);
   return (
@@ -28,70 +43,52 @@ function PatientsPageUser() {
           PatientsPageUser
         </div>
 
-      {PatientsPageUser?.map((patient) => {
-        return (
-          <div
-            style={{
-              backgroundColor: "#f8f8f8",
-              padding: "15px",
-              borderRadius: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  backgroundColor: "#e0e0e0",
-                  marginRight: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {/* Placeholder for Patient Image */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="16"></line>
-                  <line x1="8" y1="12" x2="16" y2="12"></line>
-                </svg>
-              </div>
-              <div>
-                <div style={{ fontWeight: "bold" }}>
-                  {patient.firstName + " " + patient.lastName}
+        {PatientsPageUser?.map((patient) => {
+          return (
+            <div className="flex flex-col w-80 gap-5 p-5 mb-5 mt-5 rounded-lg border-1 border-cyan-200">
+              <div className="flex gap-10">
+                {/* Patient Details */}
+                <div className="flex flex-col">
+                  <div className="flex gap-2 font-semibold">
+                    <div className="text-cyan-600 text-2xl">
+                      {patient.firstName}
+                    </div>
+                    <div className="text-cyan-600 text-2xl">
+                      {patient.lastName}
+                    </div>
+                  </div>
+                  <div className="text-cyan-600 text-xl">Age : {patient.age}</div>
+                  <div  className="text-cyan-600 text-xl">Gender : {patient.gender}</div>
+                  <div  className="text-cyan-600 text-xl">Health : {patient.healthCondition}</div>
+                  <div  className="text-cyan-600 text-md">{patient.address}</div>
                 </div>
               </div>
               {/* edit btn */}
               <div className="gap-5 flex">
               <button
-                style={{
-                  backgroundColor: "#e0e0e0",
-                  border: "none",
-                  padding: "8px 15px",
-                  borderRadius: "5px",
-                }}
-                onClick={() => hdlEdit(patient.id)}
-              >
-                Edit
-              </button>
+                  className="bg-cyan-700 w-40  text-lg pr-5 pl-5 text-slate-300 p-2 rounded-md mt-5 "
+                  onClick={() => hdlEdit(patient.id)}
+                >
+                  Edit
+                </button>
+              <button 
+               className="bg-slate-200 w-40  text-lg pr-5 pl-5 text-cyan-600 p-2 rounded-md mt-5 "
+              onClick={() => hdlDelete(patient.id)}>Delete</button>
+
+              </div>
             </div>
-          </div>
-        );
-      })}
+            
+          );
+        })}
+        <div className="flex justify-center">
+          <button
+            className="bg-cyan-700 w-60 text-xl text-slate-300 p-2 rounded-md mt-5 h-[64px] shadow-2xl"
+            onClick={hdlClick}
+          >
+            + Add Patients
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
