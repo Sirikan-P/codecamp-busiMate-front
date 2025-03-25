@@ -112,11 +112,12 @@ function settingPageUser() {
 
   console.log("authUser", authUser);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-cyan-600 p-5">
-      <div className="bg-white w-full max-w-md p-6 m-5 rounded-lg shadow-lg h-screen">
+    <div className="flex flex-col items-center justify-center bg-cyan-600 p-5">
+      <div className="bg-white w-full p-5 pt-10 rounded-lg shadow-lg ">
         {/* title */}
         <div className="font-semibold text-cyan-700 mb-5 text-2xl flex gap-5 ">
           Edit Profile
+          </div>
           {/* Make booking button */}
           <button
             onClick={() => navigate("/user/booking/create")}
@@ -124,7 +125,7 @@ function settingPageUser() {
           >
             MAKE BOOKING
           </button>
-        </div>
+       
 
         {/* Update profile */}
         <div>
@@ -260,7 +261,7 @@ function settingPageUser() {
             >Address</div>
             {userAddress.map((address) => {
               return (
-                <div className="mb-4 mt-2 gap-2 flex flex-col">
+                <div className="mb-4 mt-2 gap-2 flex flex-col border border-cyan-200 rounded-lg p-5 shadow-md">
                   <label className="block text-md font-medium text-slate-400">
                     Your address
                   </label>
@@ -283,13 +284,11 @@ function settingPageUser() {
             })}
 
             <button
-              className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+              className="bg-cyan-600 w-full text-lg text-slate-300 p-2 rounded-md mb-5 shadow-2xl"
               onClick={hdlClick}
             >
               + Add another address
             </button>
-          </div>
-        </div>
         <div className="flex gap-3 mt-8">
           <button
             onClick={hdlSubmit}
@@ -303,6 +302,8 @@ function settingPageUser() {
           >
             Cancel
           </button>
+        </div>
+          </div>
         </div>
       </div>
     </div>
