@@ -37,23 +37,18 @@ function PatientsPageUser() {
 
   console.log("PatientsPageUser", PatientsPageUser);
   return (
-    <div>
-      <div style={{ fontWeight: "bold", marginBottom: "20px" }}>
+    <div className="flex flex-col justify-center w-full h-screen place-items-center pb-15 bg-cyan-600 ">      
+    <div className="bg-white h-screen m-5 rounded-lg shadow-lg p-8">
+{/* title */}
+    <div className="text-2xl font-bold  text-cyan-800 mb-20">
         PatientsPageUser
       </div>
 
       {PatientsPageUser?.map((patient) => {
         return (
-          <div
-            style={{
-              backgroundColor: "#f8f8f8",
-              padding: "15px",
-              borderRadius: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+        
+          <div className="flex gap-5 p-5 mb-5 mt-5 rounded-lg border-1 border-cyan-200">
+          
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
                 style={{
@@ -118,6 +113,7 @@ function PatientsPageUser() {
        >
             + Add Patients
           </button>
+    </div>
     </div>
   );
 }
