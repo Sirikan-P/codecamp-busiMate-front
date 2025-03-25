@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { userAuthStore } from "../../store/userAuthStore";
 import { axiosInstance } from "../../lib/axios";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 function settingPageUser() {
   const fileInputRef = useRef(null);
@@ -84,6 +86,23 @@ function settingPageUser() {
       console.log(error);
     }
   };
+  
+    const hdlDelete = async (addressId)=>{
+     try {
+        const res = await axiosInstance.delete(`/user/address/${addressId}`);
+        fetchGetUserAddress();
+      } catch (error) {
+        if (error.response.status === 400 && error.response.data.message === "Cannot delete current Address") {
+          toast.error("Address is currently in use and cannot be deleted.");
+        }
+        console.log(error);
+      }
+    }
+    
+  const navigate = useNavigate();
+  const hdlClick = () => {
+    navigate("/user/address");
+  };
 
   console.log("authUser", authUser);
   return (
@@ -97,8 +116,7 @@ function settingPageUser() {
         <div></div> {/* Placeholder for alignment */}
       </div>
       <div>
-        {userAddress.map((address) => {
-          return (
+        
             <div className="max-w-md mx-auto p-4">
               <div className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center">
                 <div>
@@ -137,17 +155,17 @@ function settingPageUser() {
                   <div className="text-sm text-gray-600">
                     {authUser?.result?.phoneNumber}
                   </div>
-                  <div className="text-sm text-gray-600">{address.address}</div>
+                  <div className="text-sm text-gray-600">{userAddress[0]?.address}</div>
+                  
                 </div>
               </div>
             </div>
-          );
-        })}
-
+        
         <div className="bg-white rounded-lg shadow-md p-4">
           <div className="font-semibold mb-4">Update Profile</div>
 
           <div className="flex space-x-4 mb-4">
+            
             <div className="flex-1">
               <label
                 htmlFor="firstName"
@@ -225,6 +243,8 @@ function settingPageUser() {
           </div>
 
           <div className="font-semibold mb-4">Address</div>
+          {userAddress.map((address) => {
+          return (
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -235,13 +255,24 @@ function settingPageUser() {
               name="Address"
               id="Address"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md sm:text-sm border-gray-300"
-              value={userForm.address}
+              value={address.address}
               onChange={hdlOnchange}
             />
+            <button onClick={() => hdlDelete(address.id)}
+                    className="text-red-500 hover:text-red-700">
+                    Delete
+                  </button>
           </div>
+          
+          );
+        })}
+          
 
-          <button className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+          <button className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+          onClick={hdlClick}
+          >
             + Add another address
+            
           </button>
         </div>
       </div>

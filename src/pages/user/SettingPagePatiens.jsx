@@ -202,9 +202,7 @@ function SettingPagePatiens() {
             />
           </div>
 
-          <button className="w-full py-2 bg-gray-200 rounded-md hover:bg-gray-300">
-            + Add another Health Conditions
-          </button>
+         
         </div>
         <button
           className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

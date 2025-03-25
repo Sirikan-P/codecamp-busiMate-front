@@ -133,6 +133,9 @@ import Dashboard1 from "../pages/admin/Dashboard1";
 import Dashboard2 from "../pages/admin/Dashboard2";
 import SettingPageDriver from "../pages/driver/SettingPageDriver";
 import Patients1 from "../pages/admin/Patients1";
+import UserAddress from "../pages/user/UserAddress";
+import UserAddAddress from "../pages/user/UserAddAddress";
+import UserAddPatients from "../pages/user/UserAddPatients";
 
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -169,6 +172,9 @@ function AppRoutes() {
         <Route path="user" element={<LayoutUser />}>
         <Route path="profile" element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="address" element={authUser ? <UserAddress /> : <Navigate to="/user/login" />}/>
+          <Route path="address/add" element={authUser ? <UserAddAddress /> : <Navigate to="/user/login" />}/>
+          <Route path="patients/add" element={authUser ? <UserAddPatients/> : <Navigate to="/user/login" />}/>
           <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
           <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
           <Route index element={authUser ? <ProfilePageUser /> : <Navigate to="/user/login" />}/>
