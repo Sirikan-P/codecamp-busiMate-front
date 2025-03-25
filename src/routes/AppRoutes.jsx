@@ -128,6 +128,9 @@ import ChatDriver from "../pages/driver/ChatDriver";
 import LoginAdmin from "../pages/admin/LoginAdmin";
 import { adminAuthStore } from "../store/adminAuthStore";
 import FindNewDriver from "../pages/user/userBooking/FindNewDriver";
+import UserAddAddress from "../pages/user/UserAddAddress";
+import UserAddress from "../pages/user/UserAddress";
+import UserAddPatients from "../pages/user/UserAddPatients";
 
 function AppRoutes() {
   const {
@@ -199,6 +202,9 @@ function AppRoutes() {
           
             }/>
           <Route path="setting" element={authUser ? <SettingPageUser /> : <Navigate to="/user/login" />}/>
+          <Route path="address" element={authUser ? <UserAddress/> : <Navigate to="/user/login" />}/>
+          <Route path="address/add" element={authUser ? <UserAddAddress /> : <Navigate to="/user/login" />}/>
+          <Route path="patients/add" element={authUser ? <UserAddPatients/> : <Navigate to="/user/login" />}/>
           <Route path="patients" element={authUser ? <PatientsPageUser /> :<Navigate to="/user/login" />}/>
           <Route path="settingpatients/:id" element={authUser ? <SettingPagePatiens /> :<Navigate to="/user/login" />}/>
           <Route path="booking" element={authUser ? <AllBooking /> : <Navigate to="/user/login" />}/>
