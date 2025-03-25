@@ -6,6 +6,7 @@ import elder03 from "../../assets/elder03.jpg";
 
 //socket
 import io from "socket.io-client";
+import MapReciveNoti from "../../components/driver/MapReciveNoti";
 const socket = io("http://localhost:8877", {
   // autoConnect: false
 });
@@ -62,6 +63,11 @@ function DriverBookingNoti() {
     navigate("/driver/booking");
   };
 
+  // maps
+  
+
+
+
   return (
     <div className="flex flex-col place-items-center bg-cyan-600 h-screen pt-5 pr-5 pl-5 ">
       <div className="bg-white flex flex-col item-center  w-full h-full pt-20 p-5 gap-10 rounded-md ">
@@ -70,14 +76,15 @@ function DriverBookingNoti() {
         <img src={elder03} alt="" className="w-40 " />
         </div>
         {(socketData) &&
-        <div className="flex gap-5 w-full text-cyan-600 font-semibold place-items-center p-5 border-1 border-cyan-200 rounded-md ">
+        <div className="flex gap-5 w-full text-cyan-600 font-semibold justify-center place-items-center p-5 border-1 border-cyan-200 rounded-md ">
           {socketData?.map((item, index) => (
           <div key={index} className="gap-5 flex flex-col">
             <p>Booking ID: {item.id}</p>
             <p>appointmentDate: {item.appointmentDate}</p>
-            <p>Booking patient: {item.patient.name}</p>
-            <p>Booking lat: {item.lat}</p>
-            <p>Booking long: {item.long}</p>
+            <p>Booking patient: {item.patient.firstName}</p>
+            <div>
+            <MapReciveNoti bookingData={item} />
+            </div>
             <div className="flex gap-5">
               <button onClick={() => hdlDriversubmit(item)} className="btn bg-cyan-600 text-white">
                 {" "}

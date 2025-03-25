@@ -92,13 +92,13 @@ const ProfilePageUser = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cyan-600 p-5">
-      <div className="bg-white w-full max-w-md p-6 m-5 rounded-lg shadow-lg h-screen">
-        <div className="flex justify-between items-center mb-5">
-          {/* title && make booking btn */}
-          <div className="font-semibold text-cyan-700 mb-5 text-2xl flex gap-5">
+      <div className="bg-white w-full max-w-md p-6 m-5 pt-20 rounded-lg shadow-lg h-screen">
+          <div className="font-semibold  text-cyan-700  text-4xl flex gap-5">
             My Profile
           </div>
-          <div className="">
+        <div className="flex justify-between items-center mb-5">
+          {/* title && make booking btn */}
+          <div className="w-full flex justify-end">
             {/* Make booking button */}
             <button
               onClick={() => navigate("/user/booking/create")}
