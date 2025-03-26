@@ -77,9 +77,6 @@ const ReviewDriver = () => {
       </div>
     </div>
 
-    
-    
-
   );
 };
 
