@@ -16,9 +16,10 @@ function DriverFileInput({register ,name ,type="file", errors , label, ...rest})
                 {/* แสดงรูปตัวอย่าง */}
                 <div >
                 {previewImage && <img src={previewImage} alt="preview" width="100px" />}
-                </div>
-                <p className='w-[80px]  text-left text-sm'> {label} </p>
-                <input                    
+                <p className='text-left text-smpx-4 mx-4 text-rose-800'> {label} </p>
+                </div>                
+                <input   
+                    className= "bg-slate-100 w-66 h-10 border-2 border-slate-300 rounded-md"             
                     type= {type}
                     name={name}                
                     id={name}

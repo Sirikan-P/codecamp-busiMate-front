@@ -48,14 +48,22 @@ function DriverAddAddress() {
   }
 
   return (
-    <div>DriverAddAddress
-      <DriverHeader driver={driver} />
-      <div>
-        <div>please select location</div>
+    <div className="bg-cyan-600 min-h-screen p-4" > 
+      <div className=" bg-white p-4 rounded-lg shadow-lg">
+      <h1 className="text-center font-semibold text-xl text-rose-800  pb-4">
+          Add Address
+      </h1>
+      <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">  
+          <DriverHeader driver={driver} />
+      </div>  
+      <div className="pt-6 border-cyan-600">
+          <h1 className="text-center font-semibold text-xl text-rose-800 pb-6">
+            Please Select location
+          </h1>
         {/* แผนที่ */}
         <MapContainer className='h-[50vh]'
           center={[13.750, 100.499]}
-          zoom={10} >
+          zoom={13} >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -68,10 +76,11 @@ function DriverAddAddress() {
           </Marker>
         </MapContainer>
         {/*จบ แผนที่ */}
-        <div>
+
+        <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">
           <form onSubmit ={ handleSubmit(hdlSubmit) } >
-          <p> New Address :  </p>
-              <DriverFormInput register={register} name={"address"} errors={errors} label="address :" /> 
+
+              <DriverFormInput register={register} name={"address"} errors={errors} label="New address :" /> 
 
             <div className="flex justify-center">
                 <DriverButtons isSubmitting={ isSubmitting } label={ "SAVE"} />
@@ -80,6 +89,7 @@ function DriverAddAddress() {
         </div>
       </div>
     </div>
+  </div>
   )
 }
 

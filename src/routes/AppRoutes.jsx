@@ -131,6 +131,7 @@ import FindNewDriver from "../pages/user/userBooking/FindNewDriver";
 import UserAddAddress from "../pages/user/UserAddAddress";
 import UserAddress from "../pages/user/UserAddress";
 import UserAddPatients from "../pages/user/UserAddPatients";
+import ReviewDriver from "../pages/user/review/ReviewDriver";
 
 function AppRoutes() {
   const {
@@ -214,6 +215,8 @@ function AppRoutes() {
           <Route path="booking/finddriver" element={authUser ? <FindDriver /> : <Navigate to="/user/login" />}/>
           <Route path="booking/findNewdriver" element={authUser ? <FindNewDriver/> : <Navigate to="/user/login" />}/>
           <Route path="booking/handlebookingres" element={authUser ? <HandleBookingResponse /> : <Navigate to="/user/login" />}/>
+          
+          <Route path="review" element={authUser ? <ReviewDriver /> : <Navigate to="/user/login" />}/>
           {/* <Route
             path="register"
             element={authUser ? <Navigate to="/user" /> : <RegisterUser />}

@@ -92,6 +92,7 @@ export default function AllBookingForm() {
               <label className=" text-slate-400">Status</label>
               <div className="font-semibold">{booking.bookingStatus}</div>
             </div>
+
           </div>
         </div>
       ))}

@@ -9,3 +9,12 @@ export const actionGetDriverBooking = async(token,value) =>{
       }
   })
 }
+
+//update status 
+export const actionUpdateBookingStatus = async(token,value,id) =>{
+  return await axios.patch(`http://localhost:8877/api/driver/booking/${id}`,value, {
+      headers: { 
+          Authorization:`Bearer ${token}`
+      }
+  })
+}

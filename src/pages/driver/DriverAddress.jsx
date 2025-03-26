@@ -64,15 +64,32 @@ function DriverAddress() {
    }
   }
   return (
-    <div> DriverCurrentAddress :
-      <DriverHeader driver={driver} />
-      <button onClick={ ()=>hdlAddAddress() }
-              className="btn">Add New Address</button>
+    <div className="bg-cyan-600 min-h-screen p-4" > 
+    <div className=" bg-white p-4 rounded-lg shadow-lg">
+      <h1 className="text-center font-semibold text-xl text-rose-800  pb-4">
+          Driver Current Address
+      </h1>
+      <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">  
+          <DriverHeader driver={driver} />
+      </div>  
 
-      <div> current location</div>    
+      {/* Add Button */} 
+      <div className="flex justify-end mb-4">
+        <button onClick={ ()=>hdlAddAddress() }
+                className="btn bg-cyan-600 text-white px-4 py-2 rounded-md hover:bg-cyan-600 transition">
+                  Add New Address
+        </button>
+      </div>
+      <div>
+          <h1 className="text-rose-700 font-semibold pb-2 text-xl">
+            Current Location
+          </h1>
+          <div className="border-t-1 border-cyan-600"></div>
+      </div>   
 
       {/* แผนที่ ต้องวางไว้ layer ด้านหลัง*/}
-      <MapContainer className='h-[50vh] absolute -z-10 w-full'
+      <div className="h-[400px]">
+        <MapContainer className='h-full w-full'
                     center={driverCurrentLatLng} 
                     zoom={10} >
         <TileLayer
@@ -86,15 +103,17 @@ function DriverAddress() {
           </Popup>
         </Marker>
       </MapContainer>
+      </div>
       {/* จบ แผนที่ */}
 
-      <div className='mt-[50vh]'>
+      <div className='mt-6 space-y-4'>
       {driverAddress.map(el => (
           <DriverAddressCards key={el.id} address={el} hdlDelete={hdlDelete} hdlSetUse={hdlSetUse}/>
         ))
         }
       </div>
     </div>
+  </div>
   )
 }
 

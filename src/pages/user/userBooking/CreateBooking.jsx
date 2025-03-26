@@ -77,6 +77,7 @@ function CreateBooking() {
           icon: "error",
           confirmButtonText: "Okay",
         });
+        setIsLoading(false);
         return; // **หยุดฟังก์ชันที่นี่ ไม่ให้ดำเนินการต่อ**
       }
 
@@ -94,14 +95,15 @@ function CreateBooking() {
 
       // เรียก API เพื่อสร้าง booking
       const response = await actionCreateUserBooking(formData);
-      console.log(response);
+      //console.log("create res" , response);
       setUserBooking(response.data);
-      console.log(userbooking);
+      //console.log(userbooking);
       // **ถ้าทุกอย่างเรียบร้อย ให้เปลี่ยนหน้า**
       setIsLoading(false);
       navigate("/user/booking/finddriver");
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 

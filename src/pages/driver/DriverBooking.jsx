@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useDriverStored from '../../store/driver-store'
 import DriverHeader from '../../components/driver/DriverHeader'
 import { actionGetDriverBooking } from '../../api/driverBooking'
@@ -17,7 +17,7 @@ function DriverBooking() {
   const driver = useDriverStored(state => state.driver)
   //const actionGetDriverWithZustand = useDriverStored( state=> state.actionGetDriverWithZustand)
 
-  const getMybooking =  async(status)=>{     
+  const getMybooking =  useCallback( async(status)=>{     
     try {
 
       const res = await actionGetDriverBooking(token,status)
@@ -28,15 +28,19 @@ function DriverBooking() {
     } catch (error) {
         return ("fail")
     }
-  }
+  },[] ) 
 
   const hdlStatusClick = (status)=> {
     if (status ==1){
       setBookingStatus("UP_COMING")
+      getMybooking("UP_COMING")
     }else if (status==2)
-    { setBookingStatus("IN_PROCESS")}
+    { setBookingStatus("IN_PROCESS")
+      getMybooking("IN_PROCESS")
+    }
     else if (status==3) {
       setBookingStatus("COMPLETE")
+      getMybooking("COMPLETE")
     }
   }
 
@@ -55,29 +59,40 @@ function DriverBooking() {
 
 
   //useEffect : get driver data find current  driver
-  useEffect( ()=>{getMybooking(bookingStatus)} ,[bookingStatus])
+   useEffect( ()=>{getMybooking(bookingStatus)} ,[bookingStatus])
 
   return (
     <div className="bg-cyan-600 w-full h-full p-5 flex flex-col gap-5">
       <div className="flex flex-col">
-        <h1 className="text-xl font-bold text-center pt-10 text-slate-200 ">
-          { bookingStatus } BOOKING
-        
-          <div className="dropdown dropdown-left">
-            <div tabIndex={0} role="button" className="btn m-1 rounded-full"> ... </div>
-            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+      <div className=" bg-white px-4 py-2 gap-8 my-4 shadow-2xl rounded-md">  
+          <DriverHeader driver={driver} />
+      </div>  
+
+          {/* <div className="dropdown dropdown-left">
+            <div tabIndex={0} role="button" className="btn m-1 rounded-full">...</div>
+            <ul tabIndex={0} className="dropdown-content menu bg-base-100 text-pink-800 rounded-box z-1 w-52 p-2 shadow-sm">
               <li onClick={ ()=>hdlStatusClick(1)}><a>Up Coming</a></li>
               <li onClick={ ()=>hdlStatusClick(2)}><a>In Process</a></li>
               <li onClick={ ()=>hdlStatusClick(3)}><a>Complete</a></li>
             </ul>
+          </div> */}
+
+
+       
+        <div role="tablist" className="tabs tabs-box">
+            <a onClick={ ()=>hdlStatusClick(1)} role="tab" className="tab">Up Coming</a>
+            <a onClick={ ()=>hdlStatusClick(2)} role="tab" className="tab">In Process</a>
+            <a onClick={ ()=>hdlStatusClick(3)} role="tab" className="tab">Complete</a>
           </div>
-        </h1>
-        <DriverHeader driver={driver} />
+
       </div> 
-      <div className="bg-white p-5 rounded-md">           
+      <div className="bg-white p-5 rounded-md">
+        <h1 className="text-xl font-bold text-center pt-4 text-pink-800 ">
+          { bookingStatus } BOOKING
+        </h1>           
         <div className="flex flex-col gap-10 m-5">              
           {myBooking.map(el => (
-              <DriverBookingCards key={el.id} booking={el} />
+              <DriverBookingCards key={el.id} booking={el} status={el.bookingStatus} getMybooking={ getMybooking } />
               ))
           }  
         </div>

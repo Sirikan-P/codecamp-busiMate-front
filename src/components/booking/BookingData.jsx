@@ -4,7 +4,7 @@ import useUserBookingStore from '../../store/booking-store';
 export default function BookingData() {
   // bookingData
   const bookingData = useUserBookingStore((state) => state.bookingwithId);
-  console.log(bookingData);
+  console.log("booking data",bookingData);
 
 
     return (
